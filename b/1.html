@@ -1,0 +1,133 @@
+<html>
+  <head>
+    <title>&#923;ojiki&#955; | 30-NOV-2012: Muse write up</title>
+  </head>
+  <body>
+    <pre>
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   &lt;| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+    </pre>
+    <hr>
+    <h4>Muse write up</h4>
+    <ul>
+
+    <p><a href="/p/muse/">Muse</a> is a tiny, static CMS I've been futzing around with for some time. I've used an org-mode-like syntax for notes
+for quite some time, but it isn't 100% orgmode and it tends to make references to other docs. So, I've put together
+<a href="/p/muse/">Muse</a> to handle this sort of thing: it handles a good portion of what orgmode does, plus keeps my "notes" directory
+somewhat tidy. Win-win really.</p>
+
+<p><i>SO WHAT IS IT?</i> you ask?
+
+<h4>tiny</h4>
+
+<p>Muse is just a few hundred lines of Digamma/Scheme. It's (relatively) easy to understand, and get a handle on.</p>
+
+<h4>static</h4>
+
+<p>Static site generators are all the rage nowadays. You can just search <a href="http://pypi.python.org/pypi?%3Aaction=search&term=static+site+generator&submit=search">Pypi</a>
+to see what I mean. There's nothing <i>overly</i> special about Muse, save for that it uses an orgmode-like syntax and it's written in Digamma.
+</p>
+
+<h4>CMS</h4>
+
+<p>Muse can be run in two ways:</p>
+
+<ul>
+  <li><code>muse somefile.muse</code> which will just generate an html file (the only output type available atm)</li>
+  <li><code>muse</code> which will check "." for a "config.ss" to use</li>
+</ul>
+
+<p>The "config.ss" defines certain things (like where blog posts can be found, how to handle internal references, &amp;c.) about a "project".</p>
+
+<h4>blogs, news</h4>
+
+<p>Muse has two "interesting" (not really) features:</p>
+
+<ul>
+ <li>you can define a "blog" area, for which Muse will create an index (as in "file X created on Y") and a list (as in an index.html)</li>
+ <li>you can also define a "news" file, which Muse will use to write total site updates to, with your header &amp; footer in mind</li>
+</ul>
+
+<h4>orgmode-like?</h4>
+
+<p><a href="http://orgmode.org">orgmode</a> is an editing mode for emacs that is pretty popular; I'd actually like to make a reader/writer pair for
+orgmode too, instead of just Muse's orgmode-alike. In any case, it defines a simple, plain-text format to richly structure files; you can
+have headers, sub-header, sub-sub-headers, formatting, &amp;c. Muse is a simplification of that; it supports syntax that is similar to orgmode,
+but that was easier for me to parse (as in, it was easier for me to hack together a file converter in 1/2 hour or so :D)</p>
+
+<p>So, here's a basic layout:</p>
+
+<pre>
+#+METADATA-KEY: metadata value
+* Header
+** Sub-header
+*** sub-sub-header
+Plain text
+/italic text/
+_bold text_
+- list item
+- list item
+[Internal reference as defined in config.ss]
+(external link text | http://example.com)
+$var-lookup
+{
+    table | entry
+    free | form | records
+    not | much | to | see | here
+}
+`code`
+` multi-line
+code uses the same back-tick
+format; inserting four-spaces always killed me.
+plus, could be nice for something bable-like.
+`
+formatting code can be escaped with \
+</pre>
+
+<p>I've laid out the syntax to require less contextual information before output; I was /really/ lazy when starting this, and I didn't want to spend
+very much time on it. That may or may not be a good thing; I'm still playing with it, so it may evolve over time to be less lazy-oriented.
+</p>
+
+<p>When I get around to it, I'll post more data on the <a href="/p/muse/">Muse</a> site. One thing you may be interested in, is the `config.ss` for this site:</p>
+
+<pre>
+{
+author: "sae"
+email: "foo@bar.com"
+header-file: "header.html"
+footer-file: "footer.html"
+blogs: "b"
+blog-rss: #t
+blog-atom: #f
+news: "index.html"
+index: {
+            "About" "about/"
+            "Projects" "p/"
+            "Digamma" "p/digamma"
+            "Muse" "p/muse"
+        }
+output: "./output"
+}
+</pre>
+
+<p>Digamma supports trie-backed dictionaries, so <code>config.ss</code> is just a dict that can be <code>read</code> into Muse at runtime. Nothing amazing.</p>
+
+<h4>Deployments</h4>
+
+<p>I dunno; that's outside the purview of Muse. Just use <code>rsync</code> or the like. Should not be too difficult; one would only need to rsync
+the "output" directory with the same on the target machine.</p>
+    <hr>
+    <a href="/about/"> About</a> |
+    <a href="/b/">Blag</a> |
+    <a href="/p/"> Projects</a> |
+    <a href="https://twitter.com/lojikil">Twitter</a> |
+    <a href="https://github.com/saedwards-ecc">Github</a>
+  </body>
+</html>

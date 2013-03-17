@@ -1,0 +1,41 @@
+<html>
+ <head>
+  <title>Digamma: a Scheme Dialect</title>
+ </head>
+ <body>
+  <p>Digamma is a dialect of scheme that provides several advanced features:</p>
+  <p style="font-weight: bold">Current Release: 6.6-eta</p>
+  <p style="font-weight: bold">Current WIP release: 6.6-theta</p>
+  <ul>
+   <li>Dictionary literals in a ruby/python style: {:test 1 :dictionary 2}</li>
+   <li>Quoted vector literals using [ ] </li>
+   <li>Dictionaries are backed by tries, and keys can be queried as to matches or length match</li>
+   <li>Applicable data structures</li>
+   <li>Levels of specification, to allow Digamma to be implemented everywhere</li>
+   <li>A PreScheme-like restricted dialect that allows for Systems-level programming</li>
+   <li>W7-like environments for safe code evalution in programmatically created environments</li>
+   <li>A Collection API (first,rest,cset!,nth,cupdate) that applies a purely-functional style to all collections (lists, dicts, vectors, strings)</li>
+   <li>Various interfaces to lambdas: case-based (CaML/Haskell-style), Keyword (Python/extended SRFI-89 style), CL (with :rest, :opt, :body, &amp;c.) &amp; standard.</li>
+   <li>Strong specificty of POSIX interactions, to avoid the normally academic feel of Scheme dialects.</li>
+   <li>Three implementations: Vesta (reference implementation, AST walker), Enyo (PreDigamma compiler) and Ceres (VM)
+   <li>a "batteries included" approach to library inclusion, with a focus on real-world requirements (SMTP, HTTP, IMAP, Pop3, pentration testing, &amp;c.</li>
+  </ul>
+  <p>Release history</p>
+  <ul>
+   <li>6.6-theta: efficiency tuning of TCO, W7 &amp; define-syntax overhaul</li>
+   <li>6.6-eta: true TCO, help, docstrings</li>
+   <li>6.6-zeta: testing release</li>
+   <li>6.6-delta: major re-organization of internals, many, many bug fixes</li>
+   <li>6.6-gamma: prelude/init.ss work, internals, better display from FORMAT</li>
+   <li>6.6-beta: over-haul of collexions (tries, tconcs, cslice), removal of certain primitives that could be implemented in higher-level forms (like cond) and switch of internal Environment storage format (mixture of Linked lists &amp; tries)</li>
+   <li>6.6-alpha: switched from lleval (old, recursive style) to _seval (stackless version), and removed debugging</li>
+   <li>6.5-gamma: added _seval (stackless) and switched primitives to use this stack</li>
+   <li>6.5-beta: start of stackless system, bug fixes to lleval</li>
+   <li>6.5-alpha: changes to closure application</li>
+   <li>6.4: aborted attempt at better internal organization (aborted because it became very messy; premature optimization root of all evil :D)</li>
+   <li>6.3: bug fixes, multiple changes</li>
+   <li>6.2: stablized read system</li>
+   <li><= 6.1: ancient stuff</li>
+  </ul>
+ </body>
+</html>
