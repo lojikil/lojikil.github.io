@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>&#923;ojiki&#955; | 24-MAR-2013: Digamma Tasks</title>
+  </head>
+  <body>
+    <pre>
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   &lt;| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+    </pre>
+    <hr>
+    <h3>A quick summary of remaining Digamma-related tasks, prior to release.</h3>
+    <ul>
+    <li>CASE =&lt; Hashtable + goto dispatch, to avoid multiple COND conditions for instruction dispatch in Hydra (self-hosting Digamma VM)</li>
+    <li>Better type support in Enyalios (the pre-Digamma compiler), to support Stalin-style type in Digamma at a user (rather than compiler) level</li>
+    <li>Back Porting define-syntax from Hydra/Enyalios to Vesta (I need to replace the C version of syntax-rules with a more fleshed out version)</li>
+    <li>Add AVL (or some other Tree) to the language at a reader level, to support cases where Tries are insufficient; currently experimenting with #{ hash :table} syntax</li>
+    <li>Libraries + Fix the SRFI-55 support (the SRFI-55 support is cheaply implemented)</li>
+    <li>Better Error support in Enyalios' restricted language; at least something like <a href="http://voodoo-slide.blogspot.com/2010/01/amplifying-c.html">Voodoo Slide's UNWIND-PROTECT</a></li>
+    <li>Clean up Eurydice, the Digamma beautifier &amp; lint </li>
+    <li>Engines in Hydra/Vesta</li>
+    <li>Verify complete language coverage &amp; possible regressions in Hydra</li>
+    </ul>
+    <hr>
+    <a href="/">Home</a> |
+    <a href="/b/">Blag</a> |
+    <a href="/p/"> Projects</a> |
+    <a href="https://twitter.com/lojikil">Twitter</a> |
+    <a href="https://github.com/saedwards-ecc">Github</a> |
+    <a href="https://bitbucket.com/saedwards">BitBucket</a>
+  </body>
+</html>
