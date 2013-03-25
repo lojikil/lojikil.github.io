@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    background:#000;
+}
+
+pre {
+    color:#777;
+    font-family: monospace;
+}
+p, li {
+  //position:absolute;
+  //top:16px;
+  width:auto;
+  left:620px;
+  color: #ddd;
+  font-family:sans-serif;
+}
+span {
+    color: lightblue;
+    font-family: sans-serif;
+}
+h1 {
+    text-decoration: underline;
+    font-family: sans-serif;
+    font-size: 16px;
+    color: #0d0;
+}
+a {
+    font-family: sans-serif;
+    color: #d0d;
+}
