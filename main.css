@@ -1,6 +1,6 @@
 * {
     margin: 0;
-    background:#000;
+    background:#222;
 }
 
 pre {
@@ -12,7 +12,7 @@ p, li {
   top:16px;*/
   width:auto;
   left:620px;
-  color: #ddd;
+  color: #fff;
   font-family:sans-serif;
 }
 span {
