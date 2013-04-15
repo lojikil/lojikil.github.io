@@ -1,10 +1,10 @@
 * {
     margin: 0;
-    background:#222;
+    background:#777;
 }
 
 pre {
-    color:#777;
+    color:#000;
     font-family: monospace;
 }
 p, li {
@@ -24,9 +24,9 @@ h1 {
     text-decoration: underline;
     font-family: sans-serif;
     font-size: 16px;
-    color: #0d0;
+    color: #00a;
 }
 a {
     font-family: sans-serif;
-    color: #d0d;
+    color: #000;
 }
