@@ -18,7 +18,7 @@
     <hr>
 <h1> Nomenclature</h1>
 <br>
-<p>Since this is my internal notes on what I'm working on with Digamma, I thought I'd add a quick set of notes:</p>
+Since this is my internal notes on what I'm working on with Digamma, I thought I'd add a quick set of notes:
 <br>
 <ul>
 <li> Digamma: my Scheme dialect.</li>
@@ -105,7 +105,32 @@
 <li> add define-macro and macro-expand to Typhon</li>
 <li> <span class="muse-bold">WON'T</span>add define-macro and macro-expand to Hydra</li>
 <li> <span class="muse-bold">DONE</span>: Move dump from pair to vector with fixed size, stack pointer, &amp;c. (testing)</li>
-<li> <span class="muse-bold">DONE</span>: hydra@
+<li> <span class="muse-bold">DONE</span>: hydra@{operand, instruction} =&gt; simple syntax</li>
+<li> <span class="muse-bold">DONE</span>: add BEGIN form to Hydra</li>
+<li> <span class="muse-bold">DONE</span>: add BEGIN form to Typhon</li>
+<li> Verify complete language coverage between Vesta and Typhon</li>
+<li> Errors buried deep within compiled code can bubble to the surface much later. Checkout Aneris.ss for a test (e.g. a call to "type" within an if block, when Hydra doesn't have the "type" procedure in its environment will call the error to be swallowed until much later. boo).</li>
+<li> <span class="muse-bold">DONE</span>: Fix SegFault in Typhon with (append '() 3)</li>
+<li> <span class="muse-bold">DONE</span>: fix the *tlenv* define from Aneris.</li>
+<li> Delimited Continuations in Typhon</li>
+<li> Cut down on calls to <code class="muse-code">pairlength</code>; see <a href="http://lojikil.com/d/lisp/typhon-prof-13SEP2013.txt">this profile set</a></li>
+<li> add FAST-ADD, FAST-SUB, &amp;c instructions for integers? (+ x 6) could be ((env-load x) (fast-add 6)); cuts down on one while-loop iteration</li>
+</ul>
+<h1> Eurydice</h1>
+<ul>
+<li> linting</li>
+<li> C-stress-style file system checks</li>
+<li> formatting (ala gofmt)</li>
+<li> refactoring: if&lt;=&gt;cond, cond&lt;=&gt;case, with&lt;=&gt;let, define&lt;=&gt;define-syntax, &amp;c.</li>
+</ul>
+<h1> All</h1>
+<ul>
+<li> SRFI-0/7, for supporting different loads, different FFIs, different low-level runtimes...</li>
+<li> Scheme48-style modules.</li>
+<li> define-syntax</li>
+<li> fix giant HACK that is SRFI-55 support (require) + Libraries currently</li>
+<li> better typing (ala Stalin) support
+
     <hr>
     <a href="/">Home</a> |
     <a href="/b/">Blag</a> |
