@@ -16,6 +16,22 @@
     purveyors of fine, internet-related kipple since 1985.
     </pre>
     <hr>
+<h1> Nomenclature</h1>
+<br>
+Since this is my internal notes on what I'm working on with Digamma, I thought I'd add a quick set of notes:
+<br>
+<ul>
+<li> Digamma: my Scheme dialect.</li>
+<li> PreDigamma: a restricted subset of Digamma meant for easier compilation.</li>
+</ul>
+<ul>
+<li> Vesta: The C Reference implementation of Digamma; relatively fast, but not my main focus area any more</li>
+<li> Enyo: The original PreDigamma compiler (never written)</li>
+<li> E' (E-prime): the "test compiler that actually became the compiler"; wasn't meant to test ideas for Enyo, but grew too big</li>
+<li> Enyalios: a complete rewrite of E' to be more modular (uses an IR) and easier to modify (well structured &amp; documented)</li>
+<li> Hydra: a stack based VM written in Digamma that can self-host</li>
+<li> Typhon: modified Hydra, meant to compile with Enyalios</li>
+</ul>
 <h1> Runtime only</h1>
 <br>
 <ul>
