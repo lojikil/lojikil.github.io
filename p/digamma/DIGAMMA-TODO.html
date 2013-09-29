@@ -16,6 +16,7 @@
     purveyors of fine, internet-related kipple since 1985.
     </pre>
     <hr>
+<br>
 <h1> Nomenclature</h1>
 <br>
 Since this is my internal notes on what I'm working on with Digamma, I thought I'd add a quick set of notes:
@@ -32,20 +33,25 @@ Since this is my internal notes on what I'm working on with Digamma, I thought I
 <li> Hydra: a stack based VM written in Digamma that can self-host</li>
 <li> Typhon: modified Hydra, meant to compile with Enyalios</li>
 </ul>
+<br>
 <h1> Runtime only</h1>
 <br>
 <ul>
 <li> <span class="muse-bold">DONE</span>: Add support for #;(datum) comments</li>
 <li> <span class="muse-bold">DONE</span>: port that to Hydra's runtime</li>
 </ul>
+<br>
 <h1> Vesta/Hydra</h1>
+<br>
 <ul>
 <li> engines</li>
 <li> current-input-port, current-output-port, current-error-port</li>
 <li> with-output, with-input, with-error</li>
 <li> get/set current-X-port</li>
 </ul>
+<br>
 <h1> Enyalios</h1>
+<br>
 <ul>
 <li> <span class="muse-bold">DONE</span>: top level Symbol for procedures, added to lparams["env"]</li>
 <li> <span class="muse-bold">DONE</span>: top level static snil, strue, &amp;c.</li>
@@ -83,7 +89,9 @@ Since this is my internal notes on what I'm working on with Digamma, I thought I
 <li> <span class="muse-bold">DONE</span>: fix COND in non-tail position</li>
 <li> add exception system (SRFI-34 via longjmp/setjmp)</li>
 </ul>
+<br>
 <h1> Hydra/Typhon</h1>
+<br>
 <ul>
 <li> <span class="muse-bold">DONE</span>: fix closures</li>
 <li> <span class="muse-bold">DONE</span>: port closure fix to Typhon</li>
@@ -117,14 +125,18 @@ Since this is my internal notes on what I'm working on with Digamma, I thought I
 <li> add FAST-ADD, FAST-SUB, &amp;c instructions for integers? (+ x 6) could be ((env-load x) (fast-add 6)); cuts down on one while-loop iteration</li>
 <li> Fix <code class="muse-code">syntaxmystery.ss</code> weirdness (Typhon hangs when running that code); derived from <a href="https://code.google.com/p/ypsilon/issues/detail?id=107">this issue in Ypsilon</a></li>
 </ul>
+<br>
 <h1> Eurydice</h1>
+<br>
 <ul>
 <li> linting</li>
 <li> C-stress-style file system checks</li>
 <li> formatting (ala gofmt)</li>
 <li> refactoring: if&lt;=&gt;cond, cond&lt;=&gt;case, with&lt;=&gt;let, define&lt;=&gt;define-syntax, &amp;c.</li>
 </ul>
+<br>
 <h1> All</h1>
+<br>
 <ul>
 <li> SRFI-0/7, for supporting different loads, different FFIs, different low-level runtimes...</li>
 <li> Scheme48-style modules.</li>
