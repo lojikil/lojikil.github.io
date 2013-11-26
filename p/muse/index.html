@@ -1,6 +1,6 @@
 <html>
   <head>
-   <title>&#923;ojiki&#955; | Muse</title>
+    <title>&#923;ojiki&#955; | Digamma</title>
     <link rel="stylesheet" href="/main.css" type="text/css">
   </head>
   <body>
@@ -16,7 +16,76 @@
     purveyors of fine, internet-related kipple since 1985.
     </pre>
     <hr>
-    <h1>Muse: static site software written in Digamma</h1>
+<br>
+<h1> Muse: A tiny site management system</h1>
+<br>
+ One of the things I've done sine the beginning wrt <a href="/p/digamma">Digamma</a> is to attempt to dogfood my own work
+using Digamma as much as possible. Although this site is tiny, it's still a big pain in the butt managing it, and
+anything that I can do to minimize that is helpful. Over the years, I've written multiple site management tools, but
+they either felt too heavy, or didn't really do enough of what I wanted. Muse is an attempt to change that. Currently,
+it only handles formatting files, taking them from a Org-mode/Muse-mode-like syntax, and translating them into HTML.
+Eventually, I'd like to add full site mangement tools to it (like tagging keywords &amp; what not), but I'm starting small.
+<br>
+<h2> Name</h2>
+<br>
+ I've been using an "org-mode"-like syntax for... well forever. I've found note books marked up with 
+<br>
+<pre class="muse-code">* some note
+- list
+- list
+- list
+* some other note
+- repeat</pre><br>
+<br>
+from 15 years ago (c. 1998). When I originally saw <code class="muse-code">org-mode</code>, I thought the syntax looked cool, but I wanted to make
+something a bit more light-weight, and less <code class="muse-code">emacs</code> focused. I had no idea at the time that there <span class="muse-bold">was</span> an emacs system
+called <code class="muse-code">Muse</code> and it was effectively what I was writing here. The format is a bit more strict than <code class="muse-code">org-mode</code> or emacs-Muse,
+but that's mostly because I was lazy &amp; didn't write a proper parser for the syntax, and instead opted for a push-down
+automaton.
+<br>
+<h2> Syntax</h2>
+<br>
+The basic syntax is pretty simple:
+<br>
+<pre class="muse-code">* Header 1
+** Header 2
+*** Header 3
+
+- unordered list 
+- unordered list 
+- unordered list 
+
+# ordered list
+# ordered list
+# ordered list
+
+[/link/to/somewhere A URL Link to somwhere]
+[!/link/to/image.img Alt-text goes here]
+
+Some formatting: *BOLD* or _ITALIC_
+
+`code goes here` 
+
+`as
+does
+multi-line
+code` </pre><br>
+<br>
+Things like &amp;, &lt;, &gt; are handled as expected, and \ can be used to insert a raw character. There are some forms of hightlighting, such as the
+usual things *BOLD* and _ITALIC_ both work as expected. <span class="muse-bold">However</span>, in order to avoid confusion, bolds &amp; `code` must start <span class="muse-bold">in column 1</span>. That's
+the broken part of using a pushdown automaton for parsing. Of course, I don't expect anyone else to use this, so it's a-ok by me ^<span class="muse-italic">^. There's also
+some table stuff, but there's quite a bit more to do there before I'm really happy with it.
+<br>
+<h2> Future improvements</h2>
+<br>
+ Currently, I do most of the linking manually; I'd like to add in some sort of CMS-ish type of system for recording locations. A predecessor to Muse
+actually <span class="muse-bold">had</span> this functionality, but I moved on (I didn't like the internal structure). Certainly, I'd like to be able to categorize things, and
+I'd like to update people that the site has been modified via RSS. I </span>may<span class="muse-italic"> just rip the code out of the old system, and add it back into Muse, so
+as to keep things light weight. The previous system also had it's own revision control, which was kinda cool, but I thought that was actually outside
+the purview of a simple static site system, so I removed it. Might want to reevaluate that as I add assets to this site.
+<br>
+ Another item I'd like to do is to break the output system down so that I can output Markdown &amp; others directly; I have a sed script that does </span>most<span class="muse-italic">
+of the work toward converting Muse documents to Markdown, so that they can be processed with pandoc, but there's more to be done there. 
 
     <hr>
     <a href="/">Home</a> |

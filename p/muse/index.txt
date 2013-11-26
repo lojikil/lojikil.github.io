@@ -1,0 +1,69 @@
+* Muse: A tiny site management system
+
+ One of the things I've done sine the beginning wrt [/p/digamma Digamma] is to attempt to dogfood my own work
+using Digamma as much as possible. Although this site is tiny, it's still a big pain in the butt managing it, and
+anything that I can do to minimize that is helpful. Over the years, I've written multiple site management tools, but
+they either felt too heavy, or didn't really do enough of what I wanted. Muse is an attempt to change that. Currently,
+it only handles formatting files, taking them from a Org-mode/Muse-mode-like syntax, and translating them into HTML.
+Eventually, I'd like to add full site mangement tools to it (like tagging keywords & what not), but I'm starting small.
+
+** Name
+
+ I've been using an "org-mode"-like syntax for... well forever. I've found note books marked up with 
+
+`* some note
+- list
+- list
+- list
+* some other note
+- repeat`
+
+from 15 years ago (c. 1998). When I originally saw `org-mode`, I thought the syntax looked cool, but I wanted to make
+something a bit more light-weight, and less `emacs` focused. I had no idea at the time that there *was* an emacs system
+called `Muse` and it was effectively what I was writing here. The format is a bit more strict than `org-mode` or emacs-Muse,
+but that's mostly because I was lazy & didn't write a proper parser for the syntax, and instead opted for a push-down
+automaton.
+
+** Syntax
+
+The basic syntax is pretty simple:
+
+`* Header 1
+** Header 2
+*** Header 3
+
+- unordered list 
+- unordered list 
+- unordered list 
+
+# ordered list
+# ordered list
+# ordered list
+
+[/link/to/somewhere A URL Link to somwhere]
+[!/link/to/image.img Alt-text goes here]
+
+Some formatting: *BOLD* or _ITALIC_
+
+\`code goes here\` 
+
+\`as
+does
+multi-line
+code\` `
+
+Things like &, <, > are handled as expected, and \\ can be used to insert a raw character. There are some forms of hightlighting, such as the
+usual things \*BOLD\* and \_ITALIC\_ both work as expected. *However*, in order to avoid confusion, bolds & \`code\` must start *in column 1*. That's
+the broken part of using a pushdown automaton for parsing. Of course, I don't expect anyone else to use this, so it's a-ok by me ^_^. There's also
+some table stuff, but there's quite a bit more to do there before I'm really happy with it.
+
+** Future improvements
+
+ Currently, I do most of the linking manually; I'd like to add in some sort of CMS-ish type of system for recording locations. A predecessor to Muse
+actually *had* this functionality, but I moved on (I didn't like the internal structure). Certainly, I'd like to be able to categorize things, and
+I'd like to update people that the site has been modified via RSS. I _may_ just rip the code out of the old system, and add it back into Muse, so
+as to keep things light weight. The previous system also had it's own revision control, which was kinda cool, but I thought that was actually outside
+the purview of a simple static site system, so I removed it. Might want to reevaluate that as I add assets to this site.
+
+ Another item I'd like to do is to break the output system down so that I can output Markdown & others directly; I have a sed script that does _most_
+of the work toward converting Muse documents to Markdown, so that they can be processed with pandoc, but there's more to be done there. 
