@@ -54,7 +54,7 @@ code\` `
 
 Things like &, <, > are handled as expected, and \\ can be used to insert a raw character. There are some forms of hightlighting, such as the
 usual things \*BOLD\* and \_ITALIC\_ both work as expected. *However*, in order to avoid confusion, bolds & \`code\` must start *in column 1*. That's
-the broken part of using a pushdown automaton for parsing. Of course, I don't expect anyone else to use this, so it's a-ok by me ^_^. There's also
+the broken part of using a pushdown automaton for parsing. Of course, I don't expect anyone else to use this, so it's a-ok by me ^\_^. There's also
 some table stuff, but there's quite a bit more to do there before I'm really happy with it.
 
 ** Future improvements

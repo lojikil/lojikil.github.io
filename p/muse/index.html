@@ -73,18 +73,18 @@ code` </pre><br>
 <br>
 Things like &amp;, &lt;, &gt; are handled as expected, and \ can be used to insert a raw character. There are some forms of hightlighting, such as the
 usual things *BOLD* and _ITALIC_ both work as expected. <span class="muse-bold">However</span>, in order to avoid confusion, bolds &amp; `code` must start <span class="muse-bold">in column 1</span>. That's
-the broken part of using a pushdown automaton for parsing. Of course, I don't expect anyone else to use this, so it's a-ok by me ^<span class="muse-italic">^. There's also
+the broken part of using a pushdown automaton for parsing. Of course, I don't expect anyone else to use this, so it's a-ok by me ^_^. There's also
 some table stuff, but there's quite a bit more to do there before I'm really happy with it.
 <br>
 <h2> Future improvements</h2>
 <br>
  Currently, I do most of the linking manually; I'd like to add in some sort of CMS-ish type of system for recording locations. A predecessor to Muse
 actually <span class="muse-bold">had</span> this functionality, but I moved on (I didn't like the internal structure). Certainly, I'd like to be able to categorize things, and
-I'd like to update people that the site has been modified via RSS. I </span>may<span class="muse-italic"> just rip the code out of the old system, and add it back into Muse, so
+I'd like to update people that the site has been modified via RSS. I <span class="muse-italic">may</span> just rip the code out of the old system, and add it back into Muse, so
 as to keep things light weight. The previous system also had it's own revision control, which was kinda cool, but I thought that was actually outside
 the purview of a simple static site system, so I removed it. Might want to reevaluate that as I add assets to this site.
 <br>
- Another item I'd like to do is to break the output system down so that I can output Markdown &amp; others directly; I have a sed script that does </span>most<span class="muse-italic">
+ Another item I'd like to do is to break the output system down so that I can output Markdown &amp; others directly; I have a sed script that does <span class="muse-italic">most</span>
 of the work toward converting Muse documents to Markdown, so that they can be processed with pandoc, but there's more to be done there. 
 
     <hr>
