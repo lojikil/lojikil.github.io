@@ -1,0 +1,12 @@
+* Current Setup:
+
+Currently, the internal setup is pretty simple:
+
+** Sumeru (single P4HT box with ~1800 MiB RAM):
+
+- internal network services
+- external network services
+- filtering for three networks (internal, wifi, external)
+- logging
+- web hosting
+

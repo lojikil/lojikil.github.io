@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>&#923;ojiki&#955; | 30-NOV-2012: Muse write up</title>
+    <link rel="stylesheet" href="/main.css" type="text/css">
   </head>
   <body>
     <pre>
@@ -15,7 +16,7 @@
     purveyors of fine, internet-related kipple since 1985.
     </pre>
     <hr>
-    <h4>Muse write up</h4>
+    <h1>Muse write up</h1>
 
     <p><a href="/p/muse/">Muse</a> is a tiny, static CMS I've been futzing around with for some time. I've used an org-mode-like syntax for notes
 for quite some time, but it isn't 100% orgmode and it tends to make references to other docs. So, I've put together
@@ -24,17 +25,17 @@ somewhat tidy. Win-win really.</p>
 
 <p><i>SO WHAT IS IT?</i> you ask?</p>
 
-<h4>tiny</h4>
+<h1>tiny</h1>
 
 <p>Muse is just a few hundred lines of Digamma/Scheme. It's (relatively) easy to understand, and get a handle on.</p>
 
-<h4>static</h4>
+<h1>static</h1>
 
 <p>Static site generators are all the rage nowadays. You can just search <a href="http://pypi.python.org/pypi?%3Aaction=search&term=static+site+generator&submit=search">Pypi</a>
 to see what I mean. There's nothing <i>overly</i> special about Muse, save for that it uses an orgmode-like syntax and it's written in Digamma.
 </p>
 
-<h4>CMS</h4>
+<h1>CMS</h1>
 
 <p>Muse can be run in two ways:</p>
 
@@ -45,7 +46,7 @@ to see what I mean. There's nothing <i>overly</i> special about Muse, save for t
 
 <p>The "config.ss" defines certain things (like where blog posts can be found, how to handle internal references, &amp;c.) about a "project".</p>
 
-<h4>blogs, news</h4>
+<h1>blogs, news</h1>
 
 <p>Muse has two "interesting" (not really) features:</p>
 
@@ -54,7 +55,7 @@ to see what I mean. There's nothing <i>overly</i> special about Muse, save for t
  <li>you can also define a "news" file, which Muse will use to write total site updates to, with your header &amp; footer in mind</li>
 </ul>
 
-<h4>orgmode-like?</h4>
+<h1>orgmode-like?</h1>
 
 <p><a href="http://orgmode.org">orgmode</a> is an editing mode for emacs that is pretty popular; I'd actually like to make a reader/writer pair for
 orgmode too, instead of just Muse's orgmode-alike. In any case, it defines a simple, plain-text format to richly structure files; you can
@@ -118,17 +119,16 @@ output: "./output"
 
 <p>Digamma supports trie-backed dictionaries, so <code>config.ss</code> is just a dict that can be <code>read</code> into Muse at runtime. Nothing amazing.</p>
 
-<h4>Deployments</h4>
+<h1>Deployments</h1>
 
 <p>I dunno; that's outside the purview of Muse. Just use <code>rsync</code> or the like. Should not be too difficult; one would only need to rsync
 the "output" directory with the same on the target machine.</p>
     <hr>
     <a href="/">Home</a> |
-    <a href="/about/"> About</a> |
     <a href="/b/">Blag</a> |
     <a href="/p/"> Projects</a> |
     <a href="https://twitter.com/lojikil">Twitter</a> |
-    <a href="https://github.com/saedwards-ecc">Github</a> |
+    <a href="https://github.com/lojikil">Github</a> |
     <a href="https://bitbucket.com/saedwards">BitBucket</a>
   </body>
 </html>
