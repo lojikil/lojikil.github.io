@@ -1,0 +1,3 @@
+My coding notebook, similar to [http://ipn.caerwyn.com/ The Inferno Programmer's Notebook], but much more generic.
+
+- [0/ isSubstring?]
