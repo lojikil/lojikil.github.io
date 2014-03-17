@@ -1,0 +1,16 @@
+define a := Object.clone();
+
+define-method a.setxy(tx :: Integer, ty :: Integer) :: void as
+    ^x := tx;
+    ^y := ty;
+end
+
+define a.x := Integer.clone();
+define a.y := Integer.clone();
+
+define-method a.showPos() :: void as
+    IO.show("{" + ^x + ", " + ^y + "}");
+end
+
+// MUSH-style permissions on objects
+a.setPerm("world=cr, owner=crwd");
