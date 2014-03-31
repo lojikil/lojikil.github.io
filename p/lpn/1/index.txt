@@ -1,0 +1,112 @@
+\[13-MAR-2014 00:11\]
+
+* Work coding:
+
+At work we needed something that would convert ASCII Hex to files; I was poking around in Burp, but 
+that grew tedious fast, so I hacked up `reamer.c`, which, while it worked, wasn't exactly pleasent
+to use (needed to clean up the data first, then dump it to a file, then...). `reamer2.c`, reproduced
+below, does the manual cleanup work as well as the dumping; some error handling would be nice, but
+over all it's not bad.
+
+`#include <stdio.h>
+
+#define nil NULL
+#define nul '\0'
+
+char adjust_nybble(char);
+
+int
+main(int ac, char **al)
+{
+    char c[2] = {0}, byte = 0;
+    FILE *fdin = nil, *fdout = nil;
+
+    if(ac == 1){
+        fdin = stdin;
+        fdout = stdout;
+    } else if(ac >= 2) {
+        if((fdin = fopen(al[1], "r")) == nil){
+            printf("[-] fopen failed!\n");
+            return 1;
+        }
+
+        if(ac >= 3){
+            if((fdout = fopen(al[2], "w")) == nil){
+                printf("[-] fopen failed!\n");
+                return 1;
+            }
+        } else {
+            fdout = stdout;
+        }
+    } 
+
+    while(get_byte_pair(c, fdin) == 2){
+        byte = (adjust_nybble(c[0]) << 4 | adjust_nybble(c[1]));
+        fprintf(fdout, "%c", byte);
+    }
+
+    fclose(fdin);
+}
+
+char
+adjust_nybble(char c)
+{
+    if(c >= '0' && c <= '9'){
+        // 48 is ASCII '0'
+        return c - 48;
+    } else {
+        // 87 is 10 less than 'a', and makes 0x0A work as 10
+        return c - 87;
+    }
+}
+
+int
+get_byte_pair(char c[2], FILE *fdin)
+{
+    char ch = 0;
+    int idx = 0;
+
+    while(idx < 2){
+        ch = fgetc(fdin);
+        if(feof(fdin)){
+            return -1;
+        } else if(ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t'){
+            continue; // keep eating white space chars
+        } else if((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')){
+            c[idx] = ch;
+            idx++;
+        } 
+    }
+    return idx;
+}`
+
+Full [reamer2.c reamer2 source].
+
+* Of substrings and other cruft
+
+Of course, I _did_ want to try my hand at making a quick `substring?` hack in Digamma, which took about 10 minutes:
+
+`(define (substring? source subst (idx 0) (sidx 0))
+    ;; this is the naieve version. a better one would
+    ;; have an inner procedure to handle the actual
+    ;; iteration, and this top-level one would simply
+    ;; handle the setup thereof.
+    (cond
+        (= (length subst) (length source))
+            (eq? source subst)
+        (> (length subst) (length source))
+            #f
+        (>= sidx (length subst)) ;; reached the end of the substring?
+            #t
+        (>= idx (length source)) ;; reached the end of the string?
+            #f
+        (eq? (nth source idx) (nth subst sidx))
+            (substring? source subst (+ idx 1) (+ sidx 1))
+        else
+            (substring? source subst (+ idx 1) 0)))`
+
+This actually handles a short-cut case I didn't think of: if the two strings are the same length, just run some
+generic string comparison on them (in this case, Digamma's `eq?` suffices; Scheme heresies abound, I agree).
+
+The [iss.ss full substring? source] contains a bit of testing as well, but nothing fancy, since it was mostly
+just for fun.

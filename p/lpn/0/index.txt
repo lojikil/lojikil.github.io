@@ -1,0 +1,24 @@
+\[10-MAR-2014 23:28\]
+
+A simple piece of coding inspired by [http://www.reddit.com/r/programming/comments/201qk3/programmers_shortage_claims_and_facebooks_19/cfz5to8 this post] 
+on Reddit. Basically, a straight-forward substring test:
+
+`int
+issubstring_p(const char *str, const char *sub){
+    int str_idx = 0, sub_idx = 0, str_len = strlen(str), sub_len = strlen(sub);
+    while(str_idx < str_len){
+        if(str[str_idx] == sub[sub_idx]){
+            sub_idx++;
+        } else {
+            sub_idx == 0;
+        }
+        if(sub_idx == sub_len){
+            return 1;
+        }
+        str_idx++;
+    }
+    return 0;
+}`
+
+The [iss.c full code] has some tests and the like. Of course, having written this, now I'm curious to see what it looks like
+hacked up in Digamma...

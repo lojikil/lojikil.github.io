@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <title>&#923;ojiki&#955; | index</title>
+    <link rel="stylesheet" href="/main.css" type="text/css">
+  </head>
+  <body>
+    <pre>
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   &lt;| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+    </pre>
+    <hr>
+<a href="/p/">p</a> &raquo; <a href="/p/tinylang/">tinylang</a> &raquo; <a href="/p/tinylang/muforth.txt">muforth.txt</a>
+<br>
+So, this is the design document I wrote for myself when I was... 15 or so. It's clear to me that
+it wasn't really fleshed out, but it's kinda neat to see. I should find the code on this one, to
+see what it needs to fully implement this... Oh, I see, this is from my Joy period; there was a time
+when I was obsessed with <a href="http://en.wikipedia.org/wiki/Joy_(programming_language)">Joy</a>. That's what I 
+must have been going for, at least what I think. Oh, and the note down at the bottom... Of course, at 
+the time I enjoyed doing things in the most strange way possible, so I can see it, but still...
+<br>
+<pre class="muse-code">muForth:
+    ! grab value from vstatck &amp; load the blocked pointed to that value onto the vstack.
+        *Note*: this is _not_ destructive
+    @ grab value from the vstack &amp; store the value to the block pointed to by that value.
+        e.g.: 4 0 @
+        stores 4 at block 0
+    + adds the top two elements of vstack
+    - subtracts the top two elements of vstack
+    / divides the top two elements of vstack
+    * multiplies the top two elements of vstack
+    % modulus the top two values of vstack
+    &gt; checks if the top two are greater than
+    &gt;= checks if the top two are greater than or equal to
+    &lt; checks if the top two are less than
+    &lt;= checks if the top two are less than or equal to
+    = checks if top two are equal
+    != checks if top two are not equal
+    zero checks if the top is zero
+    ? evalues the 1st element on cstack if vstack[top] == 1; else eval(cstack[top - 1])
+    dup duplicates top of the vstack
+    drop removes the top element of vstack
+    nip removes the 2nd element of vstack
+    over copies the 2nd element of the top of vstack
+    tuck copies the 1st element to below the 3rd
+    swap swaps the top two elements
+    rotate rotates the top three elements
+    clear cleares the vstack
+    cclear clears the cstack
+    println prints the top of the stack + 'n'
+    print prints the top of the stack only
+    read reads a value into the top of the stack
+    readstr reads a value onto the top of cstack
+    dump prints the contents of vstack
+    cdump prints the contents of cstack
+    eval evalues the top of cstack as muForth words
+    def defines a new word
+    peek uses the top of the stack as a value to peek into the stack
+    depth places the length of the stack on top
+
+Examples:
+    Input 0:
+    read read &gt; [ "Input one greater than input two" println ] [ "input two greater than input one" ] ?
+    Output 0:
+    value&gt; 4
+    value&gt; 5
+    Input two greater than input one
+
+    Input 1:
+    [ @ ] store def [ ! ] retrieve def 4 0 store 0 retrieve println
+
+    Output 1:
+
+    4
+
+    Explaination 1:
+    defines two new words: store (a replacement for @) &amp; retrieve (a replacement for !), then stores 4
+    at block 0 and retrieves it to print.
+
+Notes:
+    I can do this as a single stack of type string evaluating data inline.</pre>
+
+    <hr>
+    <a href="/">Home</a> |
+    <a href="/about/"> About</a> |
+    <a href="/b/">Blag</a> |
+    <a href="/p/"> Projects</a> |
+    <a href="https://twitter.com/lojikil">Twitter</a> |
+    <a href="https://github.com/saedwards-ecc">Github</a> |
+    <a href="https://bitbucket.org/saedwards">BitBucket</a>
+  </body>
+</html>

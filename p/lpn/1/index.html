@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <title>&#923;ojiki&#955; | index</title>
+    <link rel="stylesheet" href="/main.css" type="text/css">
+  </head>
+  <body>
+    <pre>
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   &lt;| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+    </pre>
+    <hr>
+<a href="/p/">p</a> &raquo; <a href="/p/lpn/">lpn</a> &raquo; <a href="/p/lpn/1/">1</a> &raquo; <a href="/p/lpn/1/index.txt">index.txt</a>
+<br>
+[13-MAR-2014 00:11]
+<br>
+<br>
+<h1> Work coding:</h1>
+<br>
+At work we needed something that would convert ASCII Hex to files; I was poking around in Burp, but 
+that grew tedious fast, so I hacked up <code class="muse-code">reamer.c</code>, which, while it worked, wasn't exactly pleasent
+to use (needed to clean up the data first, then dump it to a file, then...). <code class="muse-code">reamer2.c</code>, reproduced
+below, does the manual cleanup work as well as the dumping; some error handling would be nice, but
+over all it's not bad.
+<br>
+<pre class="muse-code">#include &lt;stdio.h&gt;
+
+#define nil NULL
+#define nul '0'
+
+char adjust_nybble(char);
+
+int
+main(int ac, char **al)
+{
+    char c[2] = {0}, byte = 0;
+    FILE *fdin = nil, *fdout = nil;
+
+    if(ac == 1){
+        fdin = stdin;
+        fdout = stdout;
+    } else if(ac &gt;= 2) {
+        if((fdin = fopen(al[1], "r")) == nil){
+            printf("[-] fopen failed!n");
+            return 1;
+        }
+
+        if(ac &gt;= 3){
+            if((fdout = fopen(al[2], "w")) == nil){
+                printf("[-] fopen failed!n");
+                return 1;
+            }
+        } else {
+            fdout = stdout;
+        }
+    } 
+
+    while(get_byte_pair(c, fdin) == 2){
+        byte = (adjust_nybble(c[0]) &lt;&lt; 4 | adjust_nybble(c[1]));
+        fprintf(fdout, "%c", byte);
+    }
+
+    fclose(fdin);
+}
+
+char
+adjust_nybble(char c)
+{
+    if(c &gt;= '0' &amp;&amp; c &lt;= '9'){
+        // 48 is ASCII '0'
+        return c - 48;
+    } else {
+        // 87 is 10 less than 'a', and makes 0x0A work as 10
+        return c - 87;
+    }
+}
+
+int
+get_byte_pair(char c[2], FILE *fdin)
+{
+    char ch = 0;
+    int idx = 0;
+
+    while(idx &lt; 2){
+        ch = fgetc(fdin);
+        if(feof(fdin)){
+            return -1;
+        } else if(ch == ' ' || ch == 'n' || ch == 'r' || ch == 't'){
+            continue; // keep eating white space chars
+        } else if((ch &gt;= '0' &amp;&amp; ch &lt;= '9') || (ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z') || (ch &gt;= 'a' &amp;&amp; ch &lt;= 'z')){
+            c[idx] = ch;
+            idx++;
+        } 
+    }
+    return idx;
+}</pre><br>
+<br>
+Full <a href="reamer2.c">reamer2 source</a>.
+<br>
+<br>
+<h1> Of substrings and other cruft</h1>
+<br>
+Of course, I <span class="muse-italic">did</span> want to try my hand at making a quick <code class="muse-code">substring?</code> hack in Digamma, which took about 10 minutes:
+<br>
+<pre class="muse-code">(define (substring? source subst (idx 0) (sidx 0))
+    ;; this is the naieve version. a better one would
+    ;; have an inner procedure to handle the actual
+    ;; iteration, and this top-level one would simply
+    ;; handle the setup thereof.
+    (cond
+        (= (length subst) (length source))
+            (eq? source subst)
+        (&gt; (length subst) (length source))
+            #f
+        (&gt;= sidx (length subst)) ;; reached the end of the substring?
+            #t
+        (&gt;= idx (length source)) ;; reached the end of the string?
+            #f
+        (eq? (nth source idx) (nth subst sidx))
+            (substring? source subst (+ idx 1) (+ sidx 1))
+        else
+            (substring? source subst (+ idx 1) 0)))</pre><br>
+<br>
+This actually handles a short-cut case I didn't think of: if the two strings are the same length, just run some
+generic string comparison on them (in this case, Digamma's <code class="muse-code">eq?</code> suffices; Scheme heresies abound, I agree).
+<br>
+The <a href="iss.ss">full substring? source</a> contains a bit of testing as well, but nothing fancy, since it was mostly
+just for fun.
+
+    <hr>
+    <a href="/">Home</a> |
+    <a href="/about/"> About</a> |
+    <a href="/b/">Blag</a> |
+    <a href="/p/"> Projects</a> |
+    <a href="https://twitter.com/lojikil">Twitter</a> |
+    <a href="https://github.com/saedwards-ecc">Github</a> |
+    <a href="https://bitbucket.org/saedwards">BitBucket</a>
+  </body>
+</html>
