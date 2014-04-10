@@ -1,0 +1,33 @@
+I had to make a 0-dependency, no-deprecated Base64 class in Java the other day, and thought it would be a fun thing to hack up myself.
+It's to support HTTP Basic & Digest auth, so it didn't have too much to worry about; just support an interface similar to `java.xml.DatatypeConvetor`.
+
+I had previously written a [https://github.com/lojikil/sae-utils/blob/master/uue.c UUE] encoder, but I thought I'd just wing it on this one. Of course,
+they ended up being relatively similar; I didn't bother to look at my UUE code until afterward, only to realize I had basically rewritten it. Still,
+was fun double checking my mental math. Meat of it is:
+
+`for(int idx = 0; idx < len; idx += 3) {
+    tempHolder[0] = (byte)((array[idx] & 0xFC) >> 2);
+    sb.append(base64digits.charAt(tempHolder[0]));
+    if((len - idx) == 1){
+        tempHolder[1] = (byte)((array[idx] & 0x03) << 4);
+        sb.append(base64digits.charAt(tempHolder[1]));
+        sb.append("==");
+        break;
+    }
+    tempHolder[1] = (byte)(((array[idx] & 0x03) << 4) + ((array[idx + 1] & 0xF0) >> 4));
+    sb.append(base64digits.charAt(tempHolder[1]));
+    if((len - idx) == 2) {
+        tempHolder[2] = (byte)((array[idx + 1] & 0x0F) << 2);
+        sb.append(base64digits.charAt(tempHolder[2]));
+        sb.append("=");
+        break;
+    }
+    tempHolder[2] = (byte)(((array[idx + 1] & 0x0F) << 2) + ((array[idx + 2] & 0xC0) >> 6));
+    tempHolder[3] = (byte)(array[idx + 2] & 0x3F);
+    sb.append(base64digits.charAt(tempHolder[2]));
+    sb.append(base64digits.charAt(tempHolder[3]));
+}
+return sb.toString();`
+
+One thing I *did* notice about this is all the casts to `byte` that I had to do in order to silence the Java compiler; I thought that was a bit weird. I also dislike
+the inability to index `java.lang.String`s directly; the `charAt` method calls seem very ugly to me.
