@@ -26,8 +26,8 @@ The fun part about this is that I wrote them line-by-line using `GECHO`; the bui
 
 (Although, thinking about it, I wonder if I could have used something like `TYPE CON`... Have to try that later). Basically I wrote way too many lines of:
 
-`C:\WORK>\fpc\bin\go32v2\gecho "program foo;" > foo.pas
-C:\WORK>\fpc\bin\go32v2\gecho "begin" >> foo.pas
+`C:\\WORK>\\fpc\\bin\\go32v2\\gecho "program foo;" > foo.pas
+C:\\WORK>\\fpc\\bin\\go32v2\\gecho "begin" >> foo.pas
 ...`
 
 As you may imagine, that was slow going :D
