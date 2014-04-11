@@ -1,0 +1,177 @@
+So, this is one of my more, uh, interesting adventures.
+
+Basically, my laptop at worked died, and our fear-less admin (and resident Lord of the Dance) requested that I try Western Digital's hard disk analyzer. Well, 
+interestingly enough, that utility requires a FreeDOS install, which I put on a spare 1GiB USB stick. Well, that got me thinking: what else can I do with a spare 
+FreeDOS install? Well, I can put FreePascal on it! That would make it super useful!
+
+So, thus armed, I set out to write some neat stuff for FreeDOS... and promptly hit a wall: the FreePascal IDE wouldn't load! I don't recall what the error was, but
+naturally my next step was to check if the _compiler_ would work, which it did. "Well, that should be enough..."
+
+My First step was a simple "hello world!" type of program:
+
+`program foo;
+begin
+    writeln("Hello, world");
+end.`
+
+Can you spot the bug? Suffice it to say that I haven't written Pascal in some time, & forgot that Strings are ' ' delimited rather than " " delimited; the above
+was quickly followed by:
+
+`program bar;
+begin
+    writeln('Hello, world!');
+end.`
+
+The fun part about this is that I wrote them line-by-line using `GECHO`; the built in DOS-echo didn't handle strings properly. 
+
+(Although, thinking about it, I wonder if I could have used something like `TYPE CON`... Have to try that later). Basically I wrote way too many lines of:
+
+`C:\WORK>\fpc\bin\go32v2\gecho "program foo;" > foo.pas
+C:\WORK>\fpc\bin\go32v2\gecho "begin" >> foo.pas
+...`
+
+As you may imagine, that was slow going :D
+
+Having written a "Hello, world" that I could compile, my next thought was to write something akin to `cat`, where it would read from `STDIN` (or `Input` in Pascal) and
+write to `STDOUT`. I don't know if I screwed something up, but `EOF` was *not* working for me (I would hit `^Z` and it would keep going; I probably mistyped something),
+so my `cat` replacement reads until it hits `.` byitself on a line, like `ed` does:
+
+` program dog(input, output);
+var s: string;
+begin
+    readln(s);
+    while s <> '.' do 
+    begin
+        writeln(s);
+        readln(s);
+    end;
+end.`
+
+The code is simple, and I hand formatted it, but mostly so that I could attempt to read it later. Personally, I like the *idea* of Pascal/Algol, but I do find the
+lack of symbols a bit disorienting at times, so I *do* like to have it nicely formatted.
+
+Armed with _that_ code, I set out to write a simple prompt test:
+
+` program prompttest(input, output);
+var
+    s : string;
+begin
+    write('> ');
+    readln(s);
+    while s <> 'q' do
+    begin
+        writeln('s is ', s);
+        write('> ');
+        readln(s);
+    end;
+end.`
+
+Having written that, I finally set out to write a very basic editor, which I dubbed "ZDLIN". I can't tell you how many times I had to type this in; after
+getting the `p` and `i` commands to work, it was a devil of a time to retype the whole thing in order to add commands. I was thinking about adding a handful of
+other small utilities, like `head` and `tail`, to help with the process, but eventually I just soldiered on & wrote it out:
+
+`program zdlin(input, output);
+uses
+    Classes, SysUtils;
+var
+    buffer : TStringList;
+    line, src : string;
+    idx, tmp0, tmp1, tmp2 : integer;
+begin
+    buffer := TStringList.create;
+    src := ParamStr(1);
+    buffer.LoadFromFile(src);
+    idx := buffer.count - 1;
+    write('> ');
+    readln(line);
+    while line <> 'q' do
+    begin
+        if line = 'p' then
+        begin
+            if idx > 0 then
+            begin
+                for tmp0 := 0 to idx do
+                begin
+                    writeln(buffer[tmp0]);
+                end;
+            end;
+        end
+        else if line = 'P' then // should prompt for a range
+        begin
+            if idx > 0 then
+            begin
+                for tmp0 := 0 to idx do
+                begin
+                    writeln(inttostr(tmp0),': ', buffer[tmp0]);
+                end;
+            end;
+        end
+        else if line = 'd' then
+        begin
+            write('at: ');
+            readln(line);
+            Val(line, tmp0, tmp1);
+            buffer.delete(tmp0);
+            Dec(idx);
+        end
+        else if line = 'D' then
+        begin
+            write('start: ');
+            readln(line);
+            Val(line, tmp0, tmp1);
+            write('end: ');
+            readln(line);
+            Val(line, tmp1, tmp2);
+            for tmp2 := tmp0 to tmp1 do
+            begin
+                buffer.delete(tmp0); // buffer shrinks each time
+            end;
+            idx := buffer.count - 1;
+        end
+        else if line = 'I' then
+        begin
+            write('at: ');
+            readln(line);
+            Val(line, tmp0, tmp1);
+            readln(line);
+            tmp1 := tmp0;
+            while line <> '.' do
+            begin
+                buffer.insert(tmp0, line);
+                Inc(tmp0);
+                readln(line);
+            end;
+            Inc(idx, tmp0 - tmp1);
+        end
+        else if line = 'i' then
+        begin
+            readln(line);
+            while line <> '.' do
+            begin
+                idx := buffer.add(line);
+                readln(line);
+            end;
+        end
+        else
+            writeln('Unknown command: ', line);
+        write('> ');
+        readln(line);
+    end;
+    buffer.SaveToFile(src);
+    buffer.Free;
+end.`
+
+ As you can see, there is no command parsing what so ever; commands are simply `p` or `P`, and the user is then prompted for any other parameters as necessay. Though
+basic, it *should* be enough to implement [https://twitter.com/bigthingist/status/454454027418230784 Bigthingist's] idea, and make something more visual. Of course,
+as I replied, I _would_ be interested in trying to make something [http://en.wikipedia.org/wiki/Sam_(text_editor) Sam-like] as a test. And, of course, I'd like to
+make a Digamma Runtime; Retargetting Enyalios for FreePascal shouldn't be *too* difficult; I'd be more concerned about it being too large for memory though :D
+
+The files mentioned above can be downloaded below:
+
+- [FOO.PAS FOO]
+- [BAR.PAS BAR]
+- [DOG.PAS DOG]
+- [PRMTST.PAS PRMTST]
+- [ZDLIN.PAS ZDLIN]
+
+

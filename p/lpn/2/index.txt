@@ -30,4 +30,5 @@ was fun double checking my mental math. Meat of it is:
 return sb.toString();`
 
 One thing I *did* notice about this is all the casts to `byte` that I had to do in order to silence the Java compiler; I thought that was a bit weird. I also dislike
-the inability to index `java.lang.String`s directly; the `charAt` method calls seem very ugly to me.
+the inability to index `java.lang.String`s directly; the `charAt` method calls seem very ugly to me. I'll return to this at some point & hack a version out in
+Digamma...
