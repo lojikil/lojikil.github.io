@@ -51,6 +51,13 @@ body {
 }
 .footer {  padding-top: 1em; color: grey; }
 
+code {
+    margin: 0;
+}
+
+pre {
+    margin: 0;
+}
 /*h1 {
 	background-image: url(images/home.png);
 	background-repeat: no-repeat;
