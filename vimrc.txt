@@ -2,7 +2,7 @@
 set number
 set ruler
 syntax on
-colorscheme adaryn
+colorscheme adaryn " alternately, use colorscheme desert, which should be built in
 set autoindent
 set cindent
 set tabstop=4
