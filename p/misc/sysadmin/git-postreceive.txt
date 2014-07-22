@@ -1,0 +1,11 @@
+I needed a quick way to get [http://lojikil.com Lojikil] and [http://www.xiphosresearch.com XRL] up and running when we commit changes; both sites are static,
+and XRL uses some crazy static site generator, whereas Lojikil uses [http://lojikil.com/p/muse/ Muse]. In any case, I originally followed
+[http://toroid.org/ams/git-website-howto these instructions here] and I thought it would be a good time to document that. The long and the short of it is:
+
+# `cd /some/path/to/repo`
+# `git init --bare` 
+# `echo "#!/bin/sh\nGIT_WORK_TREE=/var/www/www.example.org git checkout -f" >> hooks/post-receive`
+# `chmod 700 hooks/post-receive` or `chmod u+x hooks/post-receive`
+
+Works like a charm. The only issue I have is that I needed to move the various git users (I have one per team's "stuff" that I host) into the appropriate
+`www` groups, e.g. `xrl-git` is now in the `xrl-www` group, and the directory for XRL is group-owned by `xrl-www`. Now all I need to do is setup tarsnap...
