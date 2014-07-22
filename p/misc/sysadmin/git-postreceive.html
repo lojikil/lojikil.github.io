@@ -24,11 +24,10 @@ and XRL uses some crazy static site generator, whereas Lojikil uses <a href="htt
 <br>
 <ol>
 <li> <code class="muse-code">cd /some/path/to/repo</code><br>
-<ol>
 <li> <code class="muse-code">git init --bare</code> </li>
 <li> <code class="muse-code">echo "#!/bin/shnGIT_WORK_TREE=/var/www/www.example.org git checkout -f" &gt;&gt; hooks/post-receive</code><br>
-<ol>
 <li> <code class="muse-code">chmod 700 hooks/post-receive</code> or <code class="muse-code">chmod u+x hooks/post-receive</code><br>
+</ol>
 <br>
 Works like a charm. The only issue I have is that I needed to move the various git users (I have one per team's "stuff" that I host) into the appropriate</li>
 <pre class="muse-code">www</pre> groups, e.g. <code class="muse-code">xrl-git</code> is now in the <code class="muse-code">xrl-www</code> group, and the directory for XRL is group-owned by <code class="muse-code">xrl-www</code>. Now all I need to do is setup tarsnap...</ol></li></ol></li></ol>
