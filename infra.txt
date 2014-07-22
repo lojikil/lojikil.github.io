@@ -9,4 +9,5 @@ Currently, the internal setup is pretty simple:
 - filtering for three networks (internal, wifi, external)
 - logging
 - web hosting
-
+- calendaring
+- web proxying
