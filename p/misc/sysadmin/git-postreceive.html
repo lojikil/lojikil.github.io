@@ -25,7 +25,7 @@ and XRL uses some crazy static site generator, whereas Lojikil uses <a href="htt
 <ol>
 <li> <code class="muse-code">cd /some/path/to/repo</code><br>
 <li> <code class="muse-code">git init --bare</code> </li>
-<li> <code class="muse-code">echo "#!/bin/shnGIT_WORK_TREE=/var/www/www.example.org git checkout -f" &gt;&gt; hooks/post-receive</code><br>
+<li> <code class="muse-code">echo "#!/bin/sh\nGIT_WORK_TREE=/var/www/www.example.org git checkout -f" &gt;&gt; hooks/post-receive</code><br>
 <li> <code class="muse-code">chmod 700 hooks/post-receive</code> or <code class="muse-code">chmod u+x hooks/post-receive</code><br>
 </ol>
 <br>

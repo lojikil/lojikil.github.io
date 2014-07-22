@@ -4,7 +4,7 @@ and XRL uses some crazy static site generator, whereas Lojikil uses [http://loji
 
 # `cd /some/path/to/repo`
 # `git init --bare` 
-# `echo "#!/bin/sh\nGIT_WORK_TREE=/var/www/www.example.org git checkout -f" >> hooks/post-receive`
+# `echo "#!/bin/sh\\nGIT_WORK_TREE=/var/www/www.example.org git checkout -f" >> hooks/post-receive`
 # `chmod 700 hooks/post-receive` or `chmod u+x hooks/post-receive`
 
 Works like a charm. The only issue I have is that I needed to move the various git users (I have one per team's "stuff" that I host) into the appropriate
