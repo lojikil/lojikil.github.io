@@ -1,7 +1,7 @@
 `set lisp
 set number
 syntax on
-colorscheme desert " better
+colorscheme desert " better, again
 set autoindent
 set cindent
 set tabstop=4
