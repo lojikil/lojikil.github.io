@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>&#923;ojiki&#955; | index</title>
+    <link rel="stylesheet" href="/main.css" type="text/css">
+  </head>
+  <body>
+    <pre>
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   &lt;| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+    </pre>
+    <hr>
+<a href="/./">.</a> &raquo; <a href="/./p/">p</a> &raquo; <a href="/./p/misc/">misc</a> &raquo; <a href="/./p/misc/sysadmin/">sysadmin</a> &raquo; <a href="/./p/misc/sysadmin/split-zips.txt">split-zips.txt</a>
+<br>
+<br>
+<h1> Splitting and Splicing Zip files from the CLI</h1>
+<br>
+This is <a href="http://superuser.com/questions/365643/how-to-unzip-split-files-on-os-x">from this SuperUser question</a>. Basically:
+<br>
+<ul>
+<li> To split: <code class="muse-code">zip -s 100m -x "*.DS_Store" -r split-foo.zip foo/</code> where <code class="muse-code">100m</code> is the size to split on.</li>
+<li> To splice: <code class="muse-code">zip -s 0 split-foo.zip --out unsplit-foo.zip</code>, which can then be unzipped normally: <code class="muse-code">unzip unsplit-foo.zip</code><br>
+<br>
+Super useful (and something I didn't know, but had to figure out since I had to split zips for a client to email...)</li></ul>
+    <hr>
+    <a href="/">Home</a> |
+    <a href="/about/"> About</a> |
+    <a href="/b/">Blag</a> |
+    <a href="/p/lpn/">Lojikil's Programmer Notebook</a> |
+    <a href="/p/"> Projects</a> |
+    <a href="https://twitter.com/lojikil">Twitter</a> |
+    <a href="https://github.com/saedwards-ecc">Github</a> |
+    <a href="https://bitbucket.org/saedwards">BitBucket</a>
+  </body>
+</html>
