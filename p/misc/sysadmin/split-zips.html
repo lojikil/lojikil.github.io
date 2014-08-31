@@ -25,9 +25,9 @@ This is <a href="http://superuser.com/questions/365643/how-to-unzip-split-files-
 <br>
 <ul>
 <li> To split: <code class="muse-code">zip -s 100m -x "*.DS_Store" -r split-foo.zip foo/</code> where <code class="muse-code">100m</code> is the size to split on.</li>
-<li> To splice: <code class="muse-code">zip -s 0 split-foo.zip --out unsplit-foo.zip</code>, which can then be unzipped normally: <code class="muse-code">unzip unsplit-foo.zip</code><br>
+<li> To splice: <code class="muse-code">zip -s 0 split-foo.zip --out unsplit-foo.zip</code>, which can then be unzipped normally: <code class="muse-code">unzip unsplit-foo.zip</code></li></ul><br>
 <br>
-Super useful (and something I didn't know, but had to figure out since I had to split zips for a client to email...)</li></ul>
+Super useful (and something I didn't know, but had to figure out since I had to split zips for a client to email...).
     <hr>
     <a href="/">Home</a> |
     <a href="/about/"> About</a> |
