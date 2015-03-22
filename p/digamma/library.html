@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <title>&#923;ojiki&#955; | index</title>
+    <link rel="stylesheet" href="/main.css" type="text/css">
+  </head>
+  <body>
+    <pre>
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   &lt;| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+    </pre>
+    <hr>
+<a href="/p/">p</a> &raquo; <a href="/p/digamma/">digamma</a> &raquo; <a href="/p/digamma/library.txt">library.txt</a>
+<br>
+<br>
+<h1> Overview</h1>
+<br>
+ A quick rundown of my proposed library system...
+<br>
+<br>
+<h1> Forms</h1>
+<br>
+<ul>
+<li> <code class="muse-code">library</code>: The actual top level form</li>
+<li> <code class="muse-code">exports</code>: <code class="muse-code">library</code> level form to define what is exported</li>
+<li> <code class="muse-code">imports</code>: <code class="muse-code">library</code> level form to define what is imported</li>
+<li> <code class="muse-code">define</code>: <code class="muse-code">library</code> level form for definition</li>
+<li> <code class="muse-code">import</code>: top-level form to import a library</li>
+<li> <code class="muse-code">use</code>: top-level from to find and import a library</li>
+</ul>
+No forms other than <code class="muse-code">define</code>, <code class="muse-code">imports</code> or <code class="muse-code">exports</code> can exist within a library.</li>
+</ul>
+<h2> Examples</h2>
+Library:</li>
+</ul>
+<pre class="muse-code">(library hello
+    (exports world)
+    ;; no need for explicit import of digamma...
+    ;; should we? When would I want a nil environment?
+    ;; hostile, or internet-downloaded libs can be sandboxed
+    ;; in W7 style...
+    (define (world (whom "world")) (display* "hello ~s" whom)))</pre>
+To use this, if entered at the top-level, simply <code class="muse-code">(import hello)</code> which
+will give us <code class="muse-code">hello/world</code> as a top-level procedure. If this were stored
+in a file we could do one of two things:
+<br>
+Load &amp; then import:
+<br>
+<pre class="muse-code">(load "path/to/somefile.ss")
+(import hello)</pre>
+or just use <code class="muse-code">use</code>:
+<br>
+<pre class="muse-code">(use hello)</pre>
+<h2> Rationale</h2>
+ I want a library system that provides:
+<ul>
+<li> Modularity: systems should be able to be implemented free of interaction with the surrounding ecosystem.</li>
+<li> Collision Avoidance: <code class="muse-code">http/recieve</code> and <code class="muse-code">ftp/recieve</code> should not interact, nor should I have to manually rename.</li>
+<li> Defines some method of library resolution from the file system</li>
+<li> Is simple like R7RS modules, but actually useful, and missing fluff that's not really needed</li>
+</ul>
+Currently, Digamma uses a simple <code class="muse-code">require</code> form to load libraries:
+<br>
+<pre class="muse-code">(require "http")
+(require "ssh")
+(require "srfi-1")</pre>
+Which is rather simple (<code class="muse-code">require</code> expands into a <code class="muse-code">find-library</code> then <code class="muse-code">load</code>), it provides no modularity to Digamma;
+if items are not carefully written, you can easily have collisions. I was waiting for R7RS to form up, but I dislike
+their proposal: doesn't actually help with collisions, the ugly <code class="muse-code">begin</code>, &amp;c. Additionally, I dislike how manual it is;
+imports must have a <code class="muse-code">prefix</code> in the, oh, but if you want to rename you have to rebind. No. I'd rather default to renaming
+based on some sane default, and allow users to manually rename those small sections they want.
+<h2> Issues</h2>
+<ul>
+<li> Phasing: Not an issue, as I won't support forms other than <code class="muse-code">define</code> (maybe <code class="muse-code">define-syntax</code> for export?)</li>
+<li> <code class="muse-code">from</code> form? Probably need some method actually importing things if I want them.</li>
+<li> <code class="muse-code">import</code> with an "as" section: probably want to do this so that <code class="muse-code">some/long/name</code> can be rewritten to <code class="muse-code">name</code></li>
+</ul>
+    <hr>
+    <a href="/">Home</a> |
+    <a href="/about/"> About</a> |
+    <a href="/b/">Blag</a> |
+    <a href="/p/lpn/">Lojikil's Programmer Notebook</a> |
+    <a href="/p/"> Projects</a> |
+    <a href="https://twitter.com/lojikil">Twitter</a> |
+    <a href="https://github.com/saedwards-ecc">Github</a> |
+    <a href="https://bitbucket.org/saedwards">BitBucket</a>
+  </body>
+</html>

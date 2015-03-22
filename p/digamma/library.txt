@@ -1,0 +1,66 @@
+* Overview
+
+ A quick rundown of my proposed library system...
+
+* Forms
+
+- `library`: The actual top level form
+- `exports`: `library`-level form to define what is exported
+- `imports`: `library`-level form to define what is imported
+- `define`: `library` level form for definition
+- `import`: top-level form to import a library
+- `use`: top-level from to find and import a library
+
+No forms other than `define`, `imports` or `exports` can exist within a library.
+
+** Examples
+
+Library:
+
+`(library hello
+    (exports world)
+    ;; no need for explicit import of digamma...
+    ;; should we? When would I want a nil environment?
+    ;; hostile, or internet-downloaded libs can be sandboxed
+    ;; in W7 style...
+    (define (world (whom "world")) (display* "hello ~s" whom)))`
+
+To use this, if entered at the top-level, simply `(import hello)` which
+will give us `hello/world` as a top-level procedure. If this were stored
+in a file we could do one of two things:
+
+Load & then import:
+
+`(load "path/to/somefile.ss")
+(import hello)`
+
+or just use `use`:
+
+`(use hello)`
+
+** Rationale
+
+ I want a library system that provides:
+
+- Modularity: systems should be able to be implemented free of interaction with the surrounding ecosystem.
+- Collision Avoidance: `http/recieve` and `ftp/recieve` should not interact, nor should I have to manually rename.
+- Defines some method of library resolution from the file system
+- Is simple like R7RS modules, but actually useful, and missing fluff that's not really needed
+
+Currently, Digamma uses a simple `require` form to load libraries:
+
+`(require "http")
+(require "ssh")
+(require "srfi-1")`
+
+Which is rather simple (`require` expands into a `find-library` then `load`), it provides no modularity to Digamma;
+if items are not carefully written, you can easily have collisions. I was waiting for R7RS to form up, but I dislike
+their proposal: doesn't actually help with collisions, the ugly `begin`, &c. Additionally, I dislike how manual it is;
+imports must have a `prefix` in the, oh, but if you want to rename you have to rebind. No. I'd rather default to renaming
+based on some sane default, and allow users to manually rename those small sections they want.
+
+** Issues
+
+- Phasing: Not an issue, as I won't support forms other than `define` (maybe `define-syntax` for export?)
+- `from` form? Probably need some method actually importing things if I want them.
+- `import` with an "as" section: probably want to do this so that `some/long/name` can be rewritten to `name`
