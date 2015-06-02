@@ -1,0 +1,4 @@
+* Escape Codes:
+
+- use `<newline>~.` to kill the session
+- use `<newline>~?` to see the SSH character codes
