@@ -1,0 +1,4 @@
+* Authorization header
+
+Sometimes you need SQLMap to send the `Authorization` header, but it appears that `--auth-type=basic --auth-creds foo:bar` don't work. The solution?
+Use the `--headers` option to include the Authorization header manually: `--headers="Authorization: Basic Zm9vOmJhcg==`.

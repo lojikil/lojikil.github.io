@@ -16,12 +16,14 @@
     purveyors of fine, internet-related kipple since 1985.
     </pre>
     <hr>
-<a href="/p/">p</a> &raquo; <a href="/p/misc/">misc</a> &raquo; <a href="/p/misc/index.txt">index.txt</a>
+<a href="/p/">p</a> &raquo; <a href="/p/misc/">misc</a> &raquo; <a href="/p/misc/security/">security</a> &raquo; <a href="/p/misc/security/sqlmap.txt">sqlmap.txt</a>
 <br>
-<ul>
-<li> <a href="sysadmin/index.html">SysAdmin notes</a></li>
-<li> <a href="food/index.html">Food Notes</a></li>
-<li> <a href="security/index.html">Security Notes</a></li></ul>
+<br>
+<h1> Authorization header</h1>
+<br>
+Sometimes you need SQLMap to send the <code class="muse-code">Authorization</code> header, but it appears that <code class="muse-code">--auth-type=basic --auth-creds foo:bar</code> don't work. The solution?
+Use the <code class="muse-code">--headers</code> option to include the Authorization header manually: <code class="muse-code">--headers="Authorization: Basic Zm9vOmJhcg==</code>.
+
     <hr>
     <a href="/">Home</a> |
     <a href="/about/"> About</a> |
