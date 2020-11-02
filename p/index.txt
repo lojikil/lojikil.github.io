@@ -1,0 +1,7 @@
+# Projects
+- [carML](/p/carML) a yummy and sweet ML dialect
+- [Digamma](/p/digamma) a Scheme-dialect
+- [Muse](/p/muse/) a static site generator written in Digamma
+- [Tiny languages](/p/tinylang/) that I've poked around with.
+- [Lojikil's Programmer's Notebook](/p/lpn/)
+- [Misc Static Wiki stuff](/p/misc)

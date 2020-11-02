@@ -1,0 +1,57 @@
+# Digamma: my attempt at "Lisp for the 21st Century"
+
+## <a href="DIGAMMA-TODO.html">DIGAMMA TODO</a>
+
+Current Vesta Stable Release: _6.7-alpha_</p>
+Current Vesta WIP release: _none_</p>
+Current Hydra release: _0.1-alpha_</p>
+
+Digamma is a dialect of scheme that provides several advanced features:
+
+- Dictionary literals in a ruby/python style: `{:test 1 :dictionary 2}`
+- Quoted vector literals using `[ ]` 
+- Dictionaries are backed by tries, and keys can be queried as to matches or length match
+- Applicable data structures
+- Levels of specification, to allow Digamma to be implemented everywhere
+- A PreScheme-like restricted dialect that allows for Systems-level programming
+- W7-like environments for safe code evalution in programmatically created environments
+- A Collection API (first,rest,cset!,nth,cupdate) that applies a purely-functional style to all collections (lists, dicts, vectors, strings)
+- Various interfaces to lambdas: case-based (CaML/Haskell-style), Keyword (Python/extended SRFI-89 style), CL (with :rest, :opt, :body, &c.) & standard.
+- Strong specificty of POSIX interactions, to avoid the normally academic feel of Scheme dialects.
+- a "batteries included" approach to library inclusion, with a focus on real-world requirements (SMTP, HTTP, IMAP, Pop3, pentration testing, &c.
+- Work in Progress: types ala Stalin
+
+It comes in a few flavors:
+
+- Vesta: the reference implementation written in C
+- Hydra: the work in progress, which is meant to replace Vesta eventually, and self-hosts. Compiles Digamma to a SECD-like VM.
+- Enyalios: a "Pre-Digamma" compiler (restricted subset) which is meant to be a better compilation framework than E' (Eprime)
+- Eprime/E': the initial Digamma -> Compiler, which was shelved because working on it was painful. Enyalios is a complete rewrite and meant to be extensible.
+- Nyx/Aneris: simple test interpreters to try out self-hosting interpreters, but are AST walkers.
+- Ceres: a register-VM that was shelved (then started again, then shelved...).
+
+## Vesta Release history
+
+- 6.7-alpha: fixes, consistency, &c.
+- 6.6-theta: efficiency tuning of TCO, W7 & define-syntax overhaul
+- 6.6-eta: true TCO, help, docstrings
+- 6.6-zeta: testing release
+- 6.6-delta: major re-organization of internals, many, many bug fixes
+- 6.6-gamma: prelude/init.ss work, internals, better display from FORMAT
+- 6.6-beta: over-haul of collexions (tries, tconcs, cslice), removal of certain primitives that could be implemented in higher-level forms (like cond) and switch of internal Environment storage format (mixture of Linked lists & tries)
+- 6.6-alpha: switched from lleval (old, recursive style) to _seval (stackless version), and removed debugging
+- 6.5-gamma: added _seval (stackless) and switched primitives to use this stack
+- 6.5-beta: start of stackless system, bug fixes to lleval
+- 6.5-alpha: changes to closure application
+- 6.4: aborted attempt at better internal organization (aborted because it became very messy; premature optimization root of all evil :D)
+- 6.3: bug fixes, multiple changes
+- 6.2: stablized read system
+- <= 6.1: ancient stuff
+
+## Hydra Release History
+
+- 0.1-beta: cleaned up instruction set a bit, to reduce number of instructions needed.
+- 0.1-alpha: finalized the basic instruction set.
+- 0.0-gamma: continuations working nicely.
+- 0.0-beta: fixed accidental scope breakage.
+- 0.0-alpha: basic proof-of-concept fork from Nyx/Aneris.

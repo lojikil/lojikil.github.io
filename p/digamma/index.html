@@ -1,82 +1,106 @@
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title>&#923;ojiki&#955; | Digamma</title>
-    <link rel="stylesheet" href="/main.css" type="text/css">
-  </head>
-  <body>
-    <pre>
- _       _ _ _    _ _
-| |     (_|_) |  (_) |
-| | ___  _ _| | ___| |
-| |/ _ \| | | |/ / | |
-| | (_) | | |   &lt;| | |
-|_|\___/| |_|_|\_\_|_|
-       _/ |
-      |__/
-    purveyors of fine, internet-related kipple since 1985.
-    </pre>
-    <hr>
-    <h1>Digamma: my attempt at "Lisp for the 21st Century"</h1>
-    <p><a href="DIGAMMA-TODO.html">DIGAMMA TODO</a></p>
-    <p>Current Vesta Stable Release: <span>6.7-alpha</span></p>
-    <p>Current Vesta WIP release: <span>none</span></p>
-    <p>Current Hydra release: <span>0.1-alpha</span></p>
-    <p>Digamma is a dialect of scheme that provides several advanced features:</p>
-    <ul>
-      <li>Dictionary literals in a ruby/python style: {:test 1 :dictionary 2}</li>
-      <li>Quoted vector literals using [ ] </li>
-      <li>Dictionaries are backed by tries, and keys can be queried as to matches or length match</li>
-      <li>Applicable data structures</li>
-      <li>Levels of specification, to allow Digamma to be implemented everywhere</li>
-      <li>A PreScheme-like restricted dialect that allows for Systems-level programming</li>
-      <li>W7-like environments for safe code evalution in programmatically created environments</li>
-      <li>A Collection API (first,rest,cset!,nth,cupdate) that applies a purely-functional style to all collections (lists, dicts, vectors, strings)</li>
-      <li>Various interfaces to lambdas: case-based (CaML/Haskell-style), Keyword (Python/extended SRFI-89 style), CL (with :rest, :opt, :body, &amp;c.) &amp; standard.</li>
-      <li>Strong specificty of POSIX interactions, to avoid the normally academic feel of Scheme dialects.</li>
-      <li>a "batteries included" approach to library inclusion, with a focus on real-world requirements (SMTP, HTTP, IMAP, Pop3, pentration testing, &amp;c.</li>
-      <li>Work in Progress: types ala Stalin</li>
-    </ul>
-    <p>It comes in a few flavors:</p>
-    <ul>
-      <li>Vesta: the reference implementation written in C</li>
-      <li>Hydra: the work in progress, which is meant to replace Vesta eventually, and self-hosts. Compiles Digamma to a SECD-like VM.</li>
-      <li>Enyalios: a "Pre-Digamma" compiler (restricted subset) which is meant to be a better compilation framework than E' (Eprime)</li>
-      <li>Eprime/E': the initial Digamma -&gt; Compiler, which was shelved because working on it was painful. Enyalios is a complete rewrite and meant to be extensible.</li>
-      <li>Nyx/Aneris: simple test interpreters to try out self-hosting interpreters, but are AST walkers.</li>
-      <li>Ceres: a register-VM that was shelved (then started again, then shelved...).</li>
-    </ul>
-    <p>Vesta Release history</p>
-    <ul>
-      <li>6.7-alpha: fixes, consistency, &amp;c.</li>
-      <li>6.6-theta: efficiency tuning of TCO, W7 &amp; define-syntax overhaul</li>
-      <li>6.6-eta: true TCO, help, docstrings</li>
-      <li>6.6-zeta: testing release</li>
-      <li>6.6-delta: major re-organization of internals, many, many bug fixes</li>
-      <li>6.6-gamma: prelude/init.ss work, internals, better display from FORMAT</li>
-      <li>6.6-beta: over-haul of collexions (tries, tconcs, cslice), removal of certain primitives that could be implemented in higher-level forms (like cond) and switch of internal Environment storage format (mixture of Linked lists &amp; tries)</li>
-      <li>6.6-alpha: switched from lleval (old, recursive style) to _seval (stackless version), and removed debugging</li>
-      <li>6.5-gamma: added _seval (stackless) and switched primitives to use this stack</li>
-      <li>6.5-beta: start of stackless system, bug fixes to lleval</li>
-      <li>6.5-alpha: changes to closure application</li>
-      <li>6.4: aborted attempt at better internal organization (aborted because it became very messy; premature optimization root of all evil :D)</li>
-      <li>6.3: bug fixes, multiple changes</li>
-      <li>6.2: stablized read system</li>
-      <li>&lt;= 6.1: ancient stuff</li>
-    </ul>
-    <p>Hydra Release History</p>
-    <ul>
-      <li>0.1-beta: cleaned up instruction set a bit, to reduce number of instructions needed.</li>
-      <li>0.1-alpha: finalized the basic instruction set.</li>
-      <li>0.0-gamma: continuations working nicely.</li>
-      <li>0.0-beta: fixed accidental scope breakage.</li>
-      <li>0.0-alpha: basic proof-of-concept fork from Nyx/Aneris.</li>
-    </ul>
-    <hr>
-    <a href="/">Home</a> |
-    <a href="/b/">Blag</a> |
-    <a href="/p/"> Projects</a> |
-    <a href="https://twitter.com/lojikil">Twitter</a> |
-    <a href="https://github.com/lojikil">Github</a> |
-    <a href="https://bitbucket.org/saedwards">BitBucket</a>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+    <li> <a href="./d">&rsaquo; ./d </a></li>
+    <li> <a href="./b">&rsaquo; ./b </a></li>
+    <li> <a href="./p">&rsaquo; ./p </a></li>
+    <li> <a href="./w">&rsaquo; ./w </a></li>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="digamma-my-attempt-at-lisp-for-the-21st-century">Digamma: my attempt at “Lisp for the 21st Century”</h1>
+<h2 id="digamma-todo"><a href="DIGAMMA-TODO.html">DIGAMMA TODO</a></h2>
+Current Vesta Stable Release: <em>6.7-alpha</em>
+</p>
+Current Vesta WIP release: <em>none</em>
+</p>
+Current Hydra release: <em>0.1-alpha</em>
+</p>
+<p>Digamma is a dialect of scheme that provides several advanced features:</p>
+<ul>
+<li>Dictionary literals in a ruby/python style: <code>{:test 1 :dictionary 2}</code></li>
+<li>Quoted vector literals using <code>[ ]</code></li>
+<li>Dictionaries are backed by tries, and keys can be queried as to matches or length match</li>
+<li>Applicable data structures</li>
+<li>Levels of specification, to allow Digamma to be implemented everywhere</li>
+<li>A PreScheme-like restricted dialect that allows for Systems-level programming</li>
+<li>W7-like environments for safe code evalution in programmatically created environments</li>
+<li>A Collection API (first,rest,cset!,nth,cupdate) that applies a purely-functional style to all collections (lists, dicts, vectors, strings)</li>
+<li>Various interfaces to lambdas: case-based (CaML/Haskell-style), Keyword (Python/extended SRFI-89 style), CL (with :rest, :opt, :body, &amp;c.) &amp; standard.</li>
+<li>Strong specificty of POSIX interactions, to avoid the normally academic feel of Scheme dialects.</li>
+<li>a “batteries included” approach to library inclusion, with a focus on real-world requirements (SMTP, HTTP, IMAP, Pop3, pentration testing, &amp;c.</li>
+<li>Work in Progress: types ala Stalin</li>
+</ul>
+<p>It comes in a few flavors:</p>
+<ul>
+<li>Vesta: the reference implementation written in C</li>
+<li>Hydra: the work in progress, which is meant to replace Vesta eventually, and self-hosts. Compiles Digamma to a SECD-like VM.</li>
+<li>Enyalios: a “Pre-Digamma” compiler (restricted subset) which is meant to be a better compilation framework than E’ (Eprime)</li>
+<li>Eprime/E’: the initial Digamma -&gt; Compiler, which was shelved because working on it was painful. Enyalios is a complete rewrite and meant to be extensible.</li>
+<li>Nyx/Aneris: simple test interpreters to try out self-hosting interpreters, but are AST walkers.</li>
+<li>Ceres: a register-VM that was shelved (then started again, then shelved…).</li>
+</ul>
+<h2 id="vesta-release-history">Vesta Release history</h2>
+<ul>
+<li>6.7-alpha: fixes, consistency, &amp;c.</li>
+<li>6.6-theta: efficiency tuning of TCO, W7 &amp; define-syntax overhaul</li>
+<li>6.6-eta: true TCO, help, docstrings</li>
+<li>6.6-zeta: testing release</li>
+<li>6.6-delta: major re-organization of internals, many, many bug fixes</li>
+<li>6.6-gamma: prelude/init.ss work, internals, better display from FORMAT</li>
+<li>6.6-beta: over-haul of collexions (tries, tconcs, cslice), removal of certain primitives that could be implemented in higher-level forms (like cond) and switch of internal Environment storage format (mixture of Linked lists &amp; tries)</li>
+<li>6.6-alpha: switched from lleval (old, recursive style) to _seval (stackless version), and removed debugging</li>
+<li>6.5-gamma: added _seval (stackless) and switched primitives to use this stack</li>
+<li>6.5-beta: start of stackless system, bug fixes to lleval</li>
+<li>6.5-alpha: changes to closure application</li>
+<li>6.4: aborted attempt at better internal organization (aborted because it became very messy; premature optimization root of all evil :D)</li>
+<li>6.3: bug fixes, multiple changes</li>
+<li>6.2: stablized read system</li>
+<li>&lt;= 6.1: ancient stuff</li>
+</ul>
+<h2 id="hydra-release-history">Hydra Release History</h2>
+<ul>
+<li>0.1-beta: cleaned up instruction set a bit, to reduce number of instructions needed.</li>
+<li>0.1-alpha: finalized the basic instruction set.</li>
+<li>0.0-gamma: continuations working nicely.</li>
+<li>0.0-beta: fixed accidental scope breakage.</li>
+<li>0.0-alpha: basic proof-of-concept fork from Nyx/Aneris.</li>
+</ul>
+  </div>
   </body>
 </html>
