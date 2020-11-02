@@ -1,5 +1,8 @@
-* Tiny Languages
-these are some of the languages I worked on throughout my "programming" life, in some semblance of reverse chronological order
+# Tiny Languages
+
+these are some of the languages I worked on throughout my "programming" life, in some semblance of reverse chronological order:
+
+- carML: a yummy and sweet ML-dialect, [which lives on github](https://github.com/lojikil/carML)
 - 101lisp: "lisp" dialect that uses AVL trees as list store and unifies environments, lists and code into more malleable blob.
 - SmallSapphire: Self-ish Ruby.
 - ReTread: a stack based language for wargaming (i.e. tiny language that could call execve &amp; friends, and small enough to UUE &amp; make copypasta)
@@ -8,19 +11,19 @@ these are some of the languages I worked on throughout my "programming" life, in
 - Sampi: stack-based logic language, that unified via stack.
 - Heta: X-Query meets Triangle/Tiger.
 - HoMiLy: a Homoiconic ML using Prolog-style syntax.
-- Digamma/PreDigamma: "production-focused" Scheme dialect. My longest run & largest personal project
+- Digamma/PreDigamma: "production-focused" Scheme dialect. My longest run & largest personal project, [also lives on GitHub](https://github.com/lojikil/digamma)
 - Chickadee: an improved stack 'em with more Forth-isms.
 - Skink: tiny Draca-dialect meant to get boot strap off the ground.
 - Draca: an Algol68-ish dialect of Draco (itself an Algol68-alike for Amiga iirc).
 - bfalgol: dead-simple Algol=&gt;brainfuck compiler, written for a competition at work.
 - Chai: Dylan + Io + MUSH-style permissions; [example.chai example.chai]
 - clocc: C + Dylan
-- Cactus+: Cactus was a language I found on BeBits that had an APL-ish feel, so I wrote a version myself with more J/K/Q-isms.
+- Cactus+: Cactus was a language I found on BeBits that had an APL-ish feel, so I wrote a version myself with more J/K/Q-isms. [Now live on GitHub!](https://github.com/lojikil/cactusp)
 - Fly: a second attempt at Rexx + Lua
 - Orion: a language combining Rexx & Lua
 - stack 'em: Joy-like stack language that attempted to add Scheme-style syntax. Was really messy.
-- muForth: a super minimal Forth dialect with some Joy mixed in [muforth.html Found my old design document for it]
-- muCL/mikroCL: a mini-TCL, with Lispisms.
+- muForth: a super minimal Forth dialect with some Joy mixed in [Found my old design document for it](muforth.html)
+- muCL/mikroCL: a mini-TCL, with Lispisms, [an old broken version of which lives on GitHub](https://github.com/lojikil/mutcl)
 - Vladi: A simple lisp dialect created for my Brother in law
 - tttl: tiny text testing language; an awk-alike I wrote at a company so that users could run awk-like reports without a full language.
 - muPascal: my first language; bootstrap compiler written in QBasic.
