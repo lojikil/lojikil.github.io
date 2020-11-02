@@ -1,4 +1,4 @@
-`set lisp
+set lisp
 set number
 set ruler
 syntax on
@@ -10,4 +10,4 @@ set expandtab
 set shiftwidth=4
 set showtabline=2
 set cursorline
-let python_space_error_highlight = 1`
+let python_space_error_highlight = 1
