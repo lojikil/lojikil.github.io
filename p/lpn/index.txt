@@ -4,3 +4,4 @@ My coding notebook, similar to [The Inferno Programmer's Notebook](http://ipn.ca
 - [reamer2 & substring?](1/)
 - [Base64](2/)
 - [FreePascal Silliness](3/)
+- [Thoughts on matching](4/)
