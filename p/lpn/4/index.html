@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo; b </a></li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="thoughts-on-match-forms">Thoughts on match forms</h1>
+<p>I was working on a new function in <a href="https://github.com/lojikil/carML/commit/f8f99f804a15d08be1bfa01416720969a5eb696d">carML's C implementation</a> and wrote the following notes...</p>
+<p>(We need) a very simple function (to) walk the spine of children from a <code>match</code> form and return YES if we have found <em>any</em> guard clauses, and NO otherwise then, the code generation can make an informed decision.</p>
+<p>This is mostly a hack due to the fact that we don't process <code>match</code> forms into a lower-level form prior to ending up in the code generator The best way to solve this would be to transform the various types of match into lower-level forms, and then generate code for those. for example:</p>
+<pre><code>match x with
+    (Foo.Some y) =&gt; ...
+    (Foo.None) =&gt; ...
+end
+
+match z with
+   10 =&gt; ...
+   11 =&gt; ...
+   12 =&gt; ...
+end
+
+match g with
+   y given (&gt; g 10) =&gt; ...
+   z =&gt; ...
+end</code></pre>
+<p>these three forms could all be written to different lower-level forms, the first a <code>type-match</code>, the second a <code>case-match</code>, and the third a <code>guard-match</code>, and then we easily know how to dispatch from there. My other thinking was how nice it would be to smash cases together and reduce the number of dispatches. To wit:</p>
+<pre><code>match x with
+    (Foo.Some y) given (&gt; y 10) =&gt;
+    (Foo.Some z) =&gt; ...
+    (Foo.None) =&gt; ...
+end</code></pre>
+<p>The naive case would be to simply generate two cases there:</p>
+<pre><code>if(x.tag == Tag_FOO_SOME &amp;&amp; x.m_1 &gt; 10) {
+   ...
+} else if (x.tag == TAG_FOO_SOME) {
+   ...
+} else if (x.tag == Tag_FOO_NONE) {
+   ...
+}</code></pre>
+<p>Whilst this works, it means that we have redundant checks for the tag. Something like <a href="https://blog.rust-lang.org/2016/04/19/MIR.html">Rust's MIR</a> would be really interesting...</p>
+  </div>
+  </body>
+</html>
