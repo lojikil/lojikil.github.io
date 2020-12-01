@@ -51,28 +51,146 @@
 <p>Basically, my laptop at <em>work</em> (edit: spelling; thanks Lord of the Dance!) died, and our fear-less admin (and resident Lord of the Dance) requested that I try Western Digital’s hard disk analyzer. Well, interestingly enough, that utility requires a FreeDOS install, which I put on a spare 1GiB USB stick. Well, that got me thinking: what else can I do with a spare FreeDOS install? Well, I can put FreePascal on it! That would make it super useful!</p>
 <p>So, thus armed, I set out to write some neat stuff for FreeDOS… and promptly hit a wall: the FreePascal IDE wouldn’t load! I don’t recall what the error was, but naturally my next step was to check if the <em>compiler</em> would work, which it did. “Well, that should be enough…”</p>
 <p>My First step was a simple “hello world!” type of program:</p>
-<p><code>program foo; begin     writeln("Hello, world"); end.</code></p>
-<p>Can you spot the bug? Suffice it to say that I haven’t written Pascal in some time, &amp; forgot that Strings are ’ ’ delimited rather than " " delimited; the above was quickly followed by:</p>
-<p><code>program bar; begin     writeln('Hello, world!'); end.</code></p>
+<pre><code>program foo;
+begin
+    writeln(&quot;Hello, world&quot;);
+end.</code></pre>
+<p>Can you spot the bug? Suffice it to say that I haven’t written Pascal in some time, &amp; forgot that Strings are <code>' '</code> delimited rather than <code>" "</code> delimited; the above was quickly followed by:</p>
+<pre><code>program bar;
+begin
+    writeln(&#39;Hello, world!&#39;);
+end.</code></pre>
 <p>The fun part about this is that I wrote them line-by-line using <code>GECHO</code>; the built in DOS-echo didn’t handle strings properly.</p>
 <p>(Although, thinking about it, I wonder if I could have used something like <code>TYPE CON</code>… Have to try that later). Basically I wrote way too many lines of:</p>
-<p><code>C:\\WORK&gt;\\fpc\\bin\\go32v2\\gecho "program foo;" &gt; foo.pas C:\\WORK&gt;\\fpc\\bin\\go32v2\\gecho "begin" &gt;&gt; foo.pas ...</code></p>
+<pre><code>C:\\WORK&gt;\\fpc\\bin\\go32v2\\gecho &quot;program foo;&quot; &gt; foo.pas
+C:\\WORK&gt;\\fpc\\bin\\go32v2\\gecho &quot;begin&quot; &gt;&gt; foo.pas
+...</code></pre>
 <p>As you may imagine, that was slow going :D</p>
 <p>Having written a “Hello, world” that I could compile, my next thought was to write something akin to <code>cat</code>, where it would read from <code>STDIN</code> (or <code>Input</code> in Pascal) and write to <code>STDOUT</code>. I don’t know if I screwed something up, but <code>EOF</code> was <em>not</em> working for me (I would hit <code>^Z</code> and it would keep going; I probably mistyped something), so my <code>cat</code> replacement reads until it hits <code>.</code> byitself on a line, like <code>ed</code> does:</p>
-<p><code>program dog(input, output); var s: string; begin     readln(s);     while s &lt;&gt; '.' do      begin         writeln(s);         readln(s);     end; end.</code></p>
+<pre><code>program dog(input, output);
+var s: string;
+begin
+    readln(s);
+    while s &lt;&gt; &#39;.&#39; do 
+    begin
+        writeln(s);
+        readln(s);
+    end;
+end.</code></pre>
 <p>The code is simple, and I hand formatted it, but mostly so that I could attempt to read it later. Personally, I like the <em>idea</em> of Pascal/Algol, but I do find the lack of symbols a bit disorienting at times, so I <em>do</em> like to have it nicely formatted.</p>
 <p>Armed with <em>that</em> code, I set out to write a simple prompt test:</p>
-<p><code>program prompttest(input, output); var     s : string; begin     write('&gt; ');     readln(s);     while s &lt;&gt; 'q' do     begin         writeln('s is ', s);         write('&gt; ');         readln(s);     end; end.</code></p>
+<pre><code>program prompttest(input, output);
+var
+    s : string;
+begin
+    write(&#39;&gt; &#39;);
+    readln(s);
+    while s &lt;&gt; &#39;q&#39; do
+    begin
+        writeln(&#39;s is &#39;, s);
+        write(&#39;&gt; &#39;);
+        readln(s);
+    end;
+end.</code></pre>
 <p>Having written that, I finally set out to write a very basic editor, which I dubbed “ZDLIN”. I can’t tell you how many times I had to type this in; after getting the <code>p</code> and <code>i</code> commands to work, it was a devil of a time to retype the whole thing in order to add commands. I was thinking about adding a handful of other small utilities, like <code>head</code> and <code>tail</code>, to help with the process, but eventually I just soldiered on &amp; wrote it out:</p>
-<p><code>program zdlin(input, output); uses     Classes, SysUtils; var     buffer : TStringList;     line, src : string;     idx, tmp0, tmp1, tmp2 : integer; begin     buffer := TStringList.create;     src := ParamStr(1);     buffer.LoadFromFile(src);     idx := buffer.count - 1;     write('&gt; ');     readln(line);     while line &lt;&gt; 'q' do     begin         if line = 'p' then         begin             if idx &gt; 0 then             begin                 for tmp0 := 0 to idx do                 begin                     writeln(buffer[tmp0]);                 end;             end;         end         else if line = 'P' then // should prompt for a range         begin             if idx &gt; 0 then             begin                 for tmp0 := 0 to idx do                 begin                     writeln(inttostr(tmp0),': ', buffer[tmp0]);                 end;             end;         end         else if line = 'd' then         begin             write('at: ');             readln(line);             Val(line, tmp0, tmp1);             buffer.delete(tmp0);             Dec(idx);         end         else if line = 'D' then         begin             write('start: ');             readln(line);             Val(line, tmp0, tmp1);             write('end: ');             readln(line);             Val(line, tmp1, tmp2);             for tmp2 := tmp0 to tmp1 do             begin                 buffer.delete(tmp0); // buffer shrinks each time             end;             idx := buffer.count - 1;         end         else if line = 'I' then         begin             write('at: ');             readln(line);             Val(line, tmp0, tmp1);             readln(line);             tmp1 := tmp0;             while line &lt;&gt; '.' do             begin                 buffer.insert(tmp0, line);                 Inc(tmp0);                 readln(line);             end;             Inc(idx, tmp0 - tmp1);         end         else if line = 'i' then         begin             readln(line);             while line &lt;&gt; '.' do             begin                 idx := buffer.add(line);                 readln(line);             end;         end         else             writeln('Unknown command: ', line);         write('&gt; ');         readln(line);     end;     buffer.SaveToFile(src);     buffer.Free; end.</code></p>
+<pre><code>program zdlin(input, output);
+uses
+    Classes, SysUtils;
+var
+    buffer : TStringList;
+    line, src : string;
+    idx, tmp0, tmp1, tmp2 : integer;
+begin
+    buffer := TStringList.create;
+    src := ParamStr(1);
+    buffer.LoadFromFile(src);
+    idx := buffer.count - 1;
+    write(&#39;&gt; &#39;);
+    readln(line);
+    while line &lt;&gt; &#39;q&#39; do
+    begin
+        if line = &#39;p&#39; then
+        begin
+            if idx &gt; 0 then
+            begin
+                for tmp0 := 0 to idx do
+                begin
+                    writeln(buffer[tmp0]);
+                end;
+            end;
+        end
+        else if line = &#39;P&#39; then // should prompt for a range
+        begin
+            if idx &gt; 0 then
+            begin
+                for tmp0 := 0 to idx do
+                begin
+                    writeln(inttostr(tmp0),&#39;: &#39;, buffer[tmp0]);
+                end;
+            end;
+        end
+        else if line = &#39;d&#39; then
+        begin
+            write(&#39;at: &#39;);
+            readln(line);
+            Val(line, tmp0, tmp1);
+            buffer.delete(tmp0);
+            Dec(idx);
+        end
+        else if line = &#39;D&#39; then
+        begin
+            write(&#39;start: &#39;);
+            readln(line);
+            Val(line, tmp0, tmp1);
+            write(&#39;end: &#39;);
+            readln(line);
+            Val(line, tmp1, tmp2);
+            for tmp2 := tmp0 to tmp1 do
+            begin
+                buffer.delete(tmp0); // buffer shrinks each time
+            end;
+            idx := buffer.count - 1;
+        end
+        else if line = &#39;I&#39; then
+        begin
+            write(&#39;at: &#39;);
+            readln(line);
+            Val(line, tmp0, tmp1);
+            readln(line);
+            tmp1 := tmp0;
+            while line &lt;&gt; &#39;.&#39; do
+            begin
+                buffer.insert(tmp0, line);
+                Inc(tmp0);
+                readln(line);
+            end;
+            Inc(idx, tmp0 - tmp1);
+        end
+        else if line = &#39;i&#39; then
+        begin
+            readln(line);
+            while line &lt;&gt; &#39;.&#39; do
+            begin
+                idx := buffer.add(line);
+                readln(line);
+            end;
+        end
+        else
+            writeln(&#39;Unknown command: &#39;, line);
+        write(&#39;&gt; &#39;);
+        readln(line);
+    end;
+    buffer.SaveToFile(src);
+    buffer.Free;
+end.</code></pre>
 <p>As you can see, there is no command parsing what so ever; commands are simply <code>p</code> or <code>P</code>, and the user is then prompted for any other parameters as necessay. Though basic, it <em>should</em> be enough to implement [https://twitter.com/bigthingist/status/454454027418230784 Bigthingist’s] idea, and make something more visual. Of course, as I replied, I <em>would</em> be interested in trying to make something [http://en.wikipedia.org/wiki/Sam_(text_editor) Sam-like] as a test. And, of course, I’d like to make a Digamma Runtime; Retargetting Enyalios for FreePascal shouldn’t be <em>too</em> difficult; I’d be more concerned about it being too large for memory though :D</p>
 <p>The files mentioned above can be downloaded below:</p>
 <ul>
-<li>[FOO.PAS FOO]</li>
-<li>[BAR.PAS BAR]</li>
-<li>[DOG.PAS DOG]</li>
-<li>[PRMTST.PAS PRMTST]</li>
-<li>[ZDLIN.PAS ZDLIN]</li>
+<li><a href="FOO.PAS">FOO.PAS</a></li>
+<li><a href="BAR.PAS">BAR.PAS</a></li>
+<li><a href="DOG.PAS">DOG.PAS</a></li>
+<li><a href="PRMTST.PAS">PRMTST.PAS</a></li>
+<li><a href="ZDLIN.PAS">ZDLIN.PAS</a></li>
 </ul>
   </div>
   </body>

@@ -9,26 +9,33 @@ naturally my next step was to check if the _compiler_ would work, which it did. 
 
 My First step was a simple "hello world!" type of program:
 
-`program foo;
+```
+program foo;
 begin
     writeln("Hello, world");
-end.`
+end.
+```
 
-Can you spot the bug? Suffice it to say that I haven't written Pascal in some time, & forgot that Strings are ' ' delimited rather than " " delimited; the above
+
+Can you spot the bug? Suffice it to say that I haven't written Pascal in some time, & forgot that Strings are `' '` delimited rather than `" "` delimited; the above
 was quickly followed by:
 
-`program bar;
+```
+program bar;
 begin
     writeln('Hello, world!');
-end.`
+end.
+```
 
 The fun part about this is that I wrote them line-by-line using `GECHO`; the built in DOS-echo didn't handle strings properly. 
 
 (Although, thinking about it, I wonder if I could have used something like `TYPE CON`... Have to try that later). Basically I wrote way too many lines of:
 
-`C:\\WORK>\\fpc\\bin\\go32v2\\gecho "program foo;" > foo.pas
+```
+C:\\WORK>\\fpc\\bin\\go32v2\\gecho "program foo;" > foo.pas
 C:\\WORK>\\fpc\\bin\\go32v2\\gecho "begin" >> foo.pas
-...`
+...
+```
 
 As you may imagine, that was slow going :D
 
@@ -36,7 +43,8 @@ Having written a "Hello, world" that I could compile, my next thought was to wri
 write to `STDOUT`. I don't know if I screwed something up, but `EOF` was *not* working for me (I would hit `^Z` and it would keep going; I probably mistyped something),
 so my `cat` replacement reads until it hits `.` byitself on a line, like `ed` does:
 
-` program dog(input, output);
+```
+program dog(input, output);
 var s: string;
 begin
     readln(s);
@@ -45,14 +53,16 @@ begin
         writeln(s);
         readln(s);
     end;
-end.`
+end.
+```
 
 The code is simple, and I hand formatted it, but mostly so that I could attempt to read it later. Personally, I like the *idea* of Pascal/Algol, but I do find the
 lack of symbols a bit disorienting at times, so I *do* like to have it nicely formatted.
 
 Armed with _that_ code, I set out to write a simple prompt test:
 
-` program prompttest(input, output);
+```
+program prompttest(input, output);
 var
     s : string;
 begin
@@ -64,13 +74,15 @@ begin
         write('> ');
         readln(s);
     end;
-end.`
+end.
+```
 
 Having written that, I finally set out to write a very basic editor, which I dubbed "ZDLIN". I can't tell you how many times I had to type this in; after
 getting the `p` and `i` commands to work, it was a devil of a time to retype the whole thing in order to add commands. I was thinking about adding a handful of
 other small utilities, like `head` and `tail`, to help with the process, but eventually I just soldiered on & wrote it out:
 
-`program zdlin(input, output);
+```
+program zdlin(input, output);
 uses
     Classes, SysUtils;
 var
@@ -159,7 +171,8 @@ begin
     end;
     buffer.SaveToFile(src);
     buffer.Free;
-end.`
+end.
+```
 
  As you can see, there is no command parsing what so ever; commands are simply `p` or `P`, and the user is then prompted for any other parameters as necessay. Though
 basic, it *should* be enough to implement [https://twitter.com/bigthingist/status/454454027418230784 Bigthingist's] idea, and make something more visual. Of course,
@@ -168,10 +181,9 @@ make a Digamma Runtime; Retargetting Enyalios for FreePascal shouldn't be *too* 
 
 The files mentioned above can be downloaded below:
 
-- [FOO.PAS FOO]
-- [BAR.PAS BAR]
-- [DOG.PAS DOG]
-- [PRMTST.PAS PRMTST]
-- [ZDLIN.PAS ZDLIN]
-
+- [FOO.PAS](FOO.PAS)
+- [BAR.PAS](BAR.PAS)
+- [DOG.PAS](DOG.PAS)
+- [PRMTST.PAS](PRMTST.PAS)
+- [ZDLIN.PAS](ZDLIN.PAS)
 
