@@ -36,6 +36,7 @@
   <div id="side-bar">
     <div>
       <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
     <li> <a href="/d">&rsaquo; d </a></li>
     <li> <a href="/b">&rsaquo; b </a></li>
     <li> <a href="/p">&rsaquo; p </a></li>
@@ -47,9 +48,9 @@
 
   <div id="main-copy">
 <h1 id="thoughts-on-match-forms">Thoughts on match forms</h1>
-<p>I was working on a new function in <a href="https://github.com/lojikil/carML/commit/f8f99f804a15d08be1bfa01416720969a5eb696d">carML's C implementation</a> and wrote the following notes...</p>
+<p>I was working on a new function in <a href="https://github.com/lojikil/carML/commit/f8f99f804a15d08be1bfa01416720969a5eb696d">carML’s C implementation</a> and wrote the following notes…</p>
 <p>(We need) a very simple function (to) walk the spine of children from a <code>match</code> form and return YES if we have found <em>any</em> guard clauses, and NO otherwise then, the code generation can make an informed decision.</p>
-<p>This is mostly a hack due to the fact that we don't process <code>match</code> forms into a lower-level form prior to ending up in the code generator The best way to solve this would be to transform the various types of match into lower-level forms, and then generate code for those. for example:</p>
+<p>This is mostly a hack due to the fact that we don’t process <code>match</code> forms into a lower-level form prior to ending up in the code generator The best way to solve this would be to transform the various types of match into lower-level forms, and then generate code for those. for example:</p>
 <pre><code>match x with
     (Foo.Some y) =&gt; ...
     (Foo.None) =&gt; ...
@@ -79,7 +80,7 @@ end</code></pre>
 } else if (x.tag == Tag_FOO_NONE) {
    ...
 }</code></pre>
-<p>Whilst this works, it means that we have redundant checks for the tag. Something like <a href="https://blog.rust-lang.org/2016/04/19/MIR.html">Rust's MIR</a> would be really interesting...</p>
+<p>Whilst this works, it means that we have redundant checks for the tag. Something like <a href="https://blog.rust-lang.org/2016/04/19/MIR.html">Rust’s MIR</a> would be really interesting…</p>
   </div>
   </body>
 </html>
