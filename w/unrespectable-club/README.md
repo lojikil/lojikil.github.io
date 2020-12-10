@@ -8,7 +8,7 @@ The name for this is the same as the name of the Slack room that I share with my
 
 > As long as you were reasonably sober and minded your own busi ness no one gave twopence what you wore, did or said, or whom you brought with you. 
 
-# Hoarding findings
+# 10DEC2020: Hoarding findings
 
 I was just talking with [Josselin Feist](https://twitter.com/montyly) about this, but one thing I’ve noticed is that people tend to hoard findings; they wait until
 the last day to put things in, they want to perform root cause analysis on everything, have to make things perfect, but this can also elide people who… aren’t doing much work
