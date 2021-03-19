@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="learn-carml-in-5-years">Learn carML in 5 years</h1>
+<p>I started working on <a href="https://github.com/lojikil/carML">carML</a> on 19-MAR-2016, and much has changed since that time. I thought it would be fun to recap what I’ve done and where it has been since that time.</p>
+<h2 id="what-is-it">What is it?</h2>
+<p>carML is a tiny, ML-dialect that I’ve been sorta poking around on for the last 5 years. It is meant to be:</p>
+<ul>
+<li>small</li>
+<li>easily understood</li>
+<li>with minimal barrier to entry</li>
+<li>and no ceiling</li>
+</ul>
+<p>I use it sometimes for client work, esp with the new Golang support, and it’s been interesting. I’ve been really lazy about adding things as well; I know it’s not really a compiler currently, I mostly code things carefully to avoid the edge cases I know exist, &amp;c and so on.</p>
+<p>Even with that, I’ve noticed simple composability with <code>|&gt;</code>, <code>match</code> forms, and nicer types make it nicer to program in than C or Golang directly for certain things. The ability to express things with a <code>match</code> is quite nice, esp for pattern matching.</p>
+<h2 id="being-brave-enough-to-release-something-you-care-about">Being brave enough to release something you care about</h2>
+<p>One other note that is important (to me): carML is the first time that I released a language that I’m working on in real time. This isn’t even the first time I’ve written a language with similar syntax: the first time I toyed with this sort of thing was around 2003:</p>
+<ul>
+<li><a href="https://github.com/lojikil/carML/blob/master/docs/325m2.txt">2006: 325m^2</a></li>
+<li><a href="https://github.com/lojikil/carML/blob/master/docs/cml-README.md">2003: cML</a></li>
+</ul>
+<h2 id="ocaml-to-scala">OCaml to Scala</h2>
+<p>Originally, carML used very OCaml-y types. This lead to very long type signatures like: <code>ref of ref of array of int</code>, which of course makes sense but is difficult to parse. The other side of it was that I originally made the latter part <em>optional</em>; I wanted to support things like <code>ref</code> when a user just wanted to use a pointer of some type. However, this lead to <strong>lots</strong> of parsing code, and made a mess of things. Eventually, I gave in and moved to a fairly clean Scala-style for types, enclosed with <code>[]</code>. So the above becomes <code>ref[ref[array[int]]]</code>, and is relatively easy to parse.</p>
+<p>The other side of this was I wanted to clearly distinguish user types from system types. <a href="https://github.com/tulip-lang/tulip/blob/master/examples/lazy.tlp">Tulip</a> does this with <code>.tag</code>, but I decided to go with <code>Tag</code> style. This would mean that all user types and constructors need to be capitalized, but it saved on any confusion we may have as to what the next form needed to be: we either have an array literal (such as <code>Either[int string]</code>) or we have another form, and the type is finished.</p>
+<p>Despite these things, the language is still fairly ML-y; I’m working on modules and row typing to make things a little nicer, and that should help too.</p>
+<h2 id="standard-ml-accessors-for-everything">Standard ML accessors… for everything</h2>
+<p>Sometimes I have epiphanies; one day I was thinking about something <a href="https://twitter.com/deech">deech</a> said about tuples and product types. I realized that there’s not <em>really</em> much of a difference between:</p>
+<ul>
+<li>Structs</li>
+<li>ADTs</li>
+<li>and tuples</li>
+</ul>
+<p>Save for how we define &amp; access them, but there <em>needn’t</em> be. I started to look into this, and realized that Standard ML already does this. There is a <a href="https://jozefg.bitbucket.io/posts/2015-04-24-sml-for-haskellers.html">nice comparison by Danny Gratzer</a> that covers it. Still, I’m keeping Scheme roots, and working with the usual combination of</p>
+<ul>
+<li><a href="https://srfi.schemers.org/srfi-17/srfi-17.html">SRFI-17</a>: generalized <code>set!</code></li>
+<li><a href="https://srfi.schemers.org/srfi-9/srfi-9.html">SRFI-9</a>: record types</li>
+<li><a href="https://srfi.schemers.org/srfi-57/srfi-57.html">SRFI-57</a>: records</li>
+</ul>
+<p><em>as well as</em> drawing lots of insporation from the various “Successor ML” dialects floating around, like <a href="https://github.com/julianhyde/morel">Morel</a>.</p>
+<h1 id="the-next-five-years-to-come">The next five years to come</h1>
+<p>There’s still a <a href="https://github.com/lojikil/carML/blob/master/docs/todo.md">lot of TODOs</a> for what I want to achieve; next up after I fix <a href="https://github.com/lojikil/carML/blob/master/src/self_tco.c.carml">self-TCO</a>, I’ll focus on adding some nice modules and top-level functions, as well as a real compiler.</p>
+<p>More than enough for five more years.</p>
+  </div>
+  </body>
+</html>

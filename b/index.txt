@@ -1,5 +1,6 @@
 # Blag entries
 
+- [Learn carML in 5 years](/b/3.html)
 - [Digamma TODOs](/b/2.html)
 - [Muse write up](/b/1.html)
 - [First Post](/b/0.html)
