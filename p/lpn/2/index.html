@@ -1,66 +1,56 @@
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title>&#923;ojiki&#955; | index</title>
-    <link rel="stylesheet" href="/main.css" type="text/css">
-  </head>
-  <body>
-    <pre>
- _       _ _ _    _ _ 
-| |     (_|_) |  (_) |
-| | ___  _ _| | ___| |
-| |/ _ \| | | |/ / | |
-| | (_) | | |   &lt;| | |
-|_|\___/| |_|_|\_\_|_|
-       _/ |           
-      |__/           
-    purveyors of fine, internet-related kipple since 1985.
-    </pre>
-    <hr>
-<a href="/./">.</a> &raquo; <a href="/./p/">p</a> &raquo; <a href="/./p/lpn/">lpn</a> &raquo; <a href="/./p/lpn/2/">2</a> &raquo; <a href="/./p/lpn/2/index.txt">index.txt</a>
-<br>
-I had to make a 0-dependency, no-deprecated Base64 class in Java the other day, and thought it would be a fun thing to hack up myself.
-It's to support HTTP Basic &amp; Digest auth, so it didn't have too much to worry about; just support an interface similar to <code class="muse-code">java.xml.DatatypeConvetor</code>.
-<br>
-I had previously written a <a href="https://github.com/lojikil/sae-utils/blob/master/uue.c">UUE</a> encoder, but I thought I'd just wing it on this one. Of course,
-they ended up being relatively similar; I didn't bother to look at my UUE code until afterward, only to realize I had basically rewritten it. Still,
-was fun double checking my mental math. Meat of it is:
-<br>
-<pre class="muse-code">for(int idx = 0; idx &lt; len; idx += 3) {
-    tempHolder[0] = (byte)((array[idx] &amp; 0xFC) &gt;&gt; 2);
-    sb.append(base64digits.charAt(tempHolder[0]));
-    if((len - idx) == 1){
-        tempHolder[1] = (byte)((array[idx] &amp; 0x03) &lt;&lt; 4);
-        sb.append(base64digits.charAt(tempHolder[1]));
-        sb.append("==");
-        break;
-    }
-    tempHolder[1] = (byte)(((array[idx] &amp; 0x03) &lt;&lt; 4) + ((array[idx + 1] &amp; 0xF0) &gt;&gt; 4));
-    sb.append(base64digits.charAt(tempHolder[1]));
-    if((len - idx) == 2) {
-        tempHolder[2] = (byte)((array[idx + 1] &amp; 0x0F) &lt;&lt; 2);
-        sb.append(base64digits.charAt(tempHolder[2]));
-        sb.append("=");
-        break;
-    }
-    tempHolder[2] = (byte)(((array[idx + 1] &amp; 0x0F) &lt;&lt; 2) + ((array[idx + 2] &amp; 0xC0) &gt;&gt; 6));
-    tempHolder[3] = (byte)(array[idx + 2] &amp; 0x3F);
-    sb.append(base64digits.charAt(tempHolder[2]));
-    sb.append(base64digits.charAt(tempHolder[3]));
-}
-return sb.toString();</pre><br>
-<br>
-One thing I <span class="muse-bold">did</span> notice about this is all the casts to <code class="muse-code">byte</code> that I had to do in order to silence the Java compiler; I thought that was a bit weird. I also dislike
-the inability to index <code class="muse-code">java.lang.String</code>s directly; the <code class="muse-code">charAt</code> method calls seem very ugly to me. I'll return to this at some point &amp; hack a version out in
-Digamma...
+<head>
 
-    <hr>
-    <a href="/">Home</a> |
-    <a href="/about/"> About</a> |
-    <a href="/b/">Blag</a> |
-    <a href="/p/lpn/">Lojikil's Programmer Notebook</a> |
-    <a href="/p/"> Projects</a> |
-    <a href="https://twitter.com/lojikil">Twitter</a> |
-    <a href="https://github.com/saedwards-ecc">Github</a> |
-    <a href="https://bitbucket.org/saedwards">BitBucket</a>
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo; b </a></li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<p>I had to make a 0-dependency, no-deprecated Base64 class in Java the other day, and thought it would be a fun thing to hack up myself. It’s to support HTTP Basic &amp; Digest auth, so it didn’t have too much to worry about; just support an interface similar to <code>java.xml.DatatypeConvetor</code>.</p>
+<p>I had previously written a [https://github.com/lojikil/sae-utils/blob/master/uue.c UUE] encoder, but I thought I’d just wing it on this one. Of course, they ended up being relatively similar; I didn’t bother to look at my UUE code until afterward, only to realize I had basically rewritten it. Still, was fun double checking my mental math. Meat of it is:</p>
+<p><code>for(int idx = 0; idx &lt; len; idx += 3) {     tempHolder[0] = (byte)((array[idx] &amp; 0xFC) &gt;&gt; 2);     sb.append(base64digits.charAt(tempHolder[0]));     if((len - idx) == 1){         tempHolder[1] = (byte)((array[idx] &amp; 0x03) &lt;&lt; 4);         sb.append(base64digits.charAt(tempHolder[1]));         sb.append("==");         break;     }     tempHolder[1] = (byte)(((array[idx] &amp; 0x03) &lt;&lt; 4) + ((array[idx + 1] &amp; 0xF0) &gt;&gt; 4));     sb.append(base64digits.charAt(tempHolder[1]));     if((len - idx) == 2) {         tempHolder[2] = (byte)((array[idx + 1] &amp; 0x0F) &lt;&lt; 2);         sb.append(base64digits.charAt(tempHolder[2]));         sb.append("=");         break;     }     tempHolder[2] = (byte)(((array[idx + 1] &amp; 0x0F) &lt;&lt; 2) + ((array[idx + 2] &amp; 0xC0) &gt;&gt; 6));     tempHolder[3] = (byte)(array[idx + 2] &amp; 0x3F);     sb.append(base64digits.charAt(tempHolder[2]));     sb.append(base64digits.charAt(tempHolder[3])); } return sb.toString();</code></p>
+<p>One thing I <em>did</em> notice about this is all the casts to <code>byte</code> that I had to do in order to silence the Java compiler; I thought that was a bit weird. I also dislike the inability to index <code>java.lang.String</code>s directly; the <code>charAt</code> method calls seem very ugly to me. I’ll return to this at some point &amp; hack a version out in Digamma…</p>
+  </div>
   </body>
 </html>
