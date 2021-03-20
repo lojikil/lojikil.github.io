@@ -36,6 +36,7 @@
   <div id="side-bar">
     <div>
       <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
     <li> <a href="/d">&rsaquo; d </a></li>
     <li> <a href="/b">&rsaquo;  b </a></li>
     <li>
@@ -53,7 +54,7 @@
 <h1 id="learn-carml-in-5-years">Learn carML in 5 years</h1>
 <p>I started working on <a href="https://github.com/lojikil/carML">carML</a> on 19-MAR-2016, and much has changed since that time. I thought it would be fun to recap what I’ve done and where it has been since that time.</p>
 <h2 id="what-is-it">What is it?</h2>
-<p>carML is a tiny, ML-dialect that I’ve been sorta poking around on for the last 5 years. It is meant to be:</p>
+<p>carML is a tiny ML-dialect that I’ve been sorta poking around on for the last 5 years; it is meant to be:</p>
 <ul>
 <li>small</li>
 <li>easily understood</li>
@@ -86,6 +87,28 @@
 <li><a href="https://srfi.schemers.org/srfi-57/srfi-57.html">SRFI-57</a>: records</li>
 </ul>
 <p><em>as well as</em> drawing lots of insporation from the various “Successor ML” dialects floating around, like <a href="https://github.com/julianhyde/morel">Morel</a>.</p>
+<h2 id="a-whole-new-world">a whole new world…</h2>
+<p>Oh! and one other interesting thing is that carML supports both C and Golang, in human readable form:</p>
+<pre><code>&gt;&gt;&gt; def foo x:int y:int =&gt; int = (sum x y)
+(define foo (parameter-list (parameter-definition (identifier x) (type integer)) (parameter-definition (identifier y) (type integer)))
+    (returns (type integer))
+    (call (identifier sum) (identifier x) (identifier y)))
+&gt;&gt;&gt; %c
+[!] C generation is: on
+&gt;&gt;&gt; def foo x:int y:int =&gt; int = (sum x y)
+int
+foo(int x, int y){
+    return x + y;
+}
+&gt;&gt;&gt; %c
+[!] C generation is: off
+&gt;&gt;&gt; %g
+[!] Golang generation is: on
+&gt;&gt;&gt; def foo x:int y:int =&gt; int = (sum x y)
+func foo(x int, y int) int {
+    return x + y
+}</code></pre>
+<p>This means that I can define data structures in C or Golang, and have reasonable, human-readable code for both. Eventually I’d like to add JavaScript and WASM, but for now there is decent output for two languages I use often.</p>
 <h1 id="the-next-five-years-to-come">The next five years to come</h1>
 <p>There’s still a <a href="https://github.com/lojikil/carML/blob/master/docs/todo.md">lot of TODOs</a> for what I want to achieve; next up after I fix <a href="https://github.com/lojikil/carML/blob/master/src/self_tco.c.carml">self-TCO</a>, I’ll focus on adding some nice modules and top-level functions, as well as a real compiler.</p>
 <p>More than enough for five more years.</p>
