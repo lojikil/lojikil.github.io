@@ -23,6 +23,9 @@ me personally. However, I really *did* enjoy some things about the language:
 
 . The idea to cut down types from OCaml to Scala and more was great; this allowed for simple parsing & compact design, without changing much of the intent.
 .. Consider `(int * int * int)` vs `tuple[int int int]`; they both mean the same thing, but it's very clear what the latter is
+. Namespaces are great for ADTs: `Result.Ok` makes a lot of sense to me
+. No operator precedence is pretty nice
+.. but let's allow inline operators for those normal use cases people have
 . Tools win out; when you're working in your own language, you need tools and output over designs and neat hacks
 . Using carML to write carML was great, and I want more of that
 
