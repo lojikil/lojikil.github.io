@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_leaving_sweetness_for_two_weeks_on_the_coast">Leaving Sweetness for two weeks on the Coast</h1>
+<h2 id="_retiring_carml_and_coastml_at_two_weeks">Retiring carML and coastML at two weeks</h2>
+<p><strong>Bottom Line, Up Front</strong>:</p>
+<ol type="1">
+<li><p>I’m retiring <a href="https://github.com/lojikil/carML">carML</a>; it was an interesting project, but I had made some choices along the way that limited forward momentum</p></li>
+<li><p>I’ve spent the last two weeks working on <a href="https://github.com/lojikil/coastML">coastML</a>, a new, small ML dialect, similar to <a href="http://mth.github.io/yeti/">Yeti</a> with some lessons learnt from carML</p></li>
+<li><p>coastML is almost at feature parity with carML, and I have some interesting things planned for it</p></li>
+</ol>
+<h1 id="_leaving_sweetness_and_retiring_carml">leaving sweetness and retiring carML</h1>
+<p>carML has been an interesting project over these last 6 years; I’ve learnt a lot about writing an ML dialect, and it’s been fairly interesting. Having said that, carML’s code has evolved <strong>a lot</strong> over the years, largely due to design changes I had. For example, originally I was thinking about supporting gradual typing or the like in carML, so complex types like <code>ref</code> and <code>array</code> didn’t always take a type parameter. I also switched from OCaml style <code>type of othertype</code> style declarations to Scala-style <code>type[othertype]</code>; this change meant there was a lot of support for two <strong>completely different types of declaration styles within one code base</strong>. Additionally, functions originally had very traditional <code>type1 → type2 ⇒ type3</code> style declarations, before I realized I really liked a simple <code>function[type1 type2 type3]</code> style much better; it’s simpler, it’s compact, and it’s easy to tell what the intent is. Additionally, since carML doesn’t support currying, the arrow style actually could be confusing as to what is going on.</p>
+<p>Sometimes we need to be mature and realize when a project has run it’s course, and it’s time to move on; this is one of those times for me personally. However, I really <strong>did</strong> enjoy some things about the language:</p>
+<ol type="1">
+<li><p>The idea to cut down types from OCaml to Scala and more was great; this allowed for simple parsing &amp; compact design, without changing much of the intent.</p>
+<ol type="a">
+<li><p>Consider <code>(int * int * int)</code> vs <code>tuple[int int int]</code>; they both mean the same thing, but it’s very clear what the latter is</p></li>
+</ol></li>
+<li><p>Tools win out; when you’re working in your own language, you need tools and output over designs and neat hacks</p></li>
+<li><p>Using carML to write carML was great, and I want more of that</p></li>
+</ol>
+<h1 id="_relaxing_on_the_coast">Relaxing on the coast</h1>
+<p>As the coastML README file mentions, I was working on some Multics ideas a few weeks ago, and wondering if I could make code that was nicer than Python’s <code>if-elif-else</code> chains, but without upgrading to Python3.10. I actually played around with generating Python from carML previously, and so didn’t want to dive into that. Instead, I poked around <a href="http://coconut-lang.org">Coconut</a> for a bit, and it was an intriguing answer: all valid Python is valid Coconut, which just extends the language with ML-isms.</p>
+<p>If you know me, you know that I’ve spent a fair amount of time in my various language designs to generate <em>human readable code</em> from compilers. This means that the output should be digestible, editable, and honestly near indistinguishable from code a human might write. Will we employ tricks or otherwise make things efficient? Absolutely, but not at the expense of legibility. This is exactly where my issue with Coconut came from; when I compiled Coconut code, it definitely resulted in Python code…​ but not code I would want to personally use or edit. This is fine if you want to use a language as a compile target, so no judgement there! However, my intent is often that I want to write in something that is pleasant to <em>me</em> to write in, but deliver it to people who may want to use it without installing my tools.</p>
+<p>So I ended up, as I often do, thinking about <a href="http://mth.github.io/yeti/">Yeti</a>. Yeti is a <strong>tiny</strong> ML dialect for the JVM, which elides most syntax in favor of simple constructions and interaction with the host language. I started thinking "oh, if you just added a <code>let</code> to Yeti here, or a <code>def</code> there, it would be pretty neat…​" and then I paused for a moment. Why <strong>do</strong> we always want to <em>add</em> to a language? Why not subtract, making things as minimal as possible. So I looked at Yeti, and combined it with a few things from carML, and sketched out a simple language I initially just called "experimental langauge No. 30:"</p>
+<pre><code>foo = fn x y {  
+    # functions are just named bindings
+    # there&#39;s no other real need for
+    # syntax
+    case x 
+        | 10 { print_endline &quot;ok, x is 10&quot; } 
+        | 11 { print_endline &quot;ok, x is 11&quot; }
+        | (x &gt;= y) { print_endline &quot;ok, x is &gt;= y&quot; } 
+        | _ { print_endline &quot;oh no, x is none of the above&quot; } 
+    esac 
+}
+foo 10 5; 
+foo 20 5;</code></pre>
+<ul>
+<li><p>Functions are just names bound with an <code>=</code></p></li>
+<li><p>There’s no need for <code>if</code>, <code>when</code>, <code>match</code>; just have a simple <code>case</code> form</p></li>
+<li><p>Cases are: a condition and a block. That’s it</p></li>
+<li><p>Guard clauses are just that: clauses</p></li>
+<li><p>The default case is just <code>_</code>, like many languages</p></li>
+<li><p>End a <code>case</code> with the reverse, <code>esac</code></p></li>
+<li><p>Function calls elide parens or other special syntax; just a <code>;</code></p></li>
+</ul>
+<p>It’s small, easily understood, and relatively similar to Yeti, with some of the ideas I’ve learnt from carML baked in. I’m still working on the initial bootstrap compiler, but there’s enough there that you can access it from Python3 quite nicely:</p>
+<pre><code>import carpet
+src=&#39;a = 10;\nb = 20;\nfoo = fn x y {\n    x + y\n};\nfoo a b;\n&#39;
+c = carpet.CarpetPython(src)
+c.load()
+c.generate()</code></pre>
+<h1 id="_relax_on_the_coast_stay_for_a_while">relax on the coast, stay for a while</h1>
+<p>I’ll be working on adding lots of things to this, namely other langauge targets like C and Golang, as well as adding depth to the compiler itself. I’d also like to port libraries I’ve written in ReasonML, such as <a href="https://github.com/lojikil/rosejson">RoseJSON</a>, and make the ecosystem as friendly as possible. So relax on the coast, stay for while</p>
+  </div>
+  </body>
+</html>
