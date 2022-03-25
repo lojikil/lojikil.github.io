@@ -1,5 +1,6 @@
 # Blag entries
 
+- [coastal living: 1 month of coastML](/b/5.html)
 - [Leaving Sweetness for two weeks at the Coast: retiring carML and coastML at two weeks](/b/4.html)
 - [Learn carML in 5 years](/b/3.html)
 - [Digamma TODOs](/b/2.html)

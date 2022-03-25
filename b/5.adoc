@@ -1,0 +1,63 @@
+== coastal living: one month of coastML
+
+Today marks one month of working on https://github.com/lojikil/coastML[coastML] and it's been an interesting project; just to capture
+what has been finished and what is yet to be done:
+
+* [x] assignments
+* [x] functions
+* [x] `case` forms
+* [x] `type` forms
+* [x] Python generation
+* [ ] decomposition in `case` forms
+* [ ] accessors (both variables and lambdas) for `type`
+* [ ] `gn` forms
+* [ ] `fc` forms
+* [ ] `mod` and `sig` forms
+* [ ] code generation
+** [ ] C 
+** [ ] C++
+** [ ] Go
+* [ ] type inference
+* [ ] refinement types
+* [ ] a compiler
+
+Not bad for a language that's only one month old, in only my spare time. Basically, we're at (or near) where carML was in 5 years; that's
+a testament to how much more focused coastML is. Additionally, you might notice that I've made some decisions (or am near to); I do think
+that I'll be implementing Standard ML-style modules, although I'm still interested in what `gn`, modules, and types can give us without
+Standard ML. I have to allow for some wonky exploration after all...
+
+=== current status and next steps
+
+I've fixed a number of bugs and minor little changes to make things nicer, but the system still works as previously detailed:
+
+[source]
+----
+>>> import carpet
+>>> src = """case x
+... | 10 { print "x is 10"; }
+... | 11 { print "x is 11"; }
+... | (x >= 12) { print "x is >= 12"; }
+... | _ { print "x is something else"; }
+... esac
+... """
+>>> c = carpet.CarpetPython(src)
+>>> c.load()
+>>> c.generate()
+if x == 10:
+        return print("x is 10")
+elif x == 11:
+        return print("x is 11")
+elif (x >= 12):
+        return print("x is >= 12")
+else:
+        return print("x is something else")
+
+----
+
+Obviously, minor tweaks such as indent depth are still needed, but overall I'm relatively happy with where we're at given the time
+invested.
+
+This next month, I'd like to work on the various missing forms, such as `mod`, and start the compiler. If I'm ambitious, I'll work
+on the type infrencer a bit, although I may save that work for the months after.
+
+All told, coastal living is pretty relaxing, so come to the coast, relax & stay a while.

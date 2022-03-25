@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_coastal_living_one_month_of_coastml">coastal living: one month of coastML</h1>
+<p>Today marks one month of working on <a href="https://github.com/lojikil/coastML">coastML</a> and it’s been an interesting project; just to capture what has been finished and what is yet to be done:</p>
+<ul>
+<li><p>✓ assignments</p></li>
+<li><p>✓ functions</p></li>
+<li><p>✓ <code>case</code> forms</p></li>
+<li><p>✓ <code>type</code> forms</p></li>
+<li><p>✓ Python generation</p></li>
+<li><p>❏ decomposition in <code>case</code> forms</p></li>
+<li><p>❏ accessors (both variables and lambdas) for <code>type</code></p></li>
+<li><p>❏ <code>gn</code> forms</p></li>
+<li><p>❏ <code>fc</code> forms</p></li>
+<li><p>❏ <code>mod</code> and <code>sig</code> forms</p></li>
+<li><p>❏ code generation</p>
+<ul>
+<li><p>❏ C</p></li>
+<li><p>❏ C++</p></li>
+<li><p>❏ Go</p></li>
+</ul></li>
+<li><p>❏ type inference</p></li>
+<li><p>❏ refinement types</p></li>
+<li><p>❏ a compiler</p></li>
+</ul>
+<p>Not bad for a language that’s only one month old, in only my spare time. Basically, we’re at (or near) where carML was in 5 years; that’s a testament to how much more focused coastML is. Additionally, you might notice that I’ve made some decisions (or am near to); I do think that I’ll be implementing Standard ML-style modules, although I’m still interested in what <code>gn</code>, modules, and types can give us without Standard ML. I have to allow for some wonky exploration after all…​</p>
+<h2 id="_current_status_and_next_steps">current status and next steps</h2>
+<p>I’ve fixed a number of bugs and minor little changes to make things nicer, but the system still works as previously detailed:</p>
+<pre><code>&gt;&gt;&gt; import carpet
+&gt;&gt;&gt; src = &quot;&quot;&quot;case x
+... | 10 { print &quot;x is 10&quot;; }
+... | 11 { print &quot;x is 11&quot;; }
+... | (x &gt;= 12) { print &quot;x is &gt;= 12&quot;; }
+... | _ { print &quot;x is something else&quot;; }
+... esac
+... &quot;&quot;&quot;
+&gt;&gt;&gt; c = carpet.CarpetPython(src)
+&gt;&gt;&gt; c.load()
+&gt;&gt;&gt; c.generate()
+if x == 10:
+        return print(&quot;x is 10&quot;)
+elif x == 11:
+        return print(&quot;x is 11&quot;)
+elif (x &gt;= 12):
+        return print(&quot;x is &gt;= 12&quot;)
+else:
+        return print(&quot;x is something else&quot;)</code></pre>
+<p>Obviously, minor tweaks such as indent depth are still needed, but overall I’m relatively happy with where we’re at given the time invested.</p>
+<p>This next month, I’d like to work on the various missing forms, such as <code>mod</code>, and start the compiler. If I’m ambitious, I’ll work on the type infrencer a bit, although I may save that work for the months after.</p>
+<p>All told, coastal living is pretty relaxing, so come to the coast, relax &amp; stay a while.</p>
+  </div>
+  </body>
+</html>
