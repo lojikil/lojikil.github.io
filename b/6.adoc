@@ -5,6 +5,7 @@ Running burndown chart:
 * [x] assignments
 * [x] functions
 * [x] `case` forms
+** [ ] thread assignments into `case` forms (e.g. `a = case x ...` becomes `case x | ... { a = ... }`)
 * [x] `type` forms
 * [x] Python generation
 * [x] decomposition in `case` forms
@@ -20,7 +21,12 @@ Running burndown chart:
 * [ ] type inference
 * [ ] refinement types
 * [ ] a compiler
+** [ ] lambda lifter
+** [ ] closure conversion
+** [ ] `pragma` to control certain aspects of compilation
 * bugs fixed
 ** [x] nested arrays `[[[1] [2]] [[3] [4]]]`
 ** [x] missing `/` character in identifier/operator character sets
-** [ ] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
+** [x] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
+*** this was noticed when attempting to write some software to generate https://en.wikipedia.org/wiki/Julian_day[Julian dates]
+*** https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf[Was the calculation sheet I was using]
