@@ -1,0 +1,26 @@
+== two months of coastal living: coastML at two months
+
+Running burndown chart:
+
+* [x] assignments
+* [x] functions
+* [x] `case` forms
+* [x] `type` forms
+* [x] Python generation
+* [x] decomposition in `case` forms
+** [x] including pattern matching
+* [x] accessors (both variables and lambdas) for `type`
+* [ ] `gn` forms
+* [ ] `fc` forms
+* [ ] `mod` and `sig` forms
+* [ ] code generation
+** [ ] C 
+** [ ] C++
+** [ ] Go
+* [ ] type inference
+* [ ] refinement types
+* [ ] a compiler
+* bugs fixed
+** [x] nested arrays `[[[1] [2]] [[3] [4]]]`
+** [x] missing `/` character in identifier/operator character sets
+** [ ] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
