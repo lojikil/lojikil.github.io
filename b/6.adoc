@@ -10,10 +10,15 @@ Running burndown chart:
 * [x] Python generation
 * [x] decomposition in `case` forms
 ** [x] including pattern matching
+** [ ] array pattern matching
+** [ ] string pattern matching (this could get interesting...)
 * [x] accessors (both variables and lambdas) for `type`
 * [ ] `gn` forms
 * [ ] `fc` forms
 * [ ] `mod` and `sig` forms
+* [ ] an analog to SML's `op`, using backticks
+* [ ] basis library (stubbed out, need to actually compile)
+** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
 * [ ] code generation
 ** [ ] C 
 ** [ ] C++
