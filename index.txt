@@ -16,6 +16,7 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _25APR2022_: [two months on the coast with coastML](/b/6.html)
 - _25MAR2022_: [coastal living: one month of coastML](/b/5.html)
 - _11MAR2022_: [leaving sweetness for two weeks on the coast](/b/4.html)
 - _19MAR2021_: [learn carML in five years](/b/3.html)

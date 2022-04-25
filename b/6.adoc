@@ -1,6 +1,6 @@
 == two months of coastal living: coastML at two months
 
-Running burndown chart:
+Today marks two months of coastal living; let's checkout the running burndown chart:
 
 * [x] assignments
 * [x] functions
@@ -18,6 +18,7 @@ Running burndown chart:
 * [ ] `mod` and `sig` forms
 * [ ] an analog to SML's `op`, using backticks
 * [ ] basis library (stubbed out, need to actually compile)
+** [x] basic basis stubs: some members of `array-*`, `string-*` have been stubbed out
 ** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
 * [ ] code generation
 ** [ ] C 
@@ -35,3 +36,6 @@ Running burndown chart:
 ** [x] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
 *** this was noticed when attempting to write some software to generate https://en.wikipedia.org/wiki/Julian_day[Julian dates]
 *** https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf[Was the calculation sheet I was using]
+
+Not bad all told really, esp the bug fixes! This month, I plan on working on more of the compiler side, as well as more basis library functions. I'd
+like to get some more basic programs out of the way, and maybe a C++ or Golang compiler as well, at least the start thereof.
