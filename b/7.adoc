@@ -1,0 +1,66 @@
+= Better analysis through fuzzing
+== Understanding how to use libfuzzer effectively
+
+So recently, I had to work with libfuzzer a bunch for a project, and I noticed that whilst there are many resources for writing libfuzzer test harnesses, there are few that
+talk about the various options libfuzzer has once compiled. So I thought I'd talk about what happens _after_ you write your tests, and how to interpret the results. If you're
+looking for resources on how to _write_ libfuzzer tests, I recommend Apple's tutorial.
+
+So let's look at some of the areas surrounding libfuzzer usage:
+
+=== Table of Contents [[toc]]
+
+- <<setup>>
+- <<building_fuzzers>>
+- <<running_fuzzers>>
+- <<adding_corpora>>
+- <<interpreting_results>>
+- <<future_directions>>
+
+== Setup [[setup]]
+
+On Mac, I used brew to install LLVM 13. The default `llvm` installed by XCode CLI does not include libfuzzer, and indeed does not work correctly in the way that we need. Alternatively,
+you could build llvm13 (or any llvm really), as I did on Linux; this takes quite a bit of RAM, time, and finagling, but can be worth it for certain processes. In fact, my initial rig
+that I used to get started was Void Linux with an XBPS-installed llvm, running on an i686 qemu system image. I then moved to a docker container running on my host Mac, and then finally
+just bit the bullet and figured out how to build the software cleanly on Mac, which was non-trivial; the developers of the software clearly hadn't intended for it to be used anywhere
+but Linux, and I ended up  spending a bit of time getting their libraries installed in the correct places.
+
+== Building Fuzzers [[building_fuzzers]]
+
+The software I was testing consisted of 3(ish) libraries, that were woven together in a myraid fashion; much of the time I spent attempting to build the fuzzer was actually spent attempting
+to get include files, library objects, and the like in the correct spot. I eventually settled on this monstrosity of a command line:
+
+`+/usr/local/Cellar/llvm/13.0.1_1/bin/clang -g -fsanitize=address,fuzzer fuzz-test.c -I include -I ./src/somefile -L ./somelibrarypath -l somelibrary0 -l somelibrary1 -I.. -o fuzz-test+`
+
+Definitely not the most pleasant, but not the worst either. One thing I did quickly find was that there were a number of tests I could write that would cause an issue in the address
+sanitizer or one of it's functions, so I settled on a script to build things, and allow me to update the build quickly:
+
+[source,shell]
+----
+#@(#) simple build script for fuzzing
+
+INCS="-I include -I ./src/somepath -I .."
+LIBS="-L ./somelibrarypath -l somelibrary0 -l somelibrary1"
+SANS="-fsanitize=address,fuzzer"
+CLANG=/usr/local/Cellar/llvm/13.0.1_1/bin/clang
+
+if [ "$#" -eq 2 ]
+then
+    if [ "$1" = "-no-address" ]
+    then
+        SANS="-fsanitize=fuzzer"
+    fi
+    src=$2
+elif [ "$#" -eq 1 ]
+then
+    src=$1
+else
+    echo "have some other number of args..."
+fi
+
+out=${src%.*}
+$CLANG $opts $SANS $INCS $LIBS $src -o $out
+----
+
+Now I could build fuzzers, without needing to think about what to invoke, when and how. 
+
+== Running Fuzzers [[running_fuzzers]]
