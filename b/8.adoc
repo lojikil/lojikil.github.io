@@ -1,0 +1,40 @@
+== three months of coastal living: coastML at three months
+
+Today marks three months of coastal living; let's checkout the running burndown chart:
+
+* [x] assignments
+* [x] functions
+* [x] `case` forms
+** [x] thread assignments into `case` forms (e.g. `a = case x ...` becomes `case x | ... { a = ... }`)
+* [x] `type` forms
+* [x] Python generation
+* [x] decomposition in `case` forms
+** [x] including pattern matching
+** [ ] array pattern matching
+** [ ] string pattern matching (this could get interesting...)
+* [x] accessors (both variables and lambdas) for `type`
+* [ ] `gn` forms
+* [ ] `fc` forms
+* [ ] `mod` and `sig` forms
+* [ ] an analog to SML's `op`, using backticks
+* [ ] basis library (stubbed out, need to actually compile)
+** [x] basic basis stubs: some members of `array-*`, `string-*` have been stubbed out
+** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
+* [ ] code generation
+** [ ] C 
+** [ ] C++
+** [ ] Go
+* [ ] type inference
+* [ ] refinement types
+* [ ] a compiler
+** [ ] lambda lifter
+** [ ] closure conversion
+** [ ] `pragma` to control certain aspects of compilation
+** [ ] checking of accessors prior to compilation
+** [ ] value restriction for `ref` types
+* bugs fixed
+** [x] nested arrays `[[[1] [2]] [[3] [4]]]`
+** [x] missing `/` character in identifier/operator character sets
+** [x] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
+*** this was noticed when attempting to write some software to generate https://en.wikipedia.org/wiki/Julian_day[Julian dates]
+*** https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf[Was the calculation sheet I was using]
