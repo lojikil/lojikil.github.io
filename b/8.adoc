@@ -38,5 +38,5 @@ Today marks three months of coastal living; let's checkout the running burndown 
 ** [x] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
 *** this was noticed when attempting to write some software to generate https://en.wikipedia.org/wiki/Julian_day[Julian dates]
 *** https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf[Was the calculation sheet I was using]
-** [ ] `return` logic
-** [ ] indentation of blocks
+** [x] `return` logic
+** [x] indentation of blocks
