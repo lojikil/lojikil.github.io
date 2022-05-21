@@ -13,7 +13,6 @@ So let's look at some of the areas surrounding libfuzzer usage:
 - <<building_fuzzers>>
 - <<running_fuzzers>>
 - <<adding_corpora>>
-- <<interpreting_results>>
 - <<future_directions>>
 
 == Setup [[setup]]
@@ -191,4 +190,13 @@ incorrect: setting this number too low resulted in the fuzzer running out of run
 set of invocations as well as limit the amount of time I was burning my laptop at 1000% CPU. I'd like to figure out what is _actually_ meant by this
 parameter eventually.
 
-Similarly to Radamsa and other fuzzers, `-seed=` is also extremely useful.
+Similarly to Radamsa and other fuzzers, `-seed=` is also extremely useful; it allows you to specify the starting seed, and like most fuzzing, corpus curation & seed collection is about 70%
+of the work you'll do with libfuzzer. Often I simply deliver a fuzzer and a set of seeds that produce output to customers, rather than delivering a full corpus. It's also useful for
+replaying tests; once you have something crashing, knowing what started it is hugely useful in subsequent runs.
+
+== Adding Corpora [[adding_corpora]]
+
+This was the last area that was interesting to me; one of the things we ended up testing was a JSON parser, and waiting for a random mutational fuzzer to generate significant JSON could
+require a long time. The solution to this usually is a corpus of documents, which we can use in libfuzzer as well, even if it's not clear at first glance.
+
+== Future Directions [[future_directions]]
