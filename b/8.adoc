@@ -20,6 +20,7 @@ Today marks three months of coastal living; let's checkout the running burndown 
 * [ ] basis library (stubbed out, need to actually compile)
 ** [x] basic basis stubs: some members of `array-*`, `string-*` have been stubbed out
 ** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
+* [ ] support for the `is` form
 * [ ] code generation
 ** [ ] C 
 ** [ ] C++
@@ -42,3 +43,6 @@ Today marks three months of coastal living; let's checkout the running burndown 
 ** [x] indentation of blocks
 ** [x] missing `bool` type
 ** [x] parsing `type` definitions that have other complex types in them
+** [ ] munging idents (ex: `julian-date` becomes `julian_date`)
+** [x] stripping comments prior to output
+*** really need to handle these so that we can output them into the compiled language, but for now this suffices
