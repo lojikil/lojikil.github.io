@@ -16,6 +16,8 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _25MAY2022_: [three months on the coast with coastML](/b/8.html)
+- _30APR2022_: [using and understanding libfuzzer](/b/7.html)
 - _25APR2022_: [two months on the coast with coastML](/b/6.html)
 - _25MAR2022_: [coastal living: one month of coastML](/b/5.html)
 - _11MAR2022_: [leaving sweetness for two weeks on the coast](/b/4.html)

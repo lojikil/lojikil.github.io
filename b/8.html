@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_three_months_of_coastal_living_coastml_at_three_months">three months of coastal living: coastML at three months</h1>
+<p>Today marks three months of coastal living; let’s checkout the running burndown chart:</p>
+<ul>
+<li><p>✓ assignments</p></li>
+<li><p>✓ functions</p></li>
+<li><p>✓ <code>case</code> forms</p>
+<ul>
+<li><p>✓ thread assignments into <code>case</code> forms (e.g. <code>a = case x …​</code> becomes <code>case x | …​ { a = …​ }</code>)</p></li>
+</ul></li>
+<li><p>✓ <code>type</code> forms</p></li>
+<li><p>✓ Python generation</p></li>
+<li><p>✓ decomposition in <code>case</code> forms</p>
+<ul>
+<li><p>✓ including pattern matching</p></li>
+<li><p>❏ array pattern matching</p></li>
+<li><p>❏ string pattern matching (this could get interesting…​)</p></li>
+</ul></li>
+<li><p>✓ accessors (both variables and lambdas) for <code>type</code></p></li>
+<li><p>❏ <code>gn</code> forms</p></li>
+<li><p>❏ <code>fc</code> forms</p></li>
+<li><p>❏ <code>mod</code> and <code>sig</code> forms</p></li>
+<li><p>❏ an analog to SML’s <code>op</code>, using backticks</p></li>
+<li><p>❏ basis library (stubbed out, need to actually compile)</p>
+<ul>
+<li><p>✓ basic basis stubs: some members of <code>array-</code>, <code>string-&lt;/emphasis&gt;</code> have been stubbed out</p></li>
+<li><p>❏ basis library modules (modular forms, e.g. <code>array-get</code> becomes <code>Array::get</code>)</p></li>
+</ul></li>
+<li><p>❏ support for the <code>is</code> form</p></li>
+<li><p>❏ code generation</p>
+<ul>
+<li><p>❏ C</p></li>
+<li><p>❏ C++</p></li>
+<li><p>❏ Go</p></li>
+</ul></li>
+<li><p>❏ type inference</p></li>
+<li><p>❏ refinement types</p></li>
+<li><p>❏ a compiler</p>
+<ul>
+<li><p>❏ lambda lifter</p></li>
+<li><p>❏ closure conversion</p></li>
+<li><p>❏ <code>pragma</code> to control certain aspects of compilation</p></li>
+<li><p>❏ checking of accessors prior to compilation</p></li>
+<li><p>❏ value restriction for <code>ref</code> types</p></li>
+</ul></li>
+<li><p>bugs fixed</p>
+<ul>
+<li><p>✓ nested arrays <code>[[[1] [2]] [[3] [4]]]</code></p></li>
+<li><p>✓ missing <code>/</code> character in identifier/operator character sets</p></li>
+<li><p>✓ floating point numbers with two integral digits (e.g. <code>0.12</code> and <code>1.12</code> worked but not <code>10.12</code>)</p>
+<ul>
+<li><p>this was noticed when attempting to write some software to generate <a href="https://en.wikipedia.org/wiki/Julian_day">Julian dates</a></p></li>
+<li><p><a href="https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf">Was the calculation sheet I was using</a></p></li>
+</ul></li>
+<li><p>✓ <code>return</code> logic</p></li>
+<li><p>✓ indentation of blocks</p></li>
+<li><p>✓ missing <code>bool</code> type</p></li>
+<li><p>✓ parsing <code>type</code> definitions that have other complex types in them</p></li>
+<li><p>❏ munging idents (ex: <code>julian-date</code> becomes <code>julian_date</code>)</p></li>
+<li><p>✓ stripping comments prior to output</p>
+<ul>
+<li><p>really need to handle these so that we can output them into the compiled language, but for now this suffices</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>I still enjoy skipping stones in the shallow tide waters, even if work has taken <a href="https://twitter.com/GitHubSecurity/status/1530080447992107008">more of my time than it normally would</a>. I think the most interesting thing is that I changed the syntax of <code>type</code> forms to be simpler, and set the stage for parsing <code>is</code> more easily. We now have a Basis library started, which includes Daffodil, the start of a native coastML JSON parser ported from my <a href="https://github.com/lojikil/rosejson">RoseJSON system</a>. Work this month focused around some simple fixes to the Python code generator as well, but now we can nicely parse &amp; generate <code>type</code> forms:</p>
+<pre><code>% ./carpet.py load basis/Daffodil.coast
+main [&#39;./carpet.py&#39;, &#39;load&#39;, &#39;basis/Daffodil.coast&#39;]
+loading: basis/Daffodil.coast
+type Daffodil
+| Assoc is [array[string] array[Daffodil]]
+| Array is [array[Daffodil]]
+| Int is [int]
+| Float is [float]
+| Null
+| Bool is [bool]
+| String is [string]
+epyt
+% ./carpet.py python basis/Daffodil.coast
+main [&#39;./carpet.py&#39;, &#39;python&#39;, &#39;basis/Daffodil.coast&#39;]
+pythonizing: basis/Daffodil.coast
+class Daffodil:
+    pass
+@dataclass
+class Daffodil_Assoc(Daffodil):
+    m_0 : list
+    m_1 : list
+@dataclass
+class Daffodil_Array(Daffodil):
+    m_0 : list
+@dataclass
+class Daffodil_Int(Daffodil):
+    m_0 : int
+@dataclass
+class Daffodil_Float(Daffodil):
+    m_0 : float
+@dataclass
+class Daffodil_Null(Daffodil):
+    pass
+@dataclass
+class Daffodil_Bool(Daffodil):
+    m_0 : bool
+@dataclass
+class Daffodil_String(Daffodil):
+    m_0 : str</code></pre>
+<p>You might also notice one other difference…​ we can now call <code>carpet.py</code> from the command line. I added a simple help system and a few commands to get started:</p>
+<pre><code>% ./carpet.py
+main [&#39;./carpet.py&#39;]
+usage: carpet.py [command] [file]
+commands:
+load - load a file, and dump the resulting coastML
+python - dump python from a coastML file, without the compiler
+cpython - dump python from a coastML file, with the compiler
+note, the last two will be merged at some point</code></pre>
+  </div>
+  </body>
+</html>

@@ -7,7 +7,7 @@ looking for resources on how to _write_ libfuzzer tests, I recommend Apple's tut
 
 So let's look at some of the areas surrounding libfuzzer usage:
 
-=== Table of Contents [[toc]]
+== Table of Contents [[toc]]
 
 - <<setup>>
 - <<building_fuzzers>>
@@ -196,7 +196,33 @@ replaying tests; once you have something crashing, knowing what started it is hu
 
 == Adding Corpora [[adding_corpora]]
 
-This was the last area that was interesting to me; one of the things we ended up testing was a JSON parser, and waiting for a random mutational fuzzer to generate significant JSON could
-require a long time. The solution to this usually is a corpus of documents, which we can use in libfuzzer as well, even if it's not clear at first glance.
+This was the last area that was interesting to me; one of the things we ended up testing was a JSON parser, and waiting for a random mutational
+fuzzer to generate significant JSON could require a long time. The solution to this usually is a corpus of documents, which we can use in libfuzzer
+as well, even if it's not clear at first glance. In libfuzzer, a corpus is simply a set of directories that are used to manage files that contain
+data used to seed the fuzzer; this set can be updated by the fuzzer itself as it generates input, or multiple corpora can be merged based on their
+ability to generate new cases. This is done by adding one or more directories to the arguments of your fuzzer, and potentially using the `-merge=...` 
+flag:
+
+[source]
+----
+./fuzzer CORPUS_DIR # <1>
+./fuzzer CUR_CORPUS NEW_CORPUS # <2>
+./fuzzer -merge=1 CUR_CORPUS SUPER_COOL_CORPUS0 SUPER_COOL_CORPUS1 # <3>
+----
+<1> running the fuzzer just with a corpus
+<2> running with to corpora
+<3> running with multiple corpora, merging the results into `CUR_CORPUS` as they add coverage
+
+I'm not going to lie; I found the corpus management behavior surprising. I ran my initial fuzzer with `./fuzzer <lots of options> CORPUS`, and found
+that many seeds had been saved to the directory. I'm still not exactly sure what I did to cause a save there, but it was useful later (although I ended
+up using https://github.com/dvyukov/go-fuzz-corpus/tree/master/json/corpus[a JSON corpus from go-fuzz] to seed my fuzzer).
 
 == Future Directions [[future_directions]]
+
+Armed with this, I'll pretty much always fuzz with libfuzzer when I have something I can approach from C; generally my SOP is to approach with
+https://gitlab.com/akihe/radamsa[Radamsa] for the initial pass, and then move onto manual review or targeted tooling. However, I think this
+was a simple enough approach that I would definitely start to use it frequently, much like I use go-fuzz & gopter for Go projects. Having said that,
+I'd really like to generate more of this, and maybe have some helpers floating around to instrument binaries and process results. Something like
+https://github.com/crytic/echidna[Echidna] would be extremely nice, or https://github.com/trailofbits/deepstate[DeepState], would be helpful for
+setting guardrails around my processes. Lastly, I'd love to start using https://github.com/NASA-SW-VnV/ikos[Ikos] more frequently; this would 
+allow me to understand some basic area of the program, and analyze with a deeper level of precision than just fuzzing alone.
