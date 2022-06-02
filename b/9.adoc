@@ -6,6 +6,7 @@ Today marks three months of coastal living; let's checkout the running burndown 
 * [x] functions
 * [x] `case` forms
 ** [x] thread assignments into `case` forms (e.g. `a = case x ...` becomes `case x | ... { a = ... }`)
+** [ ] `case` forms within other forms, such as function calls
 * [x] `type` forms
 * [x] Python generation
 * [x] decomposition in `case` forms
@@ -25,6 +26,7 @@ Today marks three months of coastal living; let's checkout the running burndown 
 ** [ ] C 
 ** [ ] C++
 ** [ ] Go
+** [x] Python
 * [ ] type inference
 * [ ] refinement types
 * [ ] a compiler
