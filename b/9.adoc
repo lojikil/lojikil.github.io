@@ -20,6 +20,56 @@ Today marks three months of coastal living; let's checkout the running burndown 
 * [ ] an analog to SML's `op`, using backticks
 * [ ] basis library (stubbed out, need to actually compile)
 ** [x] basic basis stubs: some members of `array-*`, `string-*` have been stubbed out
+*** [x] array-length
+*** [x] array-get
+*** [x] array-set!
+*** [x] array-make
+*** [x] array-init
+*** [ ] array-make-matrix
+*** [ ] array-append
+*** [ ] array-concat
+*** [ ] array-concat!
+*** [ ] array-sub
+*** [ ] array-copy
+*** [ ] array-fill!
+*** [ ] array-blit!
+*** [ ] array->list
+*** [ ] list->array
+*** [ ] array-iter
+*** [ ] array-map
+*** [ ] array-iter-index
+*** [ ] array-map-index
+*** [ ] array-foldl
+*** [ ] array-foldr
+*** [ ] array-sort
+*** [ ] array-sort!
+*** [ ] array-stable-sort
+*** [ ] array-fast-sort
+*** [x] string-length
+*** [x] string-get
+*** [ ] string-make
+*** [ ] string-init
+*** [x] string-split
+*** [ ] string-append
+*** [ ] string-join
+*** [ ] string-contains
+*** [ ] string-concat
+*** [ ] string-copy
+*** [ ] string->array
+*** [ ] string-iter
+*** [ ] string-map
+*** [ ] string-iter-index
+*** [ ] string-map-index
+*** [ ] string-foldl
+*** [ ] string-foldr
+*** [x] string-sort
+*** [ ] compare
+*** [ ] char-code
+*** [ ] char-chr
+*** [ ] char-escaped
+*** [ ] char-lowercase
+*** [ ] char-uppercase
+*** [ ] char-compare
 ** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
 * [ ] support for the `is` form
 * [ ] code generation
