@@ -25,12 +25,13 @@ Today marks three months of coastal living; let's checkout the running burndown 
 *** [x] array-set!
 *** [x] array-make
 *** [x] array-init
-*** [ ] array-make-matrix
-*** [ ] array-append
+*** [x] array-make-matrix
+*** [x] array-append
+*** [x] array-append!
 *** [ ] array-concat
 *** [ ] array-concat!
-*** [ ] array-sub
-*** [ ] array-copy
+*** [x] array-sub
+*** [x] array-copy
 *** [ ] array-fill!
 *** [ ] array-blit!
 *** [ ] array->list
@@ -42,7 +43,7 @@ Today marks three months of coastal living; let's checkout the running burndown 
 *** [ ] array-foldl
 *** [ ] array-foldr
 *** [ ] array-sort
-*** [ ] array-sort!
+*** [x] array-sort!
 *** [ ] array-stable-sort
 *** [ ] array-fast-sort
 *** [x] string-length
