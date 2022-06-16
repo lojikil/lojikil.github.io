@@ -36,10 +36,10 @@ Today marks three months of coastal living; let's checkout the running burndown 
 *** [ ] array-blit!
 *** [ ] array->list
 *** [ ] list->array
-*** [ ] array-iter
-*** [ ] array-map
-*** [ ] array-iter-index
-*** [ ] array-map-index
+*** [x] array-iter
+*** [x] array-map
+*** [x] array-iter-index
+*** [x] array-map-index
 *** [ ] array-foldl
 *** [ ] array-foldr
 *** [ ] array-sort
@@ -51,15 +51,15 @@ Today marks three months of coastal living; let's checkout the running burndown 
 *** [ ] string-make
 *** [ ] string-init
 *** [x] string-split
-*** [ ] string-append
+*** [x] string-append
 *** [ ] string-join
 *** [ ] string-contains
 *** [ ] string-concat
 *** [ ] string-copy
 *** [ ] string->array
-*** [ ] string-iter
-*** [ ] string-map
-*** [ ] string-iter-index
+*** [x] string-iter
+*** [x] string-map
+*** [x] string-iter-index
 *** [ ] string-map-index
 *** [ ] string-foldl
 *** [ ] string-foldr
@@ -71,6 +71,7 @@ Today marks three months of coastal living; let's checkout the running burndown 
 *** [ ] char-lowercase
 *** [ ] char-uppercase
 *** [ ] char-compare
+*** More of the OS interaction stuff out of https://reasonml.github.io/api/Pervasives.html[the Pervasives API]
 ** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
 * [ ] support for the `is` form
 * [ ] code generation
