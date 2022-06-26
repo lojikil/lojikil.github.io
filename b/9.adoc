@@ -20,7 +20,7 @@ Today marks four months of coastal living; let's checkout the running burndown c
 * [ ] `mod` and `sig` forms
 * [ ] an analog to SML's `op`, using backticks
 * [ ] basis library (stubbed out, need to actually compile)
-** [x] basic basis stubs: some members of `array-*`, `string-*` have been stubbed out
+** [x] basic basis stubs: some members of `+array-*+`, `+string-*+` have been stubbed out
 *** [x] array-length
 *** [x] array-get
 *** [x] array-set!
@@ -103,6 +103,7 @@ Today marks four months of coastal living; let's checkout the running burndown c
 *** really need to handle these so that we can output them into the compiled language, but for now this suffices
 ** [x] `return` prepended to forms that are rewritten to `for` loops
 ** [x] fix spacing between `class` forms in Python output
+** [x] fixed bugs with parsing & displaying characters
 
 Wow have we fixed a lot of bugs this month, and there's a few new forms that work nicely. The various pervasives such as `array-iter` now rewrite to
 nicely-compact Python forms, and some issues around their usage has been fixed. I'm tracking their usage in the `extra/` folder, as a demo of how

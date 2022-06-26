@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_four_months_of_coastal_living_coastml_at_four_months">four
+months of coastal living: coastML at four months</h1>
+<p>Today marks four months of coastal living; let’s checkout the running
+burndown chart:</p>
+<ul>
+<li><p>✓ assignments</p></li>
+<li><p>✓ functions</p></li>
+<li><p>✓ <code>case</code> forms</p>
+<ul>
+<li><p>✓ thread assignments into <code>case</code> forms (e.g.
+<code>a = case x …​</code> becomes
+<code>case x | …​ { a = …​ }</code>)</p></li>
+<li><p>❏ <code>case</code> forms within other forms, such as function
+calls</p></li>
+</ul></li>
+<li><p>✓ <code>type</code> forms</p></li>
+<li><p>✓ Python generation</p></li>
+<li><p>✓ decomposition in <code>case</code> forms</p>
+<ul>
+<li><p>✓ including pattern matching</p></li>
+<li><p>❏ array pattern matching</p></li>
+<li><p>❏ string pattern matching (this could get interesting…​)</p></li>
+</ul></li>
+<li><p>✓ accessors (both variables and lambdas) for
+<code>type</code></p></li>
+<li><p>❏ <code>gn</code> forms</p></li>
+<li><p>❏ <code>fc</code> forms</p>
+<ul>
+<li><p>Still <strong>so</strong> on the fence about these…​</p></li>
+</ul></li>
+<li><p>❏ <code>mod</code> and <code>sig</code> forms</p></li>
+<li><p>❏ an analog to SML’s <code>op</code>, using backticks</p></li>
+<li><p>❏ basis library (stubbed out, need to actually compile)</p>
+<ul>
+<li><p>✓ basic basis stubs: some members of <code>array-*</code>,
+<code>string-*</code> have been stubbed out</p>
+<ul>
+<li><p>✓ array-length</p></li>
+<li><p>✓ array-get</p></li>
+<li><p>✓ array-set!</p></li>
+<li><p>✓ array-make</p></li>
+<li><p>✓ array-init</p></li>
+<li><p>✓ array-make-matrix</p></li>
+<li><p>✓ array-append</p></li>
+<li><p>✓ array-append!</p></li>
+<li><p>❏ array-concat</p></li>
+<li><p>❏ array-concat!</p></li>
+<li><p>✓ array-sub</p></li>
+<li><p>✓ array-copy</p></li>
+<li><p>❏ array-fill!</p></li>
+<li><p>❏ array-blit!</p></li>
+<li><p>❏ array→list</p></li>
+<li><p>❏ list→array</p></li>
+<li><p>✓ array-iter</p></li>
+<li><p>✓ array-map</p></li>
+<li><p>✓ array-iter-index</p></li>
+<li><p>✓ array-map-index</p></li>
+<li><p>❏ array-foldl</p></li>
+<li><p>❏ array-foldr</p></li>
+<li><p>❏ array-sort</p></li>
+<li><p>✓ array-sort!</p></li>
+<li><p>❏ array-stable-sort</p></li>
+<li><p>❏ array-fast-sort</p></li>
+<li><p>✓ string-length</p></li>
+<li><p>✓ string-get</p></li>
+<li><p>❏ string-make</p></li>
+<li><p>❏ string-init</p></li>
+<li><p>✓ string-split</p></li>
+<li><p>✓ string-append</p></li>
+<li><p>❏ string-join</p></li>
+<li><p>❏ string-contains</p></li>
+<li><p>❏ string-concat</p></li>
+<li><p>❏ string-copy</p></li>
+<li><p>❏ string→array</p></li>
+<li><p>✓ string-iter</p></li>
+<li><p>✓ string-map</p></li>
+<li><p>✓ string-iter-index</p></li>
+<li><p>❏ string-map-index</p></li>
+<li><p>❏ string-foldl</p></li>
+<li><p>❏ string-foldr</p></li>
+<li><p>✓ string-sort</p></li>
+<li><p>❏ compare</p></li>
+<li><p>❏ char-code</p></li>
+<li><p>❏ char-chr</p></li>
+<li><p>❏ char-escaped</p></li>
+<li><p>❏ char-lowercase</p></li>
+<li><p>❏ char-uppercase</p></li>
+<li><p>❏ char-compare</p></li>
+<li><p>More of the OS interaction stuff out of <a
+href="https://reasonml.github.io/api/Pervasives.html">the Pervasives
+API</a></p></li>
+</ul></li>
+<li><p>❏ basis library modules (modular forms, e.g.
+<code>array-get</code> becomes <code>Array::get</code>)</p></li>
+</ul></li>
+<li><p>❏ support for the <code>is</code> form</p></li>
+<li><p>❏ code generation</p>
+<ul>
+<li><p>❏ C</p></li>
+<li><p>❏ C++</p></li>
+<li><p>❏ Go</p></li>
+<li><p>✓ Python</p></li>
+</ul></li>
+<li><p>❏ type inference</p></li>
+<li><p>❏ refinement types</p></li>
+<li><p>❏ a compiler</p>
+<ul>
+<li><p>❏ lambda lifter</p></li>
+<li><p>❏ closure conversion</p></li>
+<li><p>❏ <code>pragma</code> to control certain aspects of
+compilation</p></li>
+<li><p>❏ checking of accessors prior to compilation</p></li>
+<li><p>❏ value restriction for <code>ref</code> types</p></li>
+</ul></li>
+<li><p>bugs fixed</p>
+<ul>
+<li><p>✓ nested arrays <code>[[[1] [2]] [[3] [4]]]</code></p></li>
+<li><p>✓ missing <code>/</code> character in identifier/operator
+character sets</p></li>
+<li><p>✓ floating point numbers with two integral digits (e.g.
+<code>0.12</code> and <code>1.12</code> worked but not
+<code>10.12</code>)</p>
+<ul>
+<li><p>this was noticed when attempting to write some software to
+generate <a href="https://en.wikipedia.org/wiki/Julian_day">Julian
+dates</a></p></li>
+<li><p><a
+href="https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf">Was
+the calculation sheet I was using</a></p></li>
+</ul></li>
+<li><p>✓ <code>return</code> logic</p></li>
+<li><p>✓ indentation of blocks</p></li>
+<li><p>✓ missing <code>bool</code> type</p></li>
+<li><p>✓ parsing <code>type</code> definitions that have other complex
+types in them</p></li>
+<li><p>✓ munging idents (ex: <code>julian-date</code> becomes
+<code>julian_date</code>)</p></li>
+<li><p>✓ stripping comments prior to output</p>
+<ul>
+<li><p>really need to handle these so that we can output them into the
+compiled language, but for now this suffices</p></li>
+</ul></li>
+<li><p>✓ <code>return</code> prepended to forms that are rewritten to
+<code>for</code> loops</p></li>
+<li><p>✓ fix spacing between <code>class</code> forms in Python
+output</p></li>
+<li><p>✓ fixed bugs with parsing &amp; displaying characters</p></li>
+</ul></li>
+</ul>
+<p>Wow have we fixed a lot of bugs this month, and there’s a few new
+forms that work nicely. The various pervasives such as
+<code>array-iter</code> now rewrite to nicely-compact Python forms, and
+some issues around their usage has been fixed. I’m tracking their usage
+in the <code>extra/</code> folder, as a demo of how they should
+work:</p>
+<pre><code>% ./carpet.py load extra/basis-examples.coast
+main [&#39;./carpet.py&#39;, &#39;load&#39;, &#39;extra/basis-examples.coast&#39;]
+loading: extra/basis-examples.coast
+[CoastAST(a is function[int int int] = fn x y {
+    x + y
+}), CoastAST(adder is function[int int] = fn x {
+    x + x
+}), CoastAST(l is function[int unit] = fn x {
+    print &quot;x is: &quot; x;
+}), CoastAST(ll = fn idx value {
+    print &quot;x at offset &quot; idx &quot; is &quot; value;
+}), CoastAST(s is function[char unit] = fn x {
+    print &quot;x is: &quot; x;
+}), CoastAST(b is int = 10), CoastAST(g = array-make 10 0;), CoastAST(h = array-init 10 adder;), CoastAST(m = array-make-matrix 5 6 0;), CoastAST(f = array-map adder h;), CoastAST(j = array-map-index a h;), CoastAST(array-iter l f;), CoastAST(array-iter-index ll f;), CoastAST(string-iter s &quot;hello, world&quot;;), CoastAST(a-i-func = fn l f {
+    array-iter l f;
+}), CoastAST(a-i-func l f;)]
+% ./carpet.py python extra/basis-examples.coast
+main [&#39;./carpet.py&#39;, &#39;python&#39;, &#39;extra/basis-examples.coast&#39;]
+pythonizing: extra/basis-examples.coast
+def a(x, y):
+    return (x + y)
+
+def adder(x):
+    return (x + x)
+
+def l(x):
+    return print(&quot;x is: &quot;, x)
+
+def ll(idx, value):
+    return print(&quot;x at offset &quot;, idx, &quot; is &quot;, value)
+
+def s(x):
+    return print(&quot;x is: &quot;, x)
+
+b = 10
+g = [0 for _ in range(0, 10)]
+h = [adder(x0) for x0 in range(0, 10)]
+m = [[0 for _ in range(0, 5)] for _ in range(0, 6)]
+f = [adder(x1) for x1 in h]
+j = [a(idx2, h[idx2]) for idx2 in range(0, len(h))]
+for x3 in f:
+    l(x3)
+
+for idx4 in range(0, len(f)):
+    x5 = f[idx4]
+    ll(idx4, x5)
+
+for x6 in &quot;hello, world&quot;:
+    s(x6)
+
+def a_i_func(l, f):
+    for x7 in f:
+        l(x7)
+
+
+a_i_func(l, f)</code></pre>
+  </div>
+  </body>
+</html>
