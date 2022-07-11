@@ -16,6 +16,7 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _11JUL2022_: [the `case` for inversion](/b/10.html)
 - _26JUN2022_: [four months on the coast with coastML](/b/9.html)
 - _25MAY2022_: [three months on the coast with coastML](/b/8.html)
 - _30APR2022_: [using and understanding libfuzzer](/b/7.html)

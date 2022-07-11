@@ -1,0 +1,82 @@
+== The `case` for inversion
+
+One of the standard comments you hear about functional languages is that `everything is an expression`; there's some leeway to give there,
+since some expressions may return the equivalent of `void` (usually called `unit` or the like). However, this can be quite nice for
+certain options, but it doesn't always lend itself to other language targets or the like. I was just working on compiling these
+sorts of function calls in https://github.com/lojikil/coastML[coastML], and figured it would make an interesting discussion point.
+
+First, what do we mean by `everything is an expression`? It means that *everything* in these languages returns some value, even if the
+value is "there is no value." This can take a few different forms, but in coastML it tends to look something like this:
+
+[source]
+----
+a = case x
+| 10 { "ten" }
+| 11 { "eleven!!!11!" }
+| 12 { "twelve" }
+| _ { "something else" }
+esac
+----
+
+Here, we're checking the value of `x` and returning a string that is assigned to `a`; the conversion to Python is relatively
+straight forward:
+
+[source]
+----
+if x == 10:
+    a = "ten"
+elif x == 11:
+    a = "eleven!!!11!"
+elif x == 12:
+    a = "twelve"
+else:
+    a = "something else"
+----
+
+Internally to the compiler, it's actually a two-step process:
+
+. thresh the assignment to `a` into each of the blocks within a `case`
+. call the `case` Python generator (which generates an `if` block)
+
+The process is simple, and makes sense in both languages; an assignment to a `case` form is just the threshing of the assignment into
+each of the blocks within that form (and a conversion from `int -> string -> unit` into `int -> unit`).
+
+However, there's a *more* interesting case we have to consider: one or more `case` forms are used as an argument to a function. For
+example `some-lambda 10 12 (some-other-lambda case x | 10 { "ten" } | _ { "something else" });`. Code like this isn't often used
+in production code, but it is _phenomenal_ for quick proofs of concept on the REPL. So what does coastML do with this?
+
+[source]
+----
+if x == 10:
+    cval0 = "ten"
+else:
+    cval0 = "something else"
+some_lambda(10, 12, some_other_lambda(cval0))
+----
+
+Basically, we:
+
+. freshsym a variable for each `case` in a function argument
+. add that to a list of lifted forms
+. place the freshsym into the argument of a new call AST
+. recurse in place and merge for sub-calls
+. call the above case-assignment-threshing code
+. generate a function call as normal
+
+There are only one or two places in the code base that aren't currently using this, notably within `case` conditions and guards; Those will
+change shortly as well. However, we do end up with a relatively small change that results in relatively-decent looking code at the
+end of it.
+
+There's one last interesting case: pipelining. I don't have pipelining rewriting working just yet, but the case itself parsers:
+
+[source]
+----
+(case x
+| 10 { 9 }
+| 11 { 10 }
+| _ { x + 1 }
+esac) |> print_endline;
+----
+
+Here, we want to pipe the result of the `case` form into a print (or some other function). I'll work on pipeline threshing next, but
+it's not overly laborious all told, and the fact that it parses correctly already is helpful

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_the_case_for_inversion">The <code>case</code> for inversion</h1>
+<p>One of the standard comments you hear about functional languages is that <code>everything is an expression</code>; there’s some leeway to give there, since some expressions may return the equivalent of <code>void</code> (usually called <code>unit</code> or the like). However, this can be quite nice for certain options, but it doesn’t always lend itself to other language targets or the like. I was just working on compiling these sorts of function calls in <a href="https://github.com/lojikil/coastML">coastML</a>, and figured it would make an interesting discussion point.</p>
+<p>First, what do we mean by <code>everything is an expression</code>? It means that <strong>everything</strong> in these languages returns some value, even if the value is "there is no value." This can take a few different forms, but in coastML it tends to look something like this:</p>
+<pre><code>a = case x
+| 10 { &quot;ten&quot; }
+| 11 { &quot;eleven!!!11!&quot; }
+| 12 { &quot;twelve&quot; }
+| _ { &quot;something else&quot; }
+esac</code></pre>
+<p>Here, we’re checking the value of <code>x</code> and returning a string that is assigned to <code>a</code>; the conversion to Python is relatively straight forward:</p>
+<pre><code>if x == 10:
+    a = &quot;ten&quot;
+elif x == 11:
+    a = &quot;eleven!!!11!&quot;
+elif x == 12:
+    a = &quot;twelve&quot;
+else:
+    a = &quot;something else&quot;</code></pre>
+<p>Internally to the compiler, it’s actually a two-step process:</p>
+<ol type="1">
+<li><p>thresh the assignment to <code>a</code> into each of the blocks within a <code>case</code></p></li>
+<li><p>call the <code>case</code> Python generator (which generates an <code>if</code> block)</p></li>
+</ol>
+<p>The process is simple, and makes sense in both languages; an assignment to a <code>case</code> form is just the threshing of the assignment into each of the blocks within that form (and a conversion from <code>int → string → unit</code> into <code>int → unit</code>).</p>
+<p>However, there’s a <strong>more</strong> interesting case we have to consider: one or more <code>case</code> forms are used as an argument to a function. For example <code>some-lambda 10 12 (some-other-lambda case x | 10 { "ten" } | _ { "something else" });</code>. Code like this isn’t often used in production code, but it is <em>phenomenal</em> for quick proofs of concept on the REPL. So what does coastML do with this?</p>
+<pre><code>if x == 10:
+    cval0 = &quot;ten&quot;
+else:
+    cval0 = &quot;something else&quot;
+some_lambda(10, 12, some_other_lambda(cval0))</code></pre>
+<p>Basically, we:</p>
+<ol type="1">
+<li><p>freshsym a variable for each <code>case</code> in a function argument</p></li>
+<li><p>add that to a list of lifted forms</p></li>
+<li><p>place the freshsym into the argument of a new call AST</p></li>
+<li><p>recurse in place and merge for sub-calls</p></li>
+<li><p>call the above case-assignment-threshing code</p></li>
+<li><p>generate a function call as normal</p></li>
+</ol>
+<p>There are only one or two places in the code base that aren’t currently using this, notably within <code>case</code> conditions and guards; Those will change shortly as well. However, we do end up with a relatively small change that results in relatively-decent looking code at the end of it.</p>
+<p>There’s one last interesting case: pipelining. I don’t have pipelining rewriting working just yet, but the case itself parsers:</p>
+<pre><code>(case x
+| 10 { 9 }
+| 11 { 10 }
+| _ { x + 1 }
+esac) |&gt; print_endline;</code></pre>
+<p>Here, we want to pipe the result of the <code>case</code> form into a print (or some other function). I’ll work on pipeline threshing next, but it’s not overly laborious all told, and the fact that it parses correctly already is helpful</p>
+  </div>
+  </body>
+</html>
