@@ -1,0 +1,110 @@
+== five months of coastal living: coastML at four months
+
+Today marks five months of coastal living; let's checkout the running burndown chart:
+
+* [x] assignments
+* [x] functions
+* [x] `case` forms
+** [x] thread assignments into `case` forms (e.g. `a = case x ...` becomes `case x | ... { a = ... }`)
+** [ ] `case` forms within other forms, such as function calls
+* [x] `type` forms
+* [x] Python generation
+* [x] decomposition in `case` forms
+** [x] including pattern matching
+** [ ] array pattern matching
+** [ ] string pattern matching (this could get interesting...)
+* [x] accessors (both variables and lambdas) for `type`
+* [ ] `gn` forms
+* [ ] `fc` forms
+** Still *so* on the fence about these...
+* [ ] `mod` and `sig` forms
+* [ ] an analog to SML's `op`, using backticks
+* [ ] basis library (stubbed out, need to actually compile)
+** [x] basic basis stubs: some members of `+array-*+`, `+string-*+` have been stubbed out
+*** [x] array-length
+*** [x] array-get
+*** [x] array-set!
+*** [x] array-make
+*** [x] array-init
+*** [x] array-make-matrix
+*** [x] array-append
+*** [x] array-append!
+*** [ ] array-concat
+*** [ ] array-concat!
+*** [x] array-sub
+*** [x] array-copy
+*** [ ] array-fill!
+*** [ ] array-blit!
+*** [ ] array->list
+*** [ ] list->array
+*** [x] array-iter
+*** [x] array-map
+*** [x] array-iter-index
+*** [x] array-map-index
+*** [ ] array-foldl
+*** [ ] array-foldr
+*** [ ] array-sort
+*** [x] array-sort!
+*** [ ] array-stable-sort
+*** [ ] array-fast-sort
+*** [x] string-length
+*** [x] string-get
+*** [ ] string-make
+*** [ ] string-init
+*** [x] string-split
+*** [x] string-append
+*** [ ] string-join
+*** [ ] string-contains
+*** [ ] string-concat
+*** [ ] string-copy
+*** [ ] string->array
+*** [x] string-iter
+*** [x] string-map
+*** [x] string-iter-index
+*** [ ] string-map-index
+*** [ ] string-foldl
+*** [ ] string-foldr
+*** [x] string-sort
+*** [ ] compare
+*** [ ] char-code
+*** [ ] char-chr
+*** [ ] char-escaped
+*** [ ] char-lowercase
+*** [ ] char-uppercase
+*** [ ] char-compare
+*** More of the OS interaction stuff out of https://reasonml.github.io/api/Pervasives.html[the Pervasives API]
+** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
+* [ ] support for the `is` form
+* [ ] code generation
+** [ ] C 
+** [ ] C++
+** [ ] Go
+** [x] Python
+* [ ] type inference
+* [ ] refinement types
+* [ ] a compiler
+** [ ] lambda lifter
+** [ ] closure conversion
+** [ ] `pragma` to control certain aspects of compilation
+** [ ] checking of accessors prior to compilation
+** [ ] value restriction for `ref` types
+* bugs fixed
+** [x] nested arrays `[[[1] [2]] [[3] [4]]]`
+** [x] missing `/` character in identifier/operator character sets
+** [x] floating point numbers with two integral digits (e.g. `0.12` and `1.12` worked but not `10.12`)
+*** this was noticed when attempting to write some software to generate https://en.wikipedia.org/wiki/Julian_day[Julian dates]
+*** https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf[Was the calculation sheet I was using]
+** [x] `return` logic
+** [x] indentation of blocks
+** [x] missing `bool` type
+** [x] parsing `type` definitions that have other complex types in them
+** [x] munging idents (ex: `julian-date` becomes `julian_date`)
+** [x] stripping comments prior to output
+*** really need to handle these so that we can output them into the compiled language, but for now this suffices
+** [x] `return` prepended to forms that are rewritten to `for` loops
+** [x] fix spacing between `class` forms in Python output
+** [x] fixed bugs with parsing & displaying characters
+** [ ] `case` forms at the start of a `(call)` form are assumed to be functions instead of evaluated for a lambda
+*** `(case ... | 10 { " " } | _ { "nope" } esac ...)` is assumed to be a lambda already... whoops
+** [x] destructuring binds didn't actually apply a `.format` correctly
+
