@@ -6,7 +6,7 @@ Today marks five months of coastal living; let's checkout the running burndown c
 * [x] functions
 * [x] `case` forms
 ** [x] thread assignments into `case` forms (e.g. `a = case x ...` becomes `case x | ... { a = ... }`)
-** [ ] `case` forms within other forms, such as function calls
+** [x] `case` forms within other forms, such as function calls
 * [x] `type` forms
 * [x] Python generation
 * [x] decomposition in `case` forms
@@ -106,5 +106,8 @@ Today marks five months of coastal living; let's checkout the running burndown c
 ** [x] fixed bugs with parsing & displaying characters
 ** [ ] `case` forms at the start of a `(call)` form are assumed to be functions instead of evaluated for a lambda
 *** `(case ... | 10 { " " } | _ { "nope" } esac ...)` is assumed to be a lambda already... whoops
+** [ ] `case` forms in a function call in assignment clobbers the assignment
+*** ex: `+a = string-split-char ':' case (OS::getenv "PATH") | (Result.Some s) { s } | (Result.None) { "" } esac;+`
+*** produces `a = res1 = ...` which is obviously in correct
 ** [x] destructuring binds didn't actually apply a `.format` correctly
 
