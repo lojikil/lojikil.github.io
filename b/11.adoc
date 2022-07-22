@@ -106,8 +106,10 @@ Today marks five months of coastal living; let's checkout the running burndown c
 ** [x] fixed bugs with parsing & displaying characters
 ** [ ] `case` forms at the start of a `(call)` form are assumed to be functions instead of evaluated for a lambda
 *** `(case ... | 10 { " " } | _ { "nope" } esac ...)` is assumed to be a lambda already... whoops
-** [ ] `case` forms in a function call in assignment clobbers the assignment
+** [x] `case` forms in a function call in assignment clobbers the assignment
 *** ex: `+a = string-split-char ':' case (OS::getenv "PATH") | (Result.Some s) { s } | (Result.None) { "" } esac;+`
 *** produces `a = res1 = ...` which is obviously in correct
+** [x] `case` forms that destructure `type` forms don't indent correctly and don't nest `if-elif-else` correctly
+** [x] `case` forms that bind a function call do not indent the initial `if` correctly
 ** [x] destructuring binds didn't actually apply a `.format` correctly
 
