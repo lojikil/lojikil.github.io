@@ -1,3 +1,0 @@
-- [sysadmin/index.html SysAdmin notes]
-- [food/index.html Food Notes]
-- [security/index.html Security Notes]

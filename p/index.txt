@@ -4,4 +4,4 @@
 - [Muse](/p/muse/) a static site generator written in Digamma
 - [Tiny languages](/p/tinylang/) that I've poked around with.
 - [Lojikil's Programmer's Notebook](/p/lpn/)
-- [Misc Static Wiki stuff](/p/misc)
+- [Wiki](/p/wiki)
