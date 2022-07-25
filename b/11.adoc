@@ -113,3 +113,20 @@ Today marks five months of coastal living; let's checkout the running burndown c
 ** [x] `case` forms that bind a function call do not indent the initial `if` correctly
 ** [x] destructuring binds didn't actually apply a `.format` correctly
 
+I fixed quite a few `case` related bugs this month, mostly around output. Additionally, the pipelining operators `|>` and `<|` now generate the expected code:
+
+[source]
+----
+>>> c = carpet.CarpetPython("(3 + 4) |> bar |> baz |> blah |> print;")
+>>> c.load()
+>>> c.generate()
+print(blah(baz(bar((3 + 4)))))
+>>> c = carpet.CarpetPython("print <| blah <| baz <| bar <| (3 + 4);")
+>>> c.load()
+>>> c.generate()
+print(blah(baz(bar((3 + 4)))))
+>>>
+----
+
+This month, I'd like to focus on the last few places `case` forms can exist (at the start of call blocks, for example) and lambda lifting in the same way as `case` forms are lifted.
+Additionally, I'd like to focus on new pervasives, such as `array-iter-while` and `array-map-until`, for handling `while` blocks in Python.

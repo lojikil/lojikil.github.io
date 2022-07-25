@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_five_months_of_coastal_living_coastml_at_four_months">five
+months of coastal living: coastML at four months</h1>
+<p>Today marks five months of coastal living; let’s checkout the running
+burndown chart:</p>
+<ul>
+<li><p>✓ assignments</p></li>
+<li><p>✓ functions</p></li>
+<li><p>✓ <code>case</code> forms</p>
+<ul>
+<li><p>✓ thread assignments into <code>case</code> forms (e.g.
+<code>a = case x …​</code> becomes
+<code>case x | …​ { a = …​ }</code>)</p></li>
+<li><p>✓ <code>case</code> forms within other forms, such as function
+calls</p></li>
+</ul></li>
+<li><p>✓ <code>type</code> forms</p></li>
+<li><p>✓ Python generation</p></li>
+<li><p>✓ decomposition in <code>case</code> forms</p>
+<ul>
+<li><p>✓ including pattern matching</p></li>
+<li><p>❏ array pattern matching</p></li>
+<li><p>❏ string pattern matching (this could get interesting…​)</p></li>
+</ul></li>
+<li><p>✓ accessors (both variables and lambdas) for
+<code>type</code></p></li>
+<li><p>❏ <code>gn</code> forms</p></li>
+<li><p>❏ <code>fc</code> forms</p>
+<ul>
+<li><p>Still <strong>so</strong> on the fence about these…​</p></li>
+</ul></li>
+<li><p>❏ <code>mod</code> and <code>sig</code> forms</p></li>
+<li><p>❏ an analog to SML’s <code>op</code>, using backticks</p></li>
+<li><p>❏ basis library (stubbed out, need to actually compile)</p>
+<ul>
+<li><p>✓ basic basis stubs: some members of <code>array-*</code>,
+<code>string-*</code> have been stubbed out</p>
+<ul>
+<li><p>✓ array-length</p></li>
+<li><p>✓ array-get</p></li>
+<li><p>✓ array-set!</p></li>
+<li><p>✓ array-make</p></li>
+<li><p>✓ array-init</p></li>
+<li><p>✓ array-make-matrix</p></li>
+<li><p>✓ array-append</p></li>
+<li><p>✓ array-append!</p></li>
+<li><p>❏ array-concat</p></li>
+<li><p>❏ array-concat!</p></li>
+<li><p>✓ array-sub</p></li>
+<li><p>✓ array-copy</p></li>
+<li><p>❏ array-fill!</p></li>
+<li><p>❏ array-blit!</p></li>
+<li><p>❏ array→list</p></li>
+<li><p>❏ list→array</p></li>
+<li><p>✓ array-iter</p></li>
+<li><p>✓ array-map</p></li>
+<li><p>✓ array-iter-index</p></li>
+<li><p>✓ array-map-index</p></li>
+<li><p>❏ array-foldl</p></li>
+<li><p>❏ array-foldr</p></li>
+<li><p>❏ array-sort</p></li>
+<li><p>✓ array-sort!</p></li>
+<li><p>❏ array-stable-sort</p></li>
+<li><p>❏ array-fast-sort</p></li>
+<li><p>✓ string-length</p></li>
+<li><p>✓ string-get</p></li>
+<li><p>❏ string-make</p></li>
+<li><p>❏ string-init</p></li>
+<li><p>✓ string-split</p></li>
+<li><p>✓ string-append</p></li>
+<li><p>❏ string-join</p></li>
+<li><p>❏ string-contains</p></li>
+<li><p>❏ string-concat</p></li>
+<li><p>❏ string-copy</p></li>
+<li><p>❏ string→array</p></li>
+<li><p>✓ string-iter</p></li>
+<li><p>✓ string-map</p></li>
+<li><p>✓ string-iter-index</p></li>
+<li><p>❏ string-map-index</p></li>
+<li><p>❏ string-foldl</p></li>
+<li><p>❏ string-foldr</p></li>
+<li><p>✓ string-sort</p></li>
+<li><p>❏ compare</p></li>
+<li><p>❏ char-code</p></li>
+<li><p>❏ char-chr</p></li>
+<li><p>❏ char-escaped</p></li>
+<li><p>❏ char-lowercase</p></li>
+<li><p>❏ char-uppercase</p></li>
+<li><p>❏ char-compare</p></li>
+<li><p>More of the OS interaction stuff out of <a
+href="https://reasonml.github.io/api/Pervasives.html">the Pervasives
+API</a></p></li>
+</ul></li>
+<li><p>❏ basis library modules (modular forms, e.g.
+<code>array-get</code> becomes <code>Array::get</code>)</p></li>
+</ul></li>
+<li><p>❏ support for the <code>is</code> form</p></li>
+<li><p>❏ code generation</p>
+<ul>
+<li><p>❏ C</p></li>
+<li><p>❏ C++</p></li>
+<li><p>❏ Go</p></li>
+<li><p>✓ Python</p></li>
+</ul></li>
+<li><p>❏ type inference</p></li>
+<li><p>❏ refinement types</p></li>
+<li><p>❏ a compiler</p>
+<ul>
+<li><p>❏ lambda lifter</p></li>
+<li><p>❏ closure conversion</p></li>
+<li><p>❏ <code>pragma</code> to control certain aspects of
+compilation</p></li>
+<li><p>❏ checking of accessors prior to compilation</p></li>
+<li><p>❏ value restriction for <code>ref</code> types</p></li>
+</ul></li>
+<li><p>bugs fixed</p>
+<ul>
+<li><p>✓ nested arrays <code>[[[1] [2]] [[3] [4]]]</code></p></li>
+<li><p>✓ missing <code>/</code> character in identifier/operator
+character sets</p></li>
+<li><p>✓ floating point numbers with two integral digits (e.g.
+<code>0.12</code> and <code>1.12</code> worked but not
+<code>10.12</code>)</p>
+<ul>
+<li><p>this was noticed when attempting to write some software to
+generate <a href="https://en.wikipedia.org/wiki/Julian_day">Julian
+dates</a></p></li>
+<li><p><a
+href="https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf">Was
+the calculation sheet I was using</a></p></li>
+</ul></li>
+<li><p>✓ <code>return</code> logic</p></li>
+<li><p>✓ indentation of blocks</p></li>
+<li><p>✓ missing <code>bool</code> type</p></li>
+<li><p>✓ parsing <code>type</code> definitions that have other complex
+types in them</p></li>
+<li><p>✓ munging idents (ex: <code>julian-date</code> becomes
+<code>julian_date</code>)</p></li>
+<li><p>✓ stripping comments prior to output</p>
+<ul>
+<li><p>really need to handle these so that we can output them into the
+compiled language, but for now this suffices</p></li>
+</ul></li>
+<li><p>✓ <code>return</code> prepended to forms that are rewritten to
+<code>for</code> loops</p></li>
+<li><p>✓ fix spacing between <code>class</code> forms in Python
+output</p></li>
+<li><p>✓ fixed bugs with parsing &amp; displaying characters</p></li>
+<li><p>❏ <code>case</code> forms at the start of a <code>(call)</code>
+form are assumed to be functions instead of evaluated for a lambda</p>
+<ul>
+<li><p><code>(case …​ | 10 { " " } | _ { "nope" } esac …​)</code> is
+assumed to be a lambda already…​ whoops</p></li>
+</ul></li>
+<li><p>✓ <code>case</code> forms in a function call in assignment
+clobbers the assignment</p>
+<ul>
+<li><p>ex:
+<code>a = string-split-char ':' case (OS::getenv "PATH") | (Result.Some s) { s } | (Result.None) { "" } esac;</code></p></li>
+<li><p>produces <code>a = res1 = …​</code> which is obviously in
+correct</p></li>
+</ul></li>
+<li><p>✓ <code>case</code> forms that destructure <code>type</code>
+forms don’t indent correctly and don’t nest <code>if-elif-else</code>
+correctly</p></li>
+<li><p>✓ <code>case</code> forms that bind a function call do not indent
+the initial <code>if</code> correctly</p></li>
+<li><p>✓ destructuring binds didn’t actually apply a
+<code>.format</code> correctly</p></li>
+</ul></li>
+</ul>
+<p>I fixed quite a few <code>case</code> related bugs this month, mostly
+around output. Additionally, the pipelining operators <code>|&gt;</code>
+and <code>&lt;|</code> now generate the expected code:</p>
+<pre><code>&gt;&gt;&gt; c = carpet.CarpetPython(&quot;(3 + 4) |&gt; bar |&gt; baz |&gt; blah |&gt; print;&quot;)
+&gt;&gt;&gt; c.load()
+&gt;&gt;&gt; c.generate()
+print(blah(baz(bar((3 + 4)))))
+&gt;&gt;&gt; c = carpet.CarpetPython(&quot;print &lt;| blah &lt;| baz &lt;| bar &lt;| (3 + 4);&quot;)
+&gt;&gt;&gt; c.load()
+&gt;&gt;&gt; c.generate()
+print(blah(baz(bar((3 + 4)))))
+&gt;&gt;&gt;</code></pre>
+<p>This month, I’d like to focus on the last few places
+<code>case</code> forms can exist (at the start of call blocks, for
+example) and lambda lifting in the same way as <code>case</code> forms
+are lifted. Additionally, I’d like to focus on new pervasives, such as
+<code>array-iter-while</code> and <code>array-map-until</code>, for
+handling <code>while</code> blocks in Python.</p>
+  </div>
+  </body>
+</html>

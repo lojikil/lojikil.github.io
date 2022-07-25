@@ -1,0 +1,49 @@
+= No thoughts low thoughts generational thoughts: thoughts on No/Low Code vs Neural Network Code Gen
+
+The title isn't a knock on no or low code, just a pithy title. And, not to bury the lede, but bottom line, up front:
+
+The argument boils down to: what does a machine guess that we mean vs what does a restricted language allow us to express?
+One can be theorized about and the other precisely understood. On the flip side, one has a huge corpus from which to build
+code and can be tuned in its ability to understand both its source corpus and the question-target corpus, the other must be
+programmed much like a traditional language, bugs and all. Also to further vouch my thoughts, I spend most of my days doing
+code analysis; even my avocational time is spent there. So, I tend to err on “what can be understood,” vs “what can be generated.” 
+
+== Basic Components, and intro
+
+. at its core, there are two basical subsystems of components:
+.. a specifier, which accepts human input
+.. an extractor, which acts upon human input
+. fundementally, these approaches are opposite ends of the same spectrum
+.. Machine Learning attempts to look at what the corpus of code humans have produced is, and produce something similar
+.. Low/No code looks at what you have specified and generates code as best it can
+. in both, better models lead to better generators
+.. if we can better specify our problem (and understand the spec), we can use more information in our extractor
+.. if we can better extract our problem, we can better resolve issues
+. additionally, both seek, in some way, to democritize programming
+.. Machine Learning methods, by giving you the power of a huge corpus at your finger tips
+.. Low/No Code, by giving you a sort of expert system
+. Probably the best solution is a mix of both
+.. But I prefer Low/No Code to Machine Learning
+
+== Machine Learning methods
+
+. Tensors & Vector spaces
+. Talk about Vector Spaces of code
+.. Salad is a good example
+.. Maybe make a simple TF-IDF of code
+. CoPilot and company work on *extremely deep* tensors with hundreds of features
+. Human _understandable_ specification is the key
+
+== (Semi-)Formal Modeling methods
+
+. Various different methods
+. Low vs No code
+.. they're really both code, just what code they expose _to you_ is different
+. Human _understandable_ generation is the key
+
+== My Experiences
+
+. talk about assessments with generated code from modeling tools
+. talk about how we can do better
+
+== Conclusions
