@@ -1,3 +1,3 @@
-* Simple security entries
+# Simple security entries
 
-- [sqlmap.txt SQLMap issues]
+- (SQLMap issues)[sqlmap.txt]

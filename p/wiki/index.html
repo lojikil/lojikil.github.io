@@ -47,10 +47,13 @@
 
 
   <div id="main-copy">
+<h1 id="static-wiki">Static wiki</h1>
+<p>Links were rewritten from Muse to Markdown with
+<code>perl -ne 's/\[(.*?)\s(.*?)\]/($2)[$1]/; print $_;'</code></p>
 <ul>
-<li>[sysadmin/index.html SysAdmin notes]</li>
-<li>[food/index.html Food Notes]</li>
-<li>[security/index.html Security Notes]</li>
+<li>(SysAdmin notes)[sysadmin/index.html]</li>
+<li>(Food)[food/index.html]</li>
+<li>(Security Notes)[security/index.html]</li>
 </ul>
   </div>
   </body>

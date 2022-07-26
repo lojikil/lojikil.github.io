@@ -1,4 +1,4 @@
-- [reset-mac-password-tiger.html Reset Passwords in Mac OS X Tiger without a bootable CD] 
-- [git-postreceive.html Git Post Receive hook]
-- [split-zips.html Splitting & Splicing Zip files]
-- [ssh.html misc SSH tricks]
+- (Reset Passwords in Mac OS X Tiger without a bootable CD)[reset-mac-password-tiger.html] 
+- (Git Post Receive hook)[git-postreceive.html]
+- (Splitting & Splicing Zip files)[split-zips.html]
+- (misc SSH tricks)[ssh.html]
