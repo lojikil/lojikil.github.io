@@ -1,7 +1,7 @@
 # Static wiki
 
-Links were rewritten from Muse to Markdown with `perl -ne 's/\[(.*?)\s(.*?)\]/($2)[$1]/; print $_;'`
+Links were rewritten from Muse to Markdown with `perl -ne 's/\[(.*?)\s(.*?)\]/[$2]($1)/; print $_;'`
 
-- (SysAdmin notes)[sysadmin/index.html]
-- (Food)[food/index.html]
-- (Security Notes)[security/index.html]
+- [SysAdmin notes](sysadmin/index.html)
+- [Food](food/index.html)
+- [Security Notes](security/index.html)
