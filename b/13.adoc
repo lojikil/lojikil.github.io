@@ -1,0 +1,213 @@
+= Thoughts on Sub-languages and Hoare Logic
+
+Most modern programming languages are composed of multiple _sub-languages_, which add features to the larger language. In functional languages
+you often see the phrasing "term vs type language," meaning that there is the usual language folks program in (terms) and the language of
+types (for specifying the shape and composition of data). Recently, there
+https://lobste.rs/s/luhkqm/personal_list_rust_grievances[was an article about Rust that had an interesting critique:] there are too many sublanguages
+to learn, and this increases the cognitive load and learning curve of Rust. This was interesting to me, since once thing I've focused on with
+https://github.com/lojikil/coastML[coastML] is _simplifying_ languages. I've been thinking about how to incorporate Hoare Logic, amongst other 
+features, and the Rust article above made me realize that I should probably document some thoughts on it.
+
+== That hoary old logic
+
+Let's first take a quick peek at what I mean. https://en.wikipedia.org/wiki/Hoare_logic[Hoare logic] is a system of reasoning about programs based on
+three basic objects:
+
+* a set of preconditions
+* a set of commands
+* a set of postconditions
+
+The Wikipedia goes into (typical) depths, but let's look at a simpler example from
+https://en.wikipedia.org/wiki/Java_Modeling_Language[Java Modeling Language:]
+
+[source,java]
+----
+//@ requires 0 < amount && amount + balance < MAX_BALANCE; <1> 
+//@ assignable balance; <2>
+//@ ensures balance == \old(balance) + amount; <3>
+public void credit(final int amount)
+{
+    this.balance += amount;
+}
+----
+<1> `requires` here is for preconditions
+<2> `assignable` simply states that there is a side effect, namely that we update `balance`
+<3> `ensures` is for postconditions
+
+Basically, this specification states that the amount you want to credit must be greater than 0 and that the amount added will not increase the balance
+over some maximum allowable amount. Then, it states that we will update the balance, and states that the final balance will be the old balance plus
+the new balance. The nice thing about Java Modeling Language (JML) is that specifications are relatively close to regular Java expressions: most
+programmers will be able to understand what these specifications state once they understand what `ensures` and `requires` and the like do. Whilst
+the specifications are obviously domain specific, and indeed specific to the very locations in which they are applied, no other specialized knowledge
+is needed. Obviously, some specifications will grow infinitely more complex than the JML shown here, but the idea is instructive of what we're aiming for:
+simple, accessible specification.
+
+== Wrestling a hoary marmot
+
+I often think of coastML as a language meant to simplify approaching & wrestling with ideas in other languages; I don't necessarily want to replace
+every language under the sun, but it would be nice to be able to express an idea one place and use it in many places. Similarly, it would be useful
+useful if specifications are able to be translated into the resulting language. There are two major areas I see this being useful:
+
+* for types, so that a contract specification can be applied everywhere it's used
+* for functions, so that users can enforce further restrictions and contracts (such as https://en.wikipedia.org/wiki/Design_by_contract[Design by Contract])
+
+The first generally refers to https://en.wikipedia.org/wiki/Refinement_type[Refinement types], where has a whole litany of names, including DbC. 
+
+I think these are generally useful ideas, especially for the cores of languages & kernels: they allow users to state, up front, the conditions
+underwhich they expect a type or function to be applied. However, many languages introduce quite a bit of complexity around these concepts.
+
+For example, here's an example in https://en.wikipedia.org/wiki/ATS_(programming_language)[ATS]:
+
+[source]
+----
+dataprop FACT (int, int) =
+  | FACTbas (0, 1) of () // basic case <1>
+  | {n:nat}{r:int}       // inductive case 
+    FACTind (n+1, (n+1)*r) of (FACT (n, r)) // <2>
+
+(* note that int(x) , also int x, is the monovalued type of the int x value.
+
+ The function signature below says:
+ forall n:nat, exists r:int where fact( num: int(n)) returns (FACT (n, r) | int(r)) *)
+
+fun fact{n:nat} .<n>. (n: int (n)) : [r:int] (FACT (n, r) | int(r)) =
+(
+  ifcase
+  | n > 0 => ((FACTind(pf1) | n * r1)) where // <3>
+  {
+    val (pf1 | r1) = fact (n-1)
+  }
+  | _(*else*) => (FACTbas() | 1)
+)
+----
+<1> our base case of our proposition, which states the factorial of 0 is 1
+<2> the inductive case, where we build that for any user parameter `n` and it's successor `n+1`, the return value `r` is multiplied by `n+1`
+<3> I will state that ATS minimizes the difference between term language and type language, like most dependently typed languages do
+
+(**NOTA BENE** I do realize that ATS, like other dependently typed languages can express far more than refinement typed languages can, I just personally
+feel like this trade off in complexity isn't worth it for _most_ use cases I have, and that refinement types and design by contract work fine).
+
+This can specificy *way more* than I expect to; here, we are specifying the relationship between the data and how it builds logically over
+successive invocations of `FACT` propositions, and using those cases within the `fact` function. 
+
+Instead, I'm more interested in simpler examples, such as what https://en.wikipedia.org/wiki/F*_(programming_language)[F*] and
+https://en.wikipedia.org/wiki/Ada_(programming_language)[Ada] can do.
+
+Take this example from the https://www.fstar-lang.org/tutorial/book/part1/part1_getting_off_the_ground.html#boolean-refinement-types[F* tutorial]:
+
+[source]
+----
+let nat = x:int{x >= 0} // technically a boolean refinement type
+// but as the docs note, there's nothing special about it, and you
+// can apply the refinement everywhere:
+let empty = x:int { false } //the empty set
+let zero = x:int{ x = 0 } //the type containing one element `0`
+let pos = x:int { x > 0 } //the positive numbers
+let neg = x:int { x < 0 } //the negative numbers
+let even = x:int { x % 2 = 0 } //the even numbers
+let odd = x:int { x % 2 = 1 } //the odd numbers
+----
+
+Like JML, F*'s refinements are very similar to the language used for regular boolean expressions, and whilst it cannot express all the relationships 
+that depedent types can, it is "good enough" for the sorts of work I (and others) will likely see on the day-to-day. 
+
+Let's look at https://learn.adacore.com/courses/intro-to-ada/chapters/contracts.html[Ada's]:
+
+[source,ada]
+----
+   function Square (A : Int_8) return Int_8 is
+     (A * A)
+     with Post => (if abs A in 0 | 1
+                   then Square'Result = abs A
+                   else Square'Result > A);
+----
+
+Whilst the language itself is likely not one that most of us are used to using on a day to day (since Wirthian languages and Pascal dialects are
+quite obscure now), the `Post` condition itself is relatively similar to the standard Ada langauge itself, using standard expressions as part of
+the pre- and post-conditions.
+
+This is the general sub-language I'd like to have: a very simple and straight forward mechanism for adding specifications to types and functions,
+one that doesn't look all that different from the day to day language that folks will be using.
+
+== marmots are still welcome on the coast
+
+So where does that leave coastML? One thing I've been considering is being explicit as to where you would like comments to land. For example,
+you might have comments for the coastML code, and comments for the resulting compiled code that other users work with. My thinking lead me to:
+
+[source]
+----
+# this is a coastML comment <1>
+foo = fn x y {
+    doc-comment "this is a document comment, that ends up in the resulting source code"; # <2>
+    doc-comment "yes, in this way it's restricted, since we end up with strings, but we can ensure they make it into client code";
+    x + y
+}
+----
+<1> a regular coastML comment
+<2> a comment we intend to end up in client code
+
+My desire for a minimal-yet-explicit set of features started me thinking about how we can *clearly* document what we intend to send
+to clients, and what we intend to keep just for ourselves. For example, there may be all sorts of use-case scenarios that we wish
+to document within our own code, that wouldn't make sense in say the resulting Go lang output. Additionally, I was thinking about making
+this support _conditional_ rendering, so that you can say "only document this when we're outputing to Go and JavaScript, but never Python."
+
+Hoare logic is something I've always wanted to add to coastML (as well as many other languages that I use), but it has always felt like an add on:
+it's usually in a comment, or some other easily-ignored feature, that falls out of sync as fast (or faster!) than documentation proper. I've been
+sketching what they might look like; initially I made something like:
+
+[source]
+----
+foo = fn x y pre: (x < y) post: ((x + y) > y) {
+   x + y 
+}
+----
+
+Which is relatively straight forward, but muddles up the `fn` form quite a bit; it's now carrying a bunch of other information about the expected code
+in a line that's meant to just state what we expect the arity of the function to be. I also was considering that we could just make returns explicit
+and annotate those:
+
+[source]
+----
+foo = fn x:int y:int{y > x} returns r:{(x + y) > y} {
+    x + y
+}
+----
+
+This means we only add one concept, refinement types, and we enforce everything at the type level, which isn't terrible. However, I need some
+mechanism for annotating `fn` forms again; as an alternative, I also considered:
+
+[source]
+----
+foo is function[int int{$1 < $2} {($1 + $2) > $2}] = fn x y {
+    x + y
+}
+----
+
+Here again, we're only using refinement types, but that annotation is on the binding, rather than on the `fn` form itself. I think it's slightly
+cleaner, but only slightly. It also doesn't feel very explicit; these easily can be forgotten, not updated, missed as an expectation.
+
+== ok, I'll admit it, marmots are cute
+
+All of this, my desire for explicit, clearly-required Hoare logic lead me to two conclusions:
+
+. refinement types are useful, but require some sort of new form, like `newtype` to introduce & use them
+. that Hoare-style conditions should be explicit, like `doc-comment` or any other pervasive
+
+So that's what I'm aiming for:
+
+* I'll introduce a new keyword, `newtype`, that's simply meant to alias types (in an opaque way) and add refinements
+* I'll define a set of pervasives, like `requires` and `ensures`, that execute as code in normal compilation, but users can tweak where they run
+
+The last part is important as well: I want the compiler to be able to determine these properties statically, and allow the user to define what to do
+when it can't. As well, I'll extend `coastline` (header) files to include these pervasives and `newtype` forms, to include these; that way, when
+a user generates or writes a coastline file, they can annotate what they expect in the declarations, and not need to do so elsewhere. 
+
+== but why not `assert` that marmots are cute?
+
+One last thing I wanted to address: why not just use `assert`? That's something I've often heard in these discussions: if you want to make things
+simple, just use the linquistic equivalent of `assert`, since it's easy, a known quanta, and done.
+
+The problem I have is that `assert` doesn't convey the intent of what we're asserting, and it doesn't (by it's very nature) require when it is run. It
+asserts **now**, in situ, without any other contextual information. That's important for certain types of things, but not what I'm aiming for with
+coastML. The other thing is, I want the compiler to gather the pervasives and use them in either static or dynamic contexts, depending on what the
+compiler can prove and what the user desires.
