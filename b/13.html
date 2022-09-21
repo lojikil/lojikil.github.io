@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<p>Most modern programming languages are composed of multiple <em>sub-languages</em>, which add features to the larger language. In functional languages you often see the phrasing "term vs type language," meaning that there is the usual language folks program in (terms) and the language of types (for specifying the shape and composition of data). Recently, there <a href="https://lobste.rs/s/luhkqm/personal_list_rust_grievances">was an article about Rust that had an interesting critique:</a> there are too many sublanguages to learn, and this increases the cognitive load and learning curve of Rust. This was interesting to me, since once thing I’ve focused on with <a href="https://github.com/lojikil/coastML">coastML</a> is <em>simplifying</em> languages. I’ve been thinking about how to incorporate Hoare Logic, amongst other features, and the Rust article above made me realize that I should probably document some thoughts on it.</p>
+<h1 id="_that_hoary_old_logic">That hoary old logic</h1>
+<p>Let’s first take a quick peek at what I mean. <a href="https://en.wikipedia.org/wiki/Hoare_logic">Hoare logic</a> is a system of reasoning about programs based on three basic objects:</p>
+<ul>
+<li><p>a set of preconditions</p></li>
+<li><p>a set of commands</p></li>
+<li><p>a set of postconditions</p></li>
+</ul>
+<p>The Wikipedia goes into (typical) depths, but let’s look at a simpler example from <a href="https://en.wikipedia.org/wiki/Java_Modeling_Language">Java Modeling Language:</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//@ requires 0 &lt; amount &amp;&amp; amount + balance &lt; MAX_BALANCE; </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">//@ assignable balance; </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">//@ ensures balance == \old(balance) + amount; </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">credit</span><span class="op">(</span><span class="dt">final</span> <span class="dt">int</span> amount<span class="op">)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">balance</span> <span class="op">+=</span> amount<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ul>
+<li><p><code>requires</code> here is for preconditions</p></li>
+<li><p><code>assignable</code> simply states that there is a side effect, namely that we update <code>balance</code></p></li>
+<li><p><code>ensures</code> is for postconditions</p></li>
+</ul>
+<p>Basically, this specification states that the amount you want to credit must be greater than 0 and that the amount added will not increase the balance over some maximum allowable amount. Then, it states that we will update the balance, and states that the final balance will be the old balance plus the new balance. The nice thing about Java Modeling Language (JML) is that specifications are relatively close to regular Java expressions: most programmers will be able to understand what these specifications state once they understand what <code>ensures</code> and <code>requires</code> and the like do. Whilst the specifications are obviously domain specific, and indeed specific to the very locations in which they are applied, no other specialized knowledge is needed. Obviously, some specifications will grow infinitely more complex than the JML shown here, but the idea is instructive of what we’re aiming for: simple, accessible specification.</p>
+<h1 id="_wrestling_a_hoary_marmot">Wrestling a hoary marmot</h1>
+<p>I often think of coastML as a language meant to simplify approaching &amp; wrestling with ideas in other languages; I don’t necessarily want to replace every language under the sun, but it would be nice to be able to express an idea one place and use it in many places. Similarly, it would be useful useful if specifications are able to be translated into the resulting language. There are two major areas I see this being useful:</p>
+<ul>
+<li><p>for types, so that a contract specification can be applied everywhere it’s used</p></li>
+<li><p>for functions, so that users can enforce further restrictions and contracts (such as <a href="https://en.wikipedia.org/wiki/Design_by_contract">Design by Contract</a>)</p></li>
+</ul>
+<p>The first generally refers to <a href="https://en.wikipedia.org/wiki/Refinement_type">Refinement types</a>, where has a whole litany of names, including DbC.</p>
+<p>I think these are generally useful ideas, especially for the cores of languages &amp; kernels: they allow users to state, up front, the conditions underwhich they expect a type or function to be applied. However, many languages introduce quite a bit of complexity around these concepts.</p>
+<p>For example, here’s an example in <a href="https://en.wikipedia.org/wiki/ATS_(programming_language)">ATS</a>:</p>
+<pre><code>dataprop FACT (int, int) =
+  | FACTbas (0, 1) of () // basic case 
+  | {n:nat}{r:int}       // inductive case
+    FACTind (n+1, (n+1)*r) of (FACT (n, r)) 
+
+(* note that int(x) , also int x, is the monovalued type of the int x value.
+
+ The function signature below says:
+ forall n:nat, exists r:int where fact( num: int(n)) returns (FACT (n, r) | int(r)) *)
+
+fun fact{n:nat} .&lt;n&gt;. (n: int (n)) : [r:int] (FACT (n, r) | int(r)) =
+(
+  ifcase
+  | n &gt; 0 =&gt; ((FACTind(pf1) | n * r1)) where 
+  {
+    val (pf1 | r1) = fact (n-1)
+  }
+  | _(*else*) =&gt; (FACTbas() | 1)
+)</code></pre>
+<ul>
+<li><p>our base case of our proposition, which states the factorial of 0 is 1</p></li>
+<li><p>the inductive case, where we build that for any user parameter <code>n</code> and it’s successor <code>n+1</code>, the return value <code>r</code> is multiplied by <code>n+1</code></p></li>
+<li><p>I will state that ATS minimizes the difference between term language and type language, like most dependently typed languages do</p></li>
+</ul>
+<p>(<strong>NOTA BENE</strong> I do realize that ATS, like other dependently typed languages can express far more than refinement typed languages can, I just personally feel like this trade off in complexity isn’t worth it for <em>most</em> use cases I have, and that refinement types and design by contract work fine).</p>
+<p>This can specificy <strong>way more</strong> than I expect to; here, we are specifying the relationship between the data and how it builds logically over successive invocations of <code>FACT</code> propositions, and using those cases within the <code>fact</code> function.</p>
+<p>Instead, I’m more interested in simpler examples, such as what <a href="https://en.wikipedia.org/wiki/F*">https://en.wikipedia.org/wiki/F*</a><em>(programming_language)[F*] and <a href="https://en.wikipedia.org/wiki/Ada">https://en.wikipedia.org/wiki/Ada</a></em>(programming_language)[Ada] can do.</p>
+<p>Take this example from the <a href="https://www.fstar-lang.org/tutorial/book/part1/part1_getting_off_the_ground.html#boolean-refinement-types">F* tutorial</a>:</p>
+<pre><code>let nat = x:int{x &gt;= 0} // technically a boolean refinement type
+// but as the docs note, there&#39;s nothing special about it, and you
+// can apply the refinement everywhere:
+let empty = x:int { false } //the empty set
+let zero = x:int{ x = 0 } //the type containing one element `0`
+let pos = x:int { x &gt; 0 } //the positive numbers
+let neg = x:int { x &lt; 0 } //the negative numbers
+let even = x:int { x % 2 = 0 } //the even numbers
+let odd = x:int { x % 2 = 1 } //the odd numbers</code></pre>
+<p>Like JML, F*'s refinements are very similar to the language used for regular boolean expressions, and whilst it cannot express all the relationships that depedent types can, it is "good enough" for the sorts of work I (and others) will likely see on the day-to-day.</p>
+<p>Let’s look at <a href="https://learn.adacore.com/courses/intro-to-ada/chapters/contracts.html">Ada’s</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode ada"><code class="sourceCode ada"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>   <span class="kw">function</span> Square (A : Int_8) <span class="kw">return</span> Int_8 <span class="kw">is</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>     (A * A)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>     <span class="kw">with</span> Post =&gt; (<span class="kw">if</span> <span class="kw">abs</span> A <span class="kw">in</span> <span class="dv">0</span> | <span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                   <span class="kw">then</span> Square&#39;Result = <span class="kw">abs</span> A</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   <span class="kw">else</span> Square&#39;Result &gt; A);</span></code></pre></div>
+<p>Whilst the language itself is likely not one that most of us are used to using on a day to day (since Wirthian languages and Pascal dialects are quite obscure now), the <code>Post</code> condition itself is relatively similar to the standard Ada langauge itself, using standard expressions as part of the pre- and post-conditions.</p>
+<p>This is the general sub-language I’d like to have: a very simple and straight forward mechanism for adding specifications to types and functions, one that doesn’t look all that different from the day to day language that folks will be using.</p>
+<h1 id="_marmots_are_still_welcome_on_the_coast">marmots are still welcome on the coast</h1>
+<p>So where does that leave coastML? One thing I’ve been considering is being explicit as to where you would like comments to land. For example, you might have comments for the coastML code, and comments for the resulting compiled code that other users work with. My thinking lead me to:</p>
+<pre><code># this is a coastML comment 
+foo = fn x y {
+    doc-comment &quot;this is a document comment, that ends up in the resulting source code&quot;; 
+    doc-comment &quot;yes, in this way it&#39;s restricted, since we end up with strings, but we can ensure they make it into client code&quot;;
+    x + y
+}</code></pre>
+<ul>
+<li><p>a regular coastML comment</p></li>
+<li><p>a comment we intend to end up in client code</p></li>
+</ul>
+<p>My desire for a minimal-yet-explicit set of features started me thinking about how we can <strong>clearly</strong> document what we intend to send to clients, and what we intend to keep just for ourselves. For example, there may be all sorts of use-case scenarios that we wish to document within our own code, that wouldn’t make sense in say the resulting Go lang output. Additionally, I was thinking about making this support <em>conditional</em> rendering, so that you can say "only document this when we’re outputing to Go and JavaScript, but never Python."</p>
+<p>Hoare logic is something I’ve always wanted to add to coastML (as well as many other languages that I use), but it has always felt like an add on: it’s usually in a comment, or some other easily-ignored feature, that falls out of sync as fast (or faster!) than documentation proper. I’ve been sketching what they might look like; initially I made something like:</p>
+<pre><code>foo = fn x y pre: (x &lt; y) post: ((x + y) &gt; y) {
+   x + y
+}</code></pre>
+<p>Which is relatively straight forward, but muddles up the <code>fn</code> form quite a bit; it’s now carrying a bunch of other information about the expected code in a line that’s meant to just state what we expect the arity of the function to be. I also was considering that we could just make returns explicit and annotate those:</p>
+<pre><code>foo = fn x:int y:int{y &gt; x} returns r:{(x + y) &gt; y} {
+    x + y
+}</code></pre>
+<p>This means we only add one concept, refinement types, and we enforce everything at the type level, which isn’t terrible. However, I need some mechanism for annotating <code>fn</code> forms again; as an alternative, I also considered:</p>
+<pre><code>foo is function[int int{$1 &lt; $2} {($1 + $2) &gt; $2}] = fn x y {
+    x + y
+}</code></pre>
+<p>Here again, we’re only using refinement types, but that annotation is on the binding, rather than on the <code>fn</code> form itself. I think it’s slightly cleaner, but only slightly. It also doesn’t feel very explicit; these easily can be forgotten, not updated, missed as an expectation.</p>
+<h1 id="_ok_ill_admit_it_marmots_are_cute">ok, I’ll admit it, marmots are cute</h1>
+<p>All of this, my desire for explicit, clearly-required Hoare logic lead me to two conclusions:</p>
+<ol type="1">
+<li><p>refinement types are useful, but require some sort of new form, like <code>newtype</code> to introduce &amp; use them</p></li>
+<li><p>that Hoare-style conditions should be explicit, like <code>doc-comment</code> or any other pervasive</p></li>
+</ol>
+<p>So that’s what I’m aiming for:</p>
+<ul>
+<li><p>I’ll introduce a new keyword, <code>newtype</code>, that’s simply meant to alias types (in an opaque way) and add refinements</p></li>
+<li><p>I’ll define a set of pervasives, like <code>requires</code> and <code>ensures</code>, that execute as code in normal compilation, but users can tweak where they run</p></li>
+</ul>
+<p>The last part is important as well: I want the compiler to be able to determine these properties statically, and allow the user to define what to do when it can’t. As well, I’ll extend <code>coastline</code> (header) files to include these pervasives and <code>newtype</code> forms, to include these; that way, when a user generates or writes a coastline file, they can annotate what they expect in the declarations, and not need to do so elsewhere.</p>
+<h1 id="_but_why_not_assert_that_marmots_are_cute">but why not <code>assert</code> that marmots are cute?</h1>
+<p>One last thing I wanted to address: why not just use <code>assert</code>? That’s something I’ve often heard in these discussions: if you want to make things simple, just use the linquistic equivalent of <code>assert</code>, since it’s easy, a known quanta, and done.</p>
+<p>The problem I have is that <code>assert</code> doesn’t convey the intent of what we’re asserting, and it doesn’t (by it’s very nature) require when it is run. It asserts <strong>now</strong>, in situ, without any other contextual information. That’s important for certain types of things, but not what I’m aiming for with coastML. The other thing is, I want the compiler to gather the pervasives and use them in either static or dynamic contexts, depending on what the compiler can prove and what the user desires.</p>
+  </div>
+  </body>
+</html>

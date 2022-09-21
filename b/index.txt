@@ -1,5 +1,6 @@
 # Blag entries
 
+- [thoughts on sub-languages and Hoare logic](/b/13.html)
 - [five months on the coast with coastML](/b/11.html)
 - [the `case` for inversion](/b/10.html)
 - [four months on the coast with coastML](/b/9.html)
