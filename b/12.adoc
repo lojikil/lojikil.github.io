@@ -8,6 +8,50 @@ code and can be tuned in its ability to understand both its source corpus and th
 programmed much like a traditional language, bugs and all. Also to further vouch my thoughts, I spend most of my days doing
 code analysis; even my avocational time is spent there. So, I tend to err on “what can be understood,” vs “what can be generated.” 
 
+== Prelude: why generate?
+
+Originally, I wasn't going to talk about this aspect, but I've seen quite a few arguments *against* generation:
+
+* the results are inscrutable
+* the results are poor
+* the process is used to drive down the need for programmers
+
+As well as others. I think these are interesting comments and worth their own longer article, but I thought I could address
+some of them here as well.
+
+Two of the largest code bases I've ever reviewed were, at least in part, generated from some other source. The resulting code, whilst
+human readable, was myriad, interwoven in ways that humans may not have intended, and difficult to conceptualize, let alone read. If
+you consider low/no code to be a _tool_, this would be an unfortunate result: the code is not useful for use again, and often isn't human
+readable. If you conisder low/no code to be a _compiler_ the results are more clear: you're setting yourself up on some platform, and the result
+isn't something intended for human use. Honestly, as someone who has been working on compilers that output human-readable code for two decades,
+I think with time we'll see better output on this front, especially if we request it. 
+
+This also leads to the second point, that the results are poor. I tend to think of low code/no code, for the most part, as being like Access:
+really great for initial proofs of concept, really terrible for longer term usage. Indeed, a few startups have started with no/low code, and
+then overtime moved in part or in whole over to systems developed by programming experts. I tend to think of these systems as _force multipliers_:
+they allow subject matter experts to focus on business logic, and programmers to focus on the hard problems that they face. Ideally, with input from
+programmers and with time, the output of said tools will get better and be easier to integrate. Consider domain specific languages and their impact
+on subject matter expertise, and how these ideas could be raised up to better expose business logic whilst allowing programmers to focus on what they
+do best.
+
+Lastly, I've been hearing how "any day now" we're not going to have any programmers left, that tools, outsourcing, whatever will replace the need for
+programmers, and soon we'll be in this business utopia wherein we'll just make money from ideas and won't need to program directly ever again. It's
+utter hogwash; it wasn't true then, it isn't true now, and likely won't be true for many years to come, if ever. We will always program, at some level,
+even if our languages become visual and we have very little textual representation, we'll still need people who focus on logically representing ideas.
+Tools such as specification & extraction engines are just another form of programming; maybe not one you like, but they *are still programming*. Look
+at this https://concerningquality.com/semantics-extraction-isabelle/[article on extracting an interpreter from Isabelle/HOL]. This is a specification
+that ends up generating code (in this case, OCaml), that the user themselves then runs. If you made slapped on a visual front end, named it something
+intense like https://docs.appian.com/suite/help/22.3/sail/home.html[SAIL], and made SMT/constraint solving easier, it would be a product that you could
+sell. What people aren't used to is that we always, intentionally or not, explicitly or implicitly, design our programs. Low code/no code, Machine
+Learning, formal methods, &c. are all intended to _specify_ program functionality; they lay bare the domain & co-domain of the program that you
+intend, and make it accessible to more people. If this were the 70s, prior to "AI Winter," we all would be ooh-ing and ahh-ing about how intelligent
+the future looked; instead, we've become rightfully skeptical of the problems. But, we're still programming, we're still wrestling with the ideas,
+and attempting to make it easier to do so.
+
+So honestly, I'm not overly worried about CoPilot or SAIL or Isabelle eating my programmitic lunch or suddenly putting a whole class of developers
+out of business. Instead, I'm interested in how we can make these systems transition better from the design phase and lower barrier of entry for
+good business logic development interfacing with great programming systems.
+
 == Basic Components, and intro
 
 . at its core, there are two basical subsystems of components:
