@@ -1,5 +1,6 @@
 # Blag entries
 
+- [six to seven months of coastal living: coastML status report for September 2022](/b/14.html)
 - [thoughts on sub-languages and Hoare logic](/b/13.html)
 - [five months on the coast with coastML](/b/11.html)
 - [the `case` for inversion](/b/10.html)

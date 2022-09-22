@@ -1,4 +1,6 @@
 # Projects
+
+- [coastML](https://github.com/lojikil/coastML) a tiny experimental ML dialect combining Yeti & CarML
 - [carML](/p/carML) a yummy and sweet ML dialect
 - [Digamma](/p/digamma) a Scheme-dialect
 - [Muse](/p/muse/) a static site generator written in Digamma
