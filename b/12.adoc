@@ -50,9 +50,40 @@ and attempting to make it easier to do so.
 
 So honestly, I'm not overly worried about CoPilot or SAIL or Isabelle eating my programmitic lunch or suddenly putting a whole class of developers
 out of business. Instead, I'm interested in how we can make these systems transition better from the design phase and lower barrier of entry for
-good business logic development interfacing with great programming systems.
+good business logic development interfacing with great programming systems. What I *do* want is better tools and systems, things like 
+https://enso.org/[Enso (which used to be called Luna)], which is a mixed textual & visual language, or https://darklang.com/[Darklang], which 
+mixes easier daily tasks with an ML or Haskell-style textual language and visual, domain specific languages and mixed representations, things that
+delight and make specification easier to expose. Specification *is* programming, even if we're not manipulating registers one by one with `MOV` 
+instructions.
 
 == Basic Components, and intro
+
+At it's core there are two real components that we're talking about here:
+
+* a specifier that accepts human input in some form, such as via a Prompt for Machine Learning or an alternative syntax for No/Low code and
+* a extractor (or generator) which acts upon human input to transpile this human intent into executable form.
+
+Fundamentally, if we consider the problem of program extraction, these are the opposite ends of the same spectrum:
+
+* Machine learning attempts to look at what the corpus of human code, divine intent, and produce something similar
+* No/Low code looks at what humans have specified, and attempts to generate good or better code
+
+In both cases, stronger models can lead to much better extraction: if we can divine user intent better with a huge corpus, we can more easily
+recognize patterns of code that match what the user intends. On the other side, if we can more strongly encode user intent within some specification and
+have strong generators for patterns of specifications to the extraction target, we can more easily extract code that tightly adheres to user intent.
+Really, for both Machine Learning and No/Low Code:
+
+* If we can better specify our problem (and understand the spec), we can use more information in our extractor
+* If we can better extract our problem, we can get better transpiled results to the systems we actually want to use
+
+
+
+.good note, should remove to another section
+Really, I don't see either as much different from domain specific languages (DSLs): the intent is to solve a problem within a given problem domain,
+in a syntax that makes sense to a subject matter expert. With Machine Learning especially, we're certainly broadening the field to being more accessible
+to more people, but at the end of the day
+                                                                                  
+
 
 . at its core, there are two basical subsystems of components:
 .. a specifier, which accepts human input
