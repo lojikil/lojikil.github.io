@@ -1,4 +1,4 @@
-== eight months of coastal living: coastML status report for September 2022
+== eight months of coastal living: coastML status report for October 2022
 
 Today marks eight months of coastal living; let's checkout the running burndown chart:
 
