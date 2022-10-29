@@ -76,31 +76,25 @@ Really, for both Machine Learning and No/Low Code:
 * If we can better specify our problem (and understand the spec), we can use more information in our extractor
 * If we can better extract our problem, we can get better transpiled results to the systems we actually want to use
 
-
-
-.good note, should remove to another section
 Really, I don't see either as much different from domain specific languages (DSLs): the intent is to solve a problem within a given problem domain,
 in a syntax that makes sense to a subject matter expert. With Machine Learning especially, we're certainly broadening the field to being more accessible
-to more people, but at the end of the day
-                                                                                  
+to more people, but at the end of the day the intent of both is to allow Subject Matter Experts the ability to extract _some_ amount of code without learning
+to code as a separate discipline. Like most things, at the end of the day we'll probably end up with some mix of both methods, but my general preference
+is on the low/no code side of the house.
 
+== What are these methods?
 
-. at its core, there are two basical subsystems of components:
-.. a specifier, which accepts human input
-.. an extractor, which acts upon human input
-. fundementally, these approaches are opposite ends of the same spectrum
-.. Machine Learning attempts to look at what the corpus of code humans have produced is, and produce something similar
-.. Low/No code looks at what you have specified and generates code as best it can
-. in both, better models lead to better generators
-.. if we can better specify our problem (and understand the spec), we can use more information in our extractor
-.. if we can better extract our problem, we can better resolve issues
-. additionally, both seek, in some way, to democritize programming
-.. Machine Learning methods, by giving you the power of a huge corpus at your finger tips
-.. Low/No Code, by giving you a sort of expert system
-. Probably the best solution is a mix of both
-.. But I prefer Low/No Code to Machine Learning
+I thought a quick foray into what these methods actually are would be interesting. First, we'll look at a simple model for Machine Learning, and then
+we'll look at a quick low-code model. Neither of these are meant to be anything but simple examples of the method; please don't take how facile they
+are as any form of deeper commentary.
 
 == Machine Learning methods
+
+Let's look at Machine Learning first. There are hundreds of different types of Machine Learning algorithms, often with huge numbers of parameters. Some
+code models feature *billions* of "https://en.wikipedia.org/wiki/Feature_(machine_learning)[features]" (measurable properties), with their own
+https://en.wikipedia.org/wiki/Perceptron[perceptrons], and classification techniques. That's a lot of verbiage to say that we design a grouping
+of data structures anf dunctions that are meant to measure properties about a source corpus and extract structures and patterns from it. I thought
+it would help to start with a very simple model, and generate some code from it based on a corpus.
 
 . Tensors & Vector spaces
 . Talk about Vector Spaces of code
