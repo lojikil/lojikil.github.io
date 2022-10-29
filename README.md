@@ -16,6 +16,19 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _25OCT2022_: [eight months of coastal living: coastML status report for October 2022](/b/15.html)
+- _22SEP2022_: [six to seven months of coastal living: coastML status report for September 2022](/b/14.html)
+- _21SEP2022_: [thoughts on sub-languages and Hoare logic](/b/13.html)
+- _25JUL2022_: [five months on the coast with coastML](/b/11.html)
+- _11JUL2022_: [the `case` for inversion](/b/10.html)
+- _26JUN2022_: [four months on the coast with coastML](/b/9.html)
+- _25MAY2022_: [three months on the coast with coastML](/b/8.html)
+- _30APR2022_: [using and understanding libfuzzer](/b/7.html)
+- _25APR2022_: [two months on the coast with coastML](/b/6.html)
+- _25MAR2022_: [coastal living: one month of coastML](/b/5.html)
+- _11MAR2022_: [leaving sweetness for two weeks on the coast](/b/4.html)
+- _19MAR2021_: [learn carML in five years](/b/3.html)
+- _01DEC2020_: new section: [talks](/t/)
 - _01NOV2020_: finished the site refresh, and started a new project: [a new static website helper](https://github.com/lojikil/retejohelpanto)
 - _31OCT2020_: site refresh
 - _29JAN2017_: added to GitHub pages.
