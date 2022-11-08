@@ -16,8 +16,10 @@ Today marks nine months of coastal living; let's checkout the running burndown c
 * [x] accessors (both variables and lambdas) for `type`
 * [ ] `gn` forms
 * [ ] `fc` forms
-* [ ] `mod` and `sig` forms
+* [ ] `mod` forms
 * [ ] an analog to SML's `op`, using backticks
+* [ ] `sig` forms
+* [ ] `impl` forms
 * [ ] basis library (stubbed out, need to actually compile)
 ** [x] basic basis stubs: some members of `+array-*+`, `+string-*+` have been stubbed out
 *** [x] array-length
@@ -71,9 +73,16 @@ Today marks nine months of coastal living; let's checkout the running burndown c
 *** [ ] char-lowercase
 *** [ ] char-uppercase
 *** [ ] char-compare
+*** [ ] random-choice
+*** [ ] random-int
+*** [ ] random-float
+*** [ ] random-byte
+*** [ ] random-string
+*** [ ] random
 *** More of the OS interaction stuff out of https://reasonml.github.io/api/Pervasives.html[the Pervasives API]
 ** [ ] basis library modules (modular forms, e.g. `array-get` becomes `Array::get`)
 * [x] support for the `is` form
+* [ ] `coastline` files (analog to `mli` files)
 * [ ] code generation
 ** [ ] C 
 ** [ ] C++
@@ -127,3 +136,15 @@ Today marks nine months of coastal living; let's checkout the running burndown c
 ** [x] instantiate the classes we define
 ** [x] fixed bug wherein two `if` blocks were generated and one was not indented correctly
 *** basically, the `case` generator uses a counter, and one arm of the tests didn't update the counter
+
+=== Type handling burndown:
+
+* [ ] parse coastline files
+* [ ] load basis & pervasives coastline files
+* [ ] parse `+`op`+` forms correctly
+* [ ] parse `impl` correctly (for type classes)
+* [ ] parse `sig` correctly
+* [ ] support new function signatures with type class information (e.g. `add is function[[Num[A]] A A A]`)
+* [ ] type check
+* [ ] type infer
+* [ ] refinements
