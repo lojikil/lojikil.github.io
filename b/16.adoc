@@ -136,6 +136,8 @@ Today marks nine months of coastal living; let's checkout the running burndown c
 ** [x] instantiate the classes we define
 ** [x] fixed bug wherein two `if` blocks were generated and one was not indented correctly
 *** basically, the `case` generator uses a counter, and one arm of the tests didn't update the counter
+** [x] `()` (aka unit) wasn't being detected as a simple type
+** [x] `()` was producing an incorrect lexing: `[(), )]`
 
 === Type handling burndown:
 
