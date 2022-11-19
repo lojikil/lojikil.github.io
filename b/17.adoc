@@ -6,12 +6,26 @@ Access Isolation Mechanism (AIM) need to be augmented with other technical contr
 directly useful. For example, AIM ensures that Confidential data (to pick an example) can't be accessed by a library or 
 program marked as Public; however, it doesn't ensure that Confidential data is never marked Public to begin with.
 
+=== Definitions
+
 First, let's review a few things that I'll be talking about:
 
 * ACLs: these are discretionary access lists that say who may access what, and are chosen by the user. For example, in a system with two users `A` and `B`, `A` may grant `B` read access to the data stored within the file or diretory
 * AIM: if ACLs are discretionary, AIM is *non-discretionary* (and we'll talk about how this is different from MAC later); in the case of Multics, data was tagged with a Security Level (such as `Public` or `Condfidential`) and a Category (such as `Marketing` or `Billing`). AIM would then enforce that tools or libraries intended for one Security Level and Category couldn't reach across and access data for another level, *even if the user requested the operating system to do so*. Yes, Multics solved 3rd-party malice in the 70s
+* Data Classification: the attempt to classify data as to how sensitive it is, which may or may not include additional information about the sensitivity; Multics for example had 8 level of security for data, each having a number of categories that could be applied. You could enforce that say Restricted Payroll Data could never be co-mingled with Public Financial Data
 * Subscriptions: these describe not only who can see the data, but how they can share it; think something like the https://www.first.org/tlp/[Traffic Light Protocol (TLP)], which states if a user can even share the data, or update who can see the data
 * Security Kernel is the enforcement mechanism for Security Controls within a program or operating system
 * Security Control (or often just "control") is a type of gate mechanism to check that some pre-condition or invariant is true before performing an action, often with caveats for a specific piece of data
 * https://wiki.laptop.org/go/Bitfrost[Bitfrost] is the Security Kernel for the One Laptop Per Child (OLPC) platform (yes, OLPC has a fairly robust security model defined!); its purpose is to ensure that certain rules for program accesses do not violate the Security and Privacy controls expected by the user (for example, you cannot download an application that has both Network and Camera access by default)
 * Rules as Code (RaC): instead of storing rules, such as who can access what, in a specialized tool, conume and store them similarly to any other code within the system (for example, https://www.openpolicyagent.org/docs/latest/policy-language/[Rego])
+
+=== Current State of Affairs
+
+Most systems have *some* level of Access Control List, even if it's as simple as Unix's model. However, few systems codify 
+the other items define above.
+
+* GSuite, such as Docs & Drive: Google has actually _somewhat_ implemented the sorts of controls we mention above. Documents hve a "visibility" that specifies who can find or see the file; you can set it to Pubic, Organizational, Anyone with the Link (which uses a pseudo-random value to ensure limited discovery), and Named Parties Only. Additionally, you can specify what level of access those within the Subscription have access to the Resource. Little else is done, but it's interesting to see how they've achieved the success they have.
+* GitHub: GitHub allows repository or organization owners to limit the types of access based on named access and role, which can be granted to groups or individuals, with visibility set to either public or private. Likewise, GitHub can enforce the spread of a repository by limiting forking from within the UI.
+
+Most systems have some sort of ACL and role composition, and *maybe* visibility
+
