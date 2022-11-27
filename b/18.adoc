@@ -1,4 +1,4 @@
-== nine months of coastal living: coastML status report for November 2022
+== ten months of coastal living: coastML status report for December 2022
 
 Today marks nine months of coastal living; let's checkout the running burndown chart:
 
@@ -17,7 +17,7 @@ Today marks nine months of coastal living; let's checkout the running burndown c
 * [ ] `gn` forms
 * [ ] `fc` forms
 * [ ] `mod` forms
-* [x] an analog to SML's `op`, using backticks
+* [ ] an analog to SML's `op`, using backticks
 * [ ] `sig` forms
 * [ ] `impl` forms
 * [ ] basis library (stubbed out, need to actually compile)
