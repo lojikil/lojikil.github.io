@@ -17,7 +17,9 @@ First, let's review a few things that I'll be talking about:
 * Security Kernel is the enforcement mechanism for Security Controls within a program or operating system
 * Security Control (or often just "control") is a type of gate mechanism to check that some pre-condition or invariant is true before performing an action, often with caveats for a specific piece of data
 * https://wiki.laptop.org/go/Bitfrost[Bitfrost] is the Security Kernel for the One Laptop Per Child (OLPC) platform (yes, OLPC has a fairly robust security model defined!); its purpose is to ensure that certain rules for program accesses do not violate the Security and Privacy controls expected by the user (for example, you cannot download an application that has both Network and Camera access by default)
+** likewise, OpenBSD has `pledge` and `unveil`, although this act more akin to proof-carrying code than BitFrost does
 * Rules as Code (RaC): instead of storing rules, such as who can access what, in a specialized tool, conume and store them similarly to any other code within the system (for example, https://www.openpolicyagent.org/docs/latest/policy-language/[Rego])
+* Data Lifecycles: the full state of data, from creation to destruction
 
 === Current State of Affairs
 
@@ -27,5 +29,29 @@ the other items define above.
 * GSuite, such as Docs & Drive: Google has actually _somewhat_ implemented the sorts of controls we mention above. Documents hve a "visibility" that specifies who can find or see the file; you can set it to Pubic, Organizational, Anyone with the Link (which uses a pseudo-random value to ensure limited discovery), and Named Parties Only. Additionally, you can specify what level of access those within the Subscription have access to the Resource. Little else is done, but it's interesting to see how they've achieved the success they have.
 * GitHub: GitHub allows repository or organization owners to limit the types of access based on named access and role, which can be granted to groups or individuals, with visibility set to either public or private. Likewise, GitHub can enforce the spread of a repository by limiting forking from within the UI.
 
-Most systems have some sort of ACL and role composition, and *maybe* visibility
+Users certainly _use_ systems that handle some of these data security controls, but the wider suite of controls either require
+external enforcement or procedural controls to be enforced. Similarly, even those systems that *do* provide many of these
+controls rarely have them enforced in a way that is easily processed by users; how often do we see the equivalent of `0777` for
+many forms of data?
 
+=== A Multicious Alternative
+
+Yes, the Multics analog of `Unixy` is https://multicians.org/mgm.html#Multicious[`Multicious`]. Multics included many of these
+data security controls, as described in https://multicians.org/multics-data-security.html[Multics Data Security]; in essence:
+
+* Multics "users" were actually two things: a Person (with a Username) and a _Project_ (basically, a group); Permissions were assigned to a _user_, which carried more informaton than our current notion of "user" does
+* each Person could have a unique login, and access to a Project's files required the user to Login to that User
+* ACLs for an object were specified as the type of access (read, write, &c) and the Username, _including authentication mechanism_.
+
+This allowed Multics to have discretionary access control at a time where most systems assumed that physical access was enough
+to limit access. We'll circle back to that in a moment, but first let's focus on the last point above; Multics' ACL system
+included the _authentication type_ for a user as well. This included three types of authentication modes: interaction login,
+daemon, and batch job (basically a `cron` job, but to process data primarily). This was adventageous; using ACLs, I can setup
+permissions for my user such that:
+
+* when I manually login, I'm able to modify a file as needed
+* when a daemon running as my user attempts to access the file, it can only _append_ to the file
+* when a `cron` job running as my user accesses the file, it can only _read_ the file
+* when I don't care how I authenticated to the system and I want specific permissions, I can set the authentication specifier to any (`*`)
+
+Although Multics included an analog to service accounts, the 
