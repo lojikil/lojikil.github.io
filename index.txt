@@ -1,122 +1,54 @@
-<!DOCTYPE HTML>
-<html>
-<head>
+# About this site
 
-    <title>lojikil</title>
+```
+ _       _ _ _    _ _ 
+| |     (_|_) |  (_) |
+| | ___  _ _| | ___| |
+| |/ _ \| | | |/ / | |
+| | (_) | | |   <| | |
+|_|\___/| |_|_|\_\_|_|
+       _/ |           
+      |__/           
+    purveyors of fine, internet-related kipple since 1985.
+```
 
-    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+This site is the home page of "sae/lojikil" a not-very important person. 
+ 
+# Recent updates
 
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-</head>
-<body>
-
-<div id="header">
-    <div class="superHeader">
-    <div class="left">
-        <a href="/">home</a> |
-        <a href="https://twitter.com/lojikil">twitter</a> |
-        <a href="https://github.com/lojikil">github</a> |
-        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
-    </div>
-
-    <div class="right">
-      <span class="doNotDisplay">Related sites:</span>
-       <a href="http://lojikil.com">self-hosted site</a>
-    </div>
-
-    </div>
-
-    <div class="midHeader">
-    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
-    </div>
-    
-    <div class="subHeader"><br></div>
-</div>
-  <div id="side-bar">
-    <div>
-      <ul>
-    <li> <a href="/.">&rsaquo;  . </a></li>
-    <li>
-      <ul>
-         <li><a href="/.">&rsaquo; . </a></li>
-         <li><a href="/w">&rsaquo; w </a></li>
-         <li><a href="/b">&rsaquo; b </a></li>
-         <li><a href="/d">&rsaquo; d </a></li>
-         <li><a href="/p">&rsaquo; p </a></li>
-         <li><a href="/t">&rsaquo; t </a></li>
-         <li><a href="/.git">&rsaquo; .git </a></li>
-      </ul>
-    </li>
-    <li> <a href="/w">&rsaquo; w </a></li>
-    <li> <a href="/b">&rsaquo; b </a></li>
-    <li> <a href="/d">&rsaquo; d </a></li>
-    <li> <a href="/p">&rsaquo; p </a></li>
-    <li> <a href="/t">&rsaquo; t </a></li>
-      </ul>
-    </div>
-  </div>
-
-
-  <div id="main-copy">
-&lt;!DOCTYPE HTML&gt;
-<html>
-<head>
-<pre><code>&lt;title&gt;lojikil&lt;/title&gt;
-
-&lt;link rel=&quot;stylesheet&quot; href=&quot;/style.css&quot; type=&quot;text/css&quot; media=&quot;screen, handheld&quot; title=&quot;default&quot;&gt;
-
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt; </code></pre>
-</head>
-<body>
-<div id="header">
-<pre><code>&lt;div class=&quot;superHeader&quot;&gt;
-&lt;div class=&quot;left&quot;&gt;
-    &lt;a href=&quot;/&quot;&gt;home&lt;/a&gt; |
-    &lt;a href=&quot;https://twitter.com/lojikil&quot;&gt;twitter&lt;/a&gt; |
-    &lt;a href=&quot;https://github.com/lojikil&quot;&gt;github&lt;/a&gt; |
-    &lt;a href=&quot;https://lobste.rs/u/lojikil&quot;&gt;lobste.rs&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;right&quot;&gt;
-  &lt;span class=&quot;doNotDisplay&quot;&gt;Related sites:&lt;/span&gt;
-   &lt;a href=&quot;http://lojikil.com&quot;&gt;self-hosted site&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;div class=&quot;midHeader&quot;&gt;
-&lt;h1 class=&quot;headerTitle&quot;&gt;&lt;a href=&quot;/&quot;&gt;lojikil &lt;span id=&quot;headerSubTitle&quot;&gt;purveyors of fine, internet-related kipple, since 1985&lt;/span&gt;&lt;/a&gt;&lt;/h1&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;subHeader&quot;&gt;&lt;br&gt;&lt;/div&gt;</code></pre>
-</div>
-<div id="side-bar">
-<pre><code>&lt;div&gt;
-  &lt;ul&gt;
-&lt;li&gt; &lt;a href=&quot;/.&quot;&gt;&amp;rsaquo;  . &lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;
-  &lt;ul&gt;
-     &lt;li&gt;&lt;a href=&quot;/.&quot;&gt;&amp;rsaquo; . &lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href=&quot;/w&quot;&gt;&amp;rsaquo; w &lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href=&quot;/b&quot;&gt;&amp;rsaquo; b &lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href=&quot;/d&quot;&gt;&amp;rsaquo; d &lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href=&quot;/p&quot;&gt;&amp;rsaquo; p &lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href=&quot;/t&quot;&gt;&amp;rsaquo; t &lt;/a&gt;&lt;/li&gt;
-     &lt;li&gt;&lt;a href=&quot;/.git&quot;&gt;&amp;rsaquo; .git &lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt; &lt;a href=&quot;/w&quot;&gt;&amp;rsaquo; w &lt;/a&gt;&lt;/li&gt;
-&lt;li&gt; &lt;a href=&quot;/b&quot;&gt;&amp;rsaquo; b &lt;/a&gt;&lt;/li&gt;
-&lt;li&gt; &lt;a href=&quot;/d&quot;&gt;&amp;rsaquo; d &lt;/a&gt;&lt;/li&gt;
-&lt;li&gt; &lt;a href=&quot;/p&quot;&gt;&amp;rsaquo; p &lt;/a&gt;&lt;/li&gt;
-&lt;li&gt; &lt;a href=&quot;/t&quot;&gt;&amp;rsaquo; t &lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/div&gt;</code></pre>
-</div>
-<div id="main-copy">
-
-  </div>
-  </body>
-</html>
+- _29NOV2022_: [thoughts on data security](/b/17.html) 
+- _27NOV2022_: [nine months of coastal living: coastML status report for November 2022](/b/16.html)
+- _25OCT2022_: [eight months of coastal living: coastML status report for October 2022](/b/15.html)
+- _22SEP2022_: [six to seven months of coastal living: coastML status report for September 2022](/b/14.html)
+- _21SEP2022_: [thoughts on sub-languages and Hoare logic](/b/13.html)
+- _25JUL2022_: [five months on the coast with coastML](/b/11.html)
+- _11JUL2022_: [the `case` for inversion](/b/10.html)
+- _26JUN2022_: [four months on the coast with coastML](/b/9.html)
+- _25MAY2022_: [three months on the coast with coastML](/b/8.html)
+- _30APR2022_: [using and understanding libfuzzer](/b/7.html)
+- _25APR2022_: [two months on the coast with coastML](/b/6.html)
+- _25MAR2022_: [coastal living: one month of coastML](/b/5.html)
+- _11MAR2022_: [leaving sweetness for two weeks on the coast](/b/4.html)
+- _19MAR2021_: [learn carML in five years](/b/3.html)
+- _01DEC2020_: new section: [talks](/t/)
+- _01NOV2020_: finished the site refresh, and started a new project: [a new static website helper](https://github.com/lojikil/retejohelpanto)
+- _31OCT2020_: site refresh
+- _29JAN2017_: added to GitHub pages.
+- _09JUN2015_: New wiki section: [Security](/p/misc/security/)
+- Not dead yet! Multiple updates along the way...
+- _31AUG2014_: Spelling fix. (probably more to come)
+- New Wiki Entry: [Splitting & Splicing Zip files from the CLI.](/p/misc/sysadmin/split-zips.html)
+- _09AUG2014_: Site Refresh
+- New Wiki Entry: [Git Post receive hooks](/p/misc/sysadmin/git-postreceive.html)
+- _02JUN2014_: Site's back
+- New Project: [Lojikil Programmer's Notebook](/p/lpn)
+- New Project: [Misc Static Wiki Notes](/p/misc/)
+- _25NOV2013_: Site refresh; less harsh CSS styling.
+- _02APR2013_: nginx 1.3.15 update
+- _24MAR2013_: Site refresh; Desert (vim color scheme) like CSS added.
+- Blag post: [Digamma TODOs](/b/2.html)
+- _22MAR2013_: Site refresh; new footer, added more digamma information, &c.
+- _13FEB2013_: nginx 1.3.12 update
+- _12DEC2012_: nginx 1.3.9 update 
+- Blag post: [Muse write up](/b/1.html)
+- Blag post: [First Post](/b/0.html)
