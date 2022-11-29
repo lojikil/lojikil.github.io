@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/w">&rsaquo; w </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+         <li><a href="/b">&rsaquo; b </a></li>
+      </ul>
+    </li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/t">&rsaquo; t </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_thoughts_on_data_security">Thoughts on data security</h1>
+<p>BLUF: I’ve been thinking a lot about <a href="https://multicians.org/multics-data-security.html">Multics Data Security</a> paper, and how a modern version of Multics would support enhancements to that. Specifically, I believe that Access Control Lists (ACLs) and Access Isolation Mechanism (AIM) need to be augmented with other technical controls, in order to help make ACLs and AIM more directly useful. For example, AIM ensures that Confidential data (to pick an example) can’t be accessed by a library or program marked as Public; however, it doesn’t ensure that Confidential data is never marked Public to begin with.</p>
+<h2 id="_definitions">Definitions</h2>
+<p>First, let’s review a few things that I’ll be talking about:</p>
+<ul>
+<li><p>ACLs: these are discretionary access lists that say who may access what, and are chosen by the user. For example, in a system with two users <code>A</code> and <code>B</code>, <code>A</code> may grant <code>B</code> read access to the data stored within the file or diretory</p></li>
+<li><p>AIM: if ACLs are discretionary, AIM is <strong>non-discretionary</strong> (and we’ll talk about how this is different from MAC later); in the case of Multics, data was tagged with a Security Level (such as <code>Public</code> or <code>Condfidential</code>) and a Category (such as <code>Marketing</code> or <code>Billing</code>). AIM would then enforce that tools or libraries intended for one Security Level and Category couldn’t reach across and access data for another level, <strong>even if the user requested the operating system to do so</strong>. Yes, Multics solved 3rd-party malice in the 70s</p></li>
+<li><p>Data Classification: the attempt to classify data as to how sensitive it is, which may or may not include additional information about the sensitivity; Multics for example had 8 level of security for data, each having a number of categories that could be applied. You could enforce that say Restricted Payroll Data could never be co-mingled with Public Financial Data</p></li>
+<li><p>Subscriptions: these describe not only who can see the data, but how they can share it; think something like the <a href="https://www.first.org/tlp/">Traffic Light Protocol (TLP)</a>, which states if a user can even share the data, or update who can see the data</p></li>
+<li><p>Security Kernel is the enforcement mechanism for Security Controls within a program or operating system</p></li>
+<li><p>Security Control (or often just "control") is a type of gate mechanism to check that some pre-condition or invariant is true before performing an action, often with caveats for a specific piece of data</p></li>
+<li><p><a href="https://wiki.laptop.org/go/Bitfrost">Bitfrost</a> is the Security Kernel for the One Laptop Per Child (OLPC) platform (yes, OLPC has a fairly robust security model defined!); its purpose is to ensure that certain rules for program accesses do not violate the Security and Privacy controls expected by the user (for example, you cannot download an application that has both Network and Camera access by default)</p>
+<ul>
+<li><p>likewise, OpenBSD has <code>pledge</code> and <code>unveil</code>, although this act more akin to proof-carrying code than BitFrost does</p></li>
+</ul></li>
+<li><p>Rules as Code (RaC): instead of storing rules, such as who can access what, in a specialized tool, conume and store them similarly to any other code within the system (for example, <a href="https://www.openpolicyagent.org/docs/latest/policy-language/">Rego</a>)</p></li>
+<li><p>Data Lifecycles: the full state of data, from creation to destruction</p></li>
+</ul>
+<h2 id="_current_state_of_affairs">Current State of Affairs</h2>
+<p>Most systems have <strong>some</strong> level of Access Control List, even if it’s as simple as Unix’s model. However, few systems codify the other items define above.</p>
+<ul>
+<li><p>GSuite, such as Docs &amp; Drive: Google has actually <em>somewhat</em> implemented the sorts of controls we mention above. Documents hve a "visibility" that specifies who can find or see the file; you can set it to Pubic, Organizational, Anyone with the Link (which uses a pseudo-random value to ensure limited discovery), and Named Parties Only. Additionally, you can specify what level of access those within the Subscription have access to the Resource. Little else is done, but it’s interesting to see how they’ve achieved the success they have.</p></li>
+<li><p>GitHub: GitHub allows repository or organization owners to limit the types of access based on named access and role, which can be granted to groups or individuals, with visibility set to either public or private. Likewise, GitHub can enforce the spread of a repository by limiting forking from within the UI.</p></li>
+</ul>
+<p>Users certainly <em>use</em> systems that handle some of these data security controls, but the wider suite of controls either require external enforcement or procedural controls to be enforced. Similarly, even those systems that <strong>do</strong> provide many of these controls rarely have them enforced in a way that is easily processed by users; how often do we see the equivalent of <code>0777</code> for many forms of data?</p>
+<h2 id="_a_multicious_alternative">A Multicious Alternative</h2>
+<p>Yes, the Multics analog of <code>Unixy</code> is <a href="https://multicians.org/mgm.html#Multicious"><code>Multicious</code></a>. Multics included many of these data security controls, as described in <a href="https://multicians.org/multics-data-security.html">Multics Data Security</a>; in essence:</p>
+<ul>
+<li><p>Multics "users" were actually two things: a Person (with a Username) and a <em>Project</em> (basically, a group); Permissions were assigned to a <em>user</em>, which carried more informaton than our current notion of "user" does</p></li>
+<li><p>each Person could have a unique login, and access to a Project’s files required the user to Login to that User</p></li>
+<li><p>ACLs for an object were specified as the type of access (read, write, &amp;c) and the Username, <em>including authentication mechanism</em>.</p></li>
+</ul>
+<p>This allowed Multics to have discretionary access control at a time where most systems assumed that physical access was enough to limit access. We’ll circle back to that in a moment, but first let’s focus on the last point above; Multics' ACL system included the <em>authentication type</em> for a user as well. This included three types of authentication modes: interaction login, daemon, and batch job (basically a <code>cron</code> job, but to process data primarily). This was adventageous; using ACLs, I can setup permissions for my user such that:</p>
+<ul>
+<li><p>when I manually login, I’m able to modify a file as needed</p></li>
+<li><p>when a daemon running as my user attempts to access the file, it can only <em>append</em> to the file</p></li>
+<li><p>when a <code>cron</code> job running as my user accesses the file, it can only <em>read</em> the file</p></li>
+<li><p>when I don’t care how I authenticated to the system and I want specific permissions, I can set the authentication specifier to any (<code>*</code>)</p></li>
+</ul>
+<p>Although Multics included an analog to service accounts, the fact that we can specify how programs that run as our current user may access files is a huge boon to simplifying data security.</p>
+<p>Multics took this one step further, with the introduction of Access Isolation Mechanism, AIM. AIM added a few bits to the running system, to allow further control of data, in a Mandatory Access Control (MAC) fashion:</p>
+<ul>
+<li><p>Data Classification, from least sensitive (0) to most sensitive (7)</p></li>
+<li><p>Data Categories, upto 18 different <em>categories</em> of data</p></li>
+<li><p>Enforcement Rules around how to combine Data Classification and Data Categories, mainly that the Classification either matched or exceeded and that the Categories were either identical or a subset of one another</p></li>
+<li><p>Tracking of the above across the entire system (via "Segement Data Words"; basically, all files were memory mapped in a single-level store, and added to a running program, called segments)</p></li>
+</ul>
+<p>This applied to programs and libraries as well; so, for example, a library marked as "Public" can only access Public data, even if it were called from a program marked as "Top Secret." Multics was concerned with "Trojan Horses" from third parties in 1974.</p>
+<p>Lastly, Multics made rings of execution much more explicit than operating systems we are familiar with today. We are all familiar with say Ring 0 (hardware, or at least very low level firmware) and thoughts like Kernel Space versus User Space, but Multics allowed Administrators to specify what ring (from 0 to 7) user’s programs &amp; libraries could execute on, and provided a limited form of privilege escalation so as to allow very limited forms of cross-ring file, library, and program access. In this way, users could be in the same Project and yet have very controlled forms of access control to the libraries, files, and programs within the Project.</p>
+<h2 id="_towards_multicious_perfection">towards multicious perfection</h2>
+<p>Multics was a huge leap forward in how we structure systems and file access, but it still could be improved, especially in the face of the modern threat landscape. There are three things I believe are missing that a modern system would have to address:</p>
+<ol type="1">
+<li><p>Data Lifecycle: Multics handles Data <strong>Creation</strong> quite well, but Destruction, especially on a specific access timeframe isn’t handled, and Access Policies require diving into other AIM &amp; Ring control mechanisms</p></li>
+<li><p>Data Subscription: given a Data Classification and Category, who should be able to <strong>see</strong> the Data internally &amp; externally?</p></li>
+<li><p>Default Permissions: there are sets of Default Permissions for programs &amp; libraries that could be enforced; for example, BitFrost denies access to the Camera for any program that has Network access, until the user specifically allows it</p></li>
+</ol>
+<p>The first is harder to capture in a generic way; policies may be defined by clients (as is often the case for consultants) or regulatory policy. We’d need a way to expose Data Lifecycle policies in such a way that Deletion, Retention, and Backup can all be handled from a single source, and tied into Data Classification and Category. Likewise, the second item could be simple: we could apply something like Traffic Light Protocol (TLP) to all data (and hopefully with an easier set of names), and enforce that Data of specific Classification and Category have specific Subscriptions appied. For example, there is almost never going to be a correct application of Personally Identifiable Information (PII) and TLP:CLEAR (or All Parties) Subscriptions. I’m not quite sure if more needs to be added to Subscription other than system enforcement and tying to the Classification and Category, but exploring the Subscription needs is extremely fascinating to me.</p>
+<p>The last is Default Permissions; Multics handled this in part with what were called "IACLs," or Initial Access Control Lists. These were then restricted based on the ACLs users &amp; operators applied. I think combining Default Permissions, IACLs, Rings, and Gates would be faily fascinating; one of my favorite papers on the topic is the <a href="http://mumble.net/~jar/pubs/secureos/secureos.html">W7 Security Kernel, which is based on the Lambda Calculus</a>. Things like W7, BitFrost, and other mechnaisms for restricting Default access dovetail nicely into Capability-based systems (like <a href="https://en.wikipedia.org/wiki/EROS_(microkernel)">Eros</a> and <a href="https://en.wikipedia.org/wiki/CapROS">CapROS</a>). What could be interesting is playing with a system that combines these concepts in such a way that users can by default run things they expect to run. For example, tying in source of installation with Data Classification and Category, all dependencies of a program could be installed as Public; in this way, even if malicious code were installed, it could only run within the a low-privileged ring and with access to data marked as Public. Likewise, Default Permissions for applications could specify what they have access to off the bat, and require user intervention for any further escalation of access.</p>
+<h2 id="_the_once_and_future_multics">the once and future Multics</h2>
+<p>So, for next steps:</p>
+<ul>
+<li><p>toy with Multics more; I’ve been running some simple applications &amp; libraries, and figuring out how it all glued together, but I’d like to work with the real system more to see how it (and offshoots like Magic6) worked</p></li>
+<li><p>expand on modern micro multics; I’ve written a <strong>tiny</strong> Multics-like system that runs in Python; I’d like to add more of these concepts to the executive, so that we can see how they play out in a more easily understood place</p></li>
+<li><p>take it to the cloud; I’d like to test out some simple cloud/grid computing functionality in an environment where other users can toy around with an example of the functionality. something like an OSv-based unikernel with modern Multics running under neath would be fascinating. Even just a system that provided the data security models of the above would be great; think a VFS or blobstorage that could be accessible from anywhere…​</p></li>
+</ul>
+  </div>
+  </body>
+</html>

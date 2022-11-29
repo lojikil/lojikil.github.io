@@ -1,5 +1,6 @@
 # Blag entries
 
+- [thoughts on data security](/b/17.html) 
 - [nine months of coastal living: coastML status report for November 2022](/b/16.html)
 - [eight months of coastal living: coastML status report for October 2022](/b/15.html)
 - [six to seven months of coastal living: coastML status report for September 2022](/b/14.html)

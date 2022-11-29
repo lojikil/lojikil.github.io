@@ -54,4 +54,61 @@ permissions for my user such that:
 * when a `cron` job running as my user accesses the file, it can only _read_ the file
 * when I don't care how I authenticated to the system and I want specific permissions, I can set the authentication specifier to any (`*`)
 
-Although Multics included an analog to service accounts, the 
+Although Multics included an analog to service accounts, the fact that we can specify how programs that run as our current user
+may access files is a huge boon to simplifying data security.
+
+Multics took this one step further, with the introduction of Access Isolation Mechanism, AIM. AIM added a few bits to the running
+system, to allow further control of data, in a Mandatory Access Control (MAC) fashion:
+
+* Data Classification, from least sensitive (0) to most sensitive (7)
+* Data Categories, upto 18 different _categories_ of data
+* Enforcement Rules around how to combine Data Classification and Data Categories, mainly that the Classification either matched or exceeded and that the Categories were either identical or a subset of one another
+* Tracking of the above across the entire system (via "Segement Data Words"; basically, all files were memory mapped in a single-level store, and added to a running program, called segments)
+
+This applied to programs and libraries as well; so, for example, a library marked as "Public" can only access Public data, even
+if it were called from a program marked as "Top Secret." Multics was concerned with "Trojan Horses" from third parties in 1974.
+
+Lastly, Multics made rings of execution much more explicit than operating systems we are familiar with today. We are all familiar
+with say Ring 0 (hardware, or at least very low level firmware) and thoughts like Kernel Space versus User Space, but Multics 
+allowed Administrators to specify what ring (from 0 to 7) user's programs & libraries could execute on, and provided a limited
+form of privilege escalation so as to allow very limited forms of cross-ring file, library, and program access. In this way,
+users could be in the same Project and yet have very controlled forms of access control to the libraries, files, and programs
+within the Project.
+
+=== towards multicious perfection
+
+Multics was a huge leap forward in how we structure systems and file access, but it still could be improved, especially in the
+face of the modern threat landscape. There are three things I believe are missing that a modern system would have to address:
+
+. Data Lifecycle: Multics handles Data *Creation* quite well, but Destruction, especially on a specific access timeframe isn't handled, and Access Policies require diving into other AIM & Ring control mechanisms
+. Data Subscription: given a Data Classification and Category, who should be able to *see* the Data internally & externally?
+. Default Permissions: there are sets of Default Permissions for programs & libraries that could be enforced; for example, BitFrost denies access to the Camera for any program that has Network access, until the user specifically allows it
+
+The first is harder to capture in a generic way; policies may be defined by clients (as is often the case for consultants) or 
+regulatory policy. We'd need a way to expose Data Lifecycle policies in such a way that Deletion, Retention, and Backup can all
+be handled from a single source, and tied into Data Classification and Category. Likewise, the second item could be simple: we
+could apply something like Traffic Light Protocol (TLP) to all data (and hopefully with an easier set of names), and enforce
+that Data of specific Classification and Category have specific Subscriptions appied. For example, there is almost never going
+to be a correct application of Personally Identifiable Information (PII) and TLP:CLEAR (or All Parties) Subscriptions. I'm not
+quite sure if more needs to be added to Subscription other than system enforcement and tying to the Classification and Category,
+but exploring the Subscription needs is extremely fascinating to me.
+
+The last is Default Permissions; Multics handled this in part with what were called "IACLs," or Initial Access Control Lists.
+These were then restricted based on the ACLs users & operators applied. I think combining Default Permissions, IACLs, Rings, and
+Gates would be faily fascinating; one of my favorite papers on the topic is the http://mumble.net/~jar/pubs/secureos/secureos.html[W7 Security Kernel, which is based on the Lambda Calculus]. Things like W7, BitFrost, and other mechnaisms for restricting
+Default access dovetail nicely into Capability-based systems (like https://en.wikipedia.org/wiki/EROS_(microkernel)[Eros] and
+https://en.wikipedia.org/wiki/CapROS[CapROS]). What could be interesting is playing with a system that combines these concepts
+in such a way that users can by default run things they expect to run. For example, tying in source of installation with Data
+Classification and Category, all dependencies of a program could be installed as Public; in this way, even if malicious code
+were installed, it could only run within the a low-privileged ring and with access to data marked as Public. Likewise, Default
+Permissions for applications could specify what they have access to off the bat, and require user intervention for any further
+escalation of access.
+
+=== the once and future Multics
+
+So, for next steps:
+
+* toy with Multics more; I've been running some simple applications & libraries, and figuring out how it all glued together, but I'd like to work with the real system more to see how it (and offshoots like Magic6) worked
+* expand on modern micro multics; I've written a *tiny* Multics-like system that runs in Python; I'd like to add more of these concepts to the executive, so that we can see how they play out in a more easily understood place
+* take it to the cloud; I'd like to test out some simple cloud/grid computing functionality in an environment where other users can toy around with an example of the functionality. something like an OSv-based unikernel with modern Multics running under neath would be fascinating. Even just a system that provided the data security models of the above would be great; think a VFS or blobstorage that could be accessible from anywhere...
+
