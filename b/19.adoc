@@ -1,0 +1,11 @@
+== thoughts on library & language ergonomics 
+
+[source]
+----
+lojikil@raven:~/Code/advent/2022$ dune exec bin/nine/nine.exe data/nine/sample
+File "_none_", line 1:           
+Error: This variant expression is expected to have type (int * int) list
+       There is no constructor () within type list
+----
+
+This is when you mix something like a `switch` or an `if` branch with the wrong type...
