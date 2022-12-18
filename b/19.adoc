@@ -1,5 +1,23 @@
 == thoughts on library & language ergonomics 
 
+
+=== Overview 
+
+BLUF: I've been using ReasonML for https://github.com/lojikil/advent/tree/master/2022[Advent of Code] again this year, and whilst
+I've become a bit tired of physics puzzles, it has lead me to something I've been thinking about for a while:
+ergonomics of library & language semantics. Basically three things bother me:
+
+* when compilation points to the wrong area or reason
+* the order of parameters
+* the definition of parameters
+
+None of these are knocks against ReasonML or OCaml mind you; it's more things that I've noticed. Honestly, if ReasonML were
+a bit easier to parse and had more backeneds, I'd not even write coastML: it's incredibly close to my ideal language.
+
+=== compilation pointers
+
+Quick, what does this mean?
+
 [source]
 ----
 lojikil@raven:~/Code/advent/2022$ dune exec bin/nine/nine.exe data/nine/sample
@@ -8,4 +26,56 @@ Error: This variant expression is expected to have type (int * int) list
        There is no constructor () within type list
 ----
 
-This is when you mix something like a `switch` or an `if` branch with the wrong type...
+It means that somewhere you forgot either an arm to an `if-then-else` chain, or you don't have all cases stubbed out in a
+`switch` (which is less likely due to the exhaustiveness checker). This bothers me for two reasons really:
+
+. the filename is `_none_`, which in a multi-file setup means you have to look where you may have missed an arm
+. the reason elides point No. 1, which is that you forgot an arm somewhere, not that unit `()` isn't a constructor for `list`
+
+A new person going into this might be quite confused as to what the actual issue of this is... and there are a few such
+examples:
+
+. forget a `=>` in a function defition (`let foo = (...) => {... }`), and you'll get an interesting error that points elsewhere
+. use a keyword (like `else`) as a parameter name or forget to close the parameter list with a closing paren
+. forget the `=` in a variable declaration `let foo (...)`
+
+Many of these will lead you on a wild goosechase for a missing or stray `;`, when in reality you simply missed _another_ symbol
+elsewhere.
+
+**NOTA BENE** coastML isn't yet immune to this, I just was hunting down a mistyped keyword this morning... 
+
+=== order of parameters
+
+Inconsistencies in parameter order often trip me up; as an example, I use `String.split_on_char` and `String.index` quite
+frequently in advent of code: they help split up strings into tokens or to find the location of where I should substring
+a string. However, they have _opposite_ parameter orders:
+
+[source]
+----
+Reason # String.index;
+- : (string, char) => int = <fun> # <1>
+Reason # String.split_on_char;
+- : (char, string) => list(string) = <fun> <2>
+----
+<1> here we have a function that takes a string and then a character
+<2> and here we have one that takes a character and then a string
+
+Much of the rest of the String, List, and Array modules have similar inconsistencies: what order they take a function or
+a base type is something you basically have to memorize; for example, that `String.init` takes it's function _second_ and
+`String.map` and friends take theirs _first_.
+
+One other thing I've run into, although this is consistent, is that OCaml's base prefers _lengths_ over _ends_. For example,
+`String.sub s start len` was surprising to me; at first I assumed the second integer was the _ending position_, and you can
+imagine how wrong that can be!
+
+=== definition of parameters
+
+An interesting deviation from the above is `String.starts_with`, which, surprisingly,
+https://reasonml.github.io/api/String.html[isn't even listed in the module defining string lambdas]. So we have various order
+as noted above, but what about the _type_ of parameter?
+
+[source]
+----
+Reason # String.starts_with;
+- : (~prefix: string, string) => bool = <fun>
+----
