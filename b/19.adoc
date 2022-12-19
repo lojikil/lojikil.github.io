@@ -1,5 +1,4 @@
-== thoughts on library & language ergonomics 
-
+== reasoning about parameter order
 
 === Overview 
 
@@ -79,3 +78,27 @@ as noted above, but what about the _type_ of parameter?
 Reason # String.starts_with;
 - : (~prefix: string, string) => bool = <fun>
 ----
+
+So here, we have an optional parameter, without a default value. This is convienent insofar as if we needed to apply many
+prefixes to one string, we can specialize the `String.starts_with` the string and then apply many prefixes. However, it
+completely breaks with even the other ordering issues noted above, by having an *optional* parameter to a function that
+arguably shouldn't have one. As well, it's one more thing to have to remember when thinking about code.
+
+=== so what to do?
+
+I've been thinking about how to actually **fix** this for coastML, and I think what we'll need is some sort of language
+standard for argument order. It should be something like:
+
+`source [needle [needle-index]] [index] [destination [destination-index]] [length]`
+
+That would mean that we would roughly have the following for the functions mentioned above:
+
+. `String.index string char`
+. `String.split_on_char string char`
+. `String.index_from string char int`
+. `String.split_on_char_from string char int`
+. `String.starts_with string string`
+. `String.concat list(string) string`
+
+And so on. This should cover all the various ways in which we need to index core values, up to and including items like
+`String.blit` or `Array.blit`. 

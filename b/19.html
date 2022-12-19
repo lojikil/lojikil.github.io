@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/.">&rsaquo; . </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+         <li><a href="/b">&rsaquo; b </a></li>
+      </ul>
+    </li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/t">&rsaquo; t </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_reasoning_about_parameter_order">reasoning about parameter order</h1>
+<h2 id="_overview">Overview</h2>
+<p>BLUF: I’ve been using ReasonML for <a href="https://github.com/lojikil/advent/tree/master/2022">Advent of Code</a> again this year, and whilst I’ve become a bit tired of physics puzzles, it has lead me to something I’ve been thinking about for a while: ergonomics of library &amp; language semantics. Basically three things bother me:</p>
+<ul>
+<li><p>when compilation points to the wrong area or reason</p></li>
+<li><p>the order of parameters</p></li>
+<li><p>the definition of parameters</p></li>
+</ul>
+<p>None of these are knocks against ReasonML or OCaml mind you; it’s more things that I’ve noticed. Honestly, if ReasonML were a bit easier to parse and had more backeneds, I’d not even write coastML: it’s incredibly close to my ideal language.</p>
+<h2 id="_compilation_pointers">compilation pointers</h2>
+<p>Quick, what does this mean?</p>
+<pre><code>lojikil@raven:~/Code/advent/2022$ dune exec bin/nine/nine.exe data/nine/sample
+File &quot;_none_&quot;, line 1:
+Error: This variant expression is expected to have type (int * int) list
+       There is no constructor () within type list</code></pre>
+<p>It means that somewhere you forgot either an arm to an <code>if-then-else</code> chain, or you don’t have all cases stubbed out in a <code>switch</code> (which is less likely due to the exhaustiveness checker). This bothers me for two reasons really:</p>
+<ol type="1">
+<li><p>the filename is <code>none</code>, which in a multi-file setup means you have to look where you may have missed an arm</p></li>
+<li><p>the reason elides point No. 1, which is that you forgot an arm somewhere, not that unit <code>()</code> isn’t a constructor for <code>list</code></p></li>
+</ol>
+<p>A new person going into this might be quite confused as to what the actual issue of this is…​ and there are a few such examples:</p>
+<ol type="1">
+<li><p>forget a <code>⇒</code> in a function defition (<code>let foo = (…​) ⇒ {…​ }</code>), and you’ll get an interesting error that points elsewhere</p></li>
+<li><p>use a keyword (like <code>else</code>) as a parameter name or forget to close the parameter list with a closing paren</p></li>
+<li><p>forget the <code>=</code> in a variable declaration <code>let foo (…​)</code></p></li>
+</ol>
+<p>Many of these will lead you on a wild goosechase for a missing or stray <code>;</code>, when in reality you simply missed <em>another</em> symbol elsewhere.</p>
+<p><strong>NOTA BENE</strong> coastML isn’t yet immune to this, I just was hunting down a mistyped keyword this morning…​</p>
+<h2 id="_order_of_parameters">order of parameters</h2>
+<p>Inconsistencies in parameter order often trip me up; as an example, I use <code>String.split_on_char</code> and <code>String.index</code> quite frequently in advent of code: they help split up strings into tokens or to find the location of where I should substring a string. However, they have <em>opposite</em> parameter orders:</p>
+<pre><code>Reason # String.index;
+- : (string, char) =&gt; int = &lt;fun&gt; 
+Reason # String.split_on_char;
+- : (char, string) =&gt; list(string) = &lt;fun&gt; </code></pre>
+<ul>
+<li><p>here we have a function that takes a string and then a character</p></li>
+<li><p>and here we have one that takes a character and then a string</p></li>
+</ul>
+<p>Much of the rest of the String, List, and Array modules have similar inconsistencies: what order they take a function or a base type is something you basically have to memorize; for example, that <code>String.init</code> takes it’s function <em>second</em> and <code>String.map</code> and friends take theirs <em>first</em>.</p>
+<p>One other thing I’ve run into, although this is consistent, is that OCaml’s base prefers <em>lengths</em> over <em>ends</em>. For example, <code>String.sub s start len</code> was surprising to me; at first I assumed the second integer was the <em>ending position</em>, and you can imagine how wrong that can be!</p>
+<h2 id="_definition_of_parameters">definition of parameters</h2>
+<p>An interesting deviation from the above is <code>String.starts_with</code>, which, surprisingly, <a href="https://reasonml.github.io/api/String.html">isn’t even listed in the module defining string lambdas</a>. So we have various order as noted above, but what about the <em>type</em> of parameter?</p>
+<pre><code>Reason # String.starts_with;
+- : (~prefix: string, string) =&gt; bool = &lt;fun&gt;</code></pre>
+<p>So here, we have an optional parameter, without a default value. This is convienent insofar as if we needed to apply many prefixes to one string, we can specialize the <code>String.starts_with</code> the string and then apply many prefixes. However, it completely breaks with even the other ordering issues noted above, by having an <strong>optional</strong> parameter to a function that arguably shouldn’t have one. As well, it’s one more thing to have to remember when thinking about code.</p>
+<h2 id="_so_what_to_do">so what to do?</h2>
+<p>I’ve been thinking about how to actually <strong>fix</strong> this for coastML, and I think what we’ll need is some sort of language standard for argument order. It should be something like:</p>
+<p><code>source [needle [needle-index]] [index] [destination [destination-index]] [length]</code></p>
+<p>That would mean that we would roughly have the following for the functions mentioned above:</p>
+<ol type="1">
+<li><p><code>String.index string char</code></p></li>
+<li><p><code>String.split_on_char string char</code></p></li>
+<li><p><code>String.index_from string char int</code></p></li>
+<li><p><code>String.split_on_char_from string char int</code></p></li>
+<li><p><code>String.starts_with string string</code></p></li>
+<li><p><code>String.concat list(string) string</code></p></li>
+</ol>
+<p>And so on. This should cover all the various ways in which we need to index core values, up to and including items like <code>String.blit</code> or <code>Array.blit</code>.</p>
+  </div>
+  </body>
+</html>
