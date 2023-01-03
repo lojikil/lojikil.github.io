@@ -16,6 +16,9 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _19DEC2022_: [reasoning about parameter order](/b/19.html)
+- _29NOV2022_: [thoughts on data security](/b/17.html)
+- _27NOV2022_: [nine months of coastal living: coastML status report for November 2022](/b/16.html)
 - _25OCT2022_: [eight months of coastal living: coastML status report for October 2022](/b/15.html)
 - _22SEP2022_: [six to seven months of coastal living: coastML status report for September 2022](/b/14.html)
 - _21SEP2022_: [thoughts on sub-languages and Hoare logic](/b/13.html)
