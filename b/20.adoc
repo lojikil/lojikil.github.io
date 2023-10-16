@@ -1,0 +1,134 @@
+== thoughts on writing 2000 lines of coastML
+
+https://github.com/lojikil/coastML[coastML] is a new, tiny ML dialect I've been working on for a year and half. Honestly, in some ways it's meant to be done
+(in the same way that StandardML is "done"): I'd like to get to some point where I'm happy with the core features and specify the language at that point. I
+don't _want_ to be focused on fancy new features, but rather I'd like something similar to https://www.simplehaskell.org/[SimpleHaskell] and ReasonML: a
+full-featured programming language meant for regular problems, and output that is nice enough to deliver to other people who don't want to deal with
+coastML.
+
+Lately, I've been working on a self-hosting compiler for coastML; I had become frustrated with https://github.com/lojikil/coastML/issues/4[some bugs I had introduced] in the
+Carpet Python compiler, and wanted to refocus on making a better system (read: I wanted to make new and exciting bugs). So far, I've written about 1.2k lines of coastML for
+the compiler, and another 800 lines or so of misc. other code; I figured that was a good point to start comparing the two.
+
+== The Good
+
+I'm pretty happy with the way that the compiler has been shaking out; I've basically been writing relatively simple code to parse structures, and using the Foreign Function
+Interface (FFI) to use the Python lexer to do so (more on this later). The result is pretty nice; I'm able to write fairly straight-forward code, that parses features:
+
+[source]
+----
+parse-lambda = fn lexer {
+        # whilst this is simple enough, it would be
+        # very nice to have a Monadic interface here,
+        # so that we could easily compose these three lines
+        params = optionally-parse-params lexer;
+        body = parse-block (TokenList.Nil) lexer;
+        SandCityAST.FnBody params body;
+};
+----
+
+We have two different data constructors in use here, namely `SandCityAST.FnBody` and `TokenList.Nil`, and we pass a `lexer` object around for reading lexemes out of a
+string. Compare this with the original Carpet Python version:
+
+[source,python]
+----
+    def parse_fn(self):
+        parameters = [] 
+        body = None 
+        while not isinstance(self.lexemes[self.current_offset], TokenBlockStart):
+            if not isinstance(self.lexemes[self.current_offset], TokenIdent):
+                raise CoastalParseError("fn parameters *must* be followed by idents", self.lexemes[self.current_offset].line)
+            l = self.lexemes[self.current_offset]
+            parameters.append(CoastIdentAST(TokenIdent, l.lexeme))
+            self.current_offset += 1 
+        body = self.parse_block()
+        return CoastFNAST(parameters, body)
+----
+
+They're both pretty simple (although `parse_fn` inlines the parameter parsing), and decently terse. I'm sure error handling will add some noise in here, but I think we can
+get to a point where errors are nicely composed in a monadic style. The nice thing about all this is that, although, for example, parsing `case` forms is 105 lines (including
+documentation) in coastML versus 58 in Python, I've managed to *both*
+https://github.com/lojikil/coastML/issues?q=is%3Aissue+is%3Aclosed+label%3Abug+label%3Acarpet[fix multiple bugs in Carpet Python] and
+https://github.com/lojikil/coastML/issues/8[expand the language to where I'd like it]. The new compiler is almost at parity with Carpet Python, meaning it can parse the same
+code the same way and already has started expanding on other features of the language that I'd like to see. For example, we'll add a new `fun` form which I believe makes the
+language a bit more clear and we'll get modules going next. I'd like to keep Carpet Python around for bootstrapping the self-hosted compiler, but I expect users (me, myself,
+and I) will mainly use the self-hosted one. Additionally, since I wrote this more in the style of classical Recursive Descent Parsers, and less like an imperative parsing
+stream as I did in Carpet Python, adding new features means I can reuse old lambdas, and often do. All told, I've been pretty happy with the results.
+
+== The Bad
+
+I think the two major pain points I've seen will be fixed soon enough, but they come in the form of two things: primitive FFI and primitive error handling.
+
+The FFI in coastML is relatively simple currently: the user may invoke lambdas like `foreign-call` and `foreign-object-type` to interact with the underlying system (which is
+mainly Python at this point, although ostensibly JavaScript should be supported as well). However, these are quite low-level: `foreign-call` simple takes a string and rewrites
+it to a call with parameters in the resulting output, and `foreign-object-type` uses mechanisms such as `foo.__type__` to return a string of the object type. This means that
+the self-hosting compiler is littered with code that looks like the following:
+
+[source]
+----
+token = foreign-call "lexer.peek";
+token-type = foreign-object-type token;
+case token-type
+....
+esac;
+----
+
+This is caused by the fact that I don't yet have a great way of mapping hierarchies of types to coastML, so we end up with a stringly-typed interface instead. I'd like to fix
+that going forward, by being able to either parse the underlying type or be able to recreate the type in coastML `type` definitions, but with a "foreign" rewriting.
+
+Error handling, on the other side, is mostly due to the fact that I'm using Carpet Python, and the self-hosting compiler needs to work within the boundaries of what it can do.
+For example:
+
+[source]
+----
+type Result[A B]
+| Ok is [A]
+| Err is [B]
+epyt;
+
+v = some-fn ...;
+case v
+| (Result.Ok _) {
+    inner-v = _0 v;
+    case inner-v
+    ...
+    esac
+}
+| (Result.Err) {
+    ...
+}
+----
+
+There are two issues with the above: `case` forms in Carpet Python don't actually yet decompose, so guards have to either be a complete function call out (turning the `case` into a
+`cond` effectively) *or* you have to nest `case` forms like I did above. The second issue is that Carpet Python cannot actually tell the arity of a data type constructor, so you can
+have things like `(Result.Err)`, which has zero paremeters, when in fact we know that it should have one from the above definition. I'd like to get to some point where we can thread
+`orElse` or the like through out, or even just plain fully-monadic interfaces, but for the time being it's a limitation I have to work with. One thought I've had is that it would
+be interesting if the self-hosting compiler could take "modern" coastML and output coastML that is compatible with Carpet Python, but I think I may just focus on making better output
+from the self-hosting compiler.
+
+== The shape of the next 2000 lines to come
+
+There is a *lot* more to do in the self-hosting compiler; I'm finishing up `type` forms, at which point it will be at parity with being able to parse coastML with where Carpet Python
+is, and then I can focus on adding new features. Honestly, the next two thousand lines of coastML almost certainly will be spent within the self-hosting compiler. My current burn-down
+list looks something like:
+
+* [ ] parse `type` forms (almost done)
+* [ ] parse:
+** [ ] `fc` (case lambdas)
+** [ ] `gn` (multi-method lambdas)
+** [ ] `fun` (slightly more explicit syntax)
+** [ ] `mod` 
+** [ ] `sig`
+** [ ] `impl` (type class implementations)
+* [ ] a nicer FFI
+* review some nice to haves (like nicer `type` constructor syntax)
+* review adding `deriving` and base-constructors to `type` forms
+* [ ] literate programming tool
+* [ ] documentation tooling more broadly (`doc`)
+* [ ] Hoare Logic (`invariant`, `pre`, `post`, `assert`, and so on)
+* [ ] A https://github.com/trailofbits/deepstate[DeepState]-like testing tool, so:
+** [ ] unit testing framework
+** [ ] fuzzer/shrinker
+** [ ] symbolic path explorer (with concretizing via the above, as well as a simple CAS)
+* [ ] a Computer Algebra System (CAS), as well as some algorithms for general work
+** if you're wondering why a CAS so early, it's so that I can cheat on symbolic execution (symbex) with light-weight symbex via CAS
