@@ -1,5 +1,6 @@
 # Blag entries
 
+- [thoughts on 2000 lines of coastML](/b/20.html)
 - [reasoning about parameter order](/b/19.html)
 - [thoughts on data security](/b/17.html) 
 - [nine months of coastal living: coastML status report for November 2022](/b/16.html)
