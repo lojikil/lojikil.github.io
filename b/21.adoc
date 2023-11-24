@@ -1,0 +1,54 @@
+== packages vs modules
+
+Most languages have notions of "packages" and "modules," and often they are quite nearly 1 to 1, but not always. Often, packages are groupings of code
+on the file system, and are reified in the language as a module, or they are truly identical and the package as laid out on the file system becomes
+the ordering and packaging of the modules themselves. This often means that we must go to extreme lengths in order to manage packages, either
+via external tooling and file system management, or via composition of our modular structure itself. One thing I've been thinking about quite
+heavily with coastML is that I do *not* want to make packages and modules the same: modules should be defined with `mod`, and packages should
+be locations on the file system that provide code _with no other functionality_. I have a few reasons for this:
+
+* users may want to use another Prelude: the standard basis library should be relatively robust and useful, but users may want to swap out their own
+* it should be easy to add packages: just read a definition from a location, and you get all the code contained within
+** as an aside, OCaml requires minimal "importing" of modules
+* most notably: I do not want to write import logic and end up with another mini-language of packages
+
+That last point probably requires the most exposition, but the first two do require some treatment as well.
+
+== the prelude to rewrites
+
+One thing that interests me is that OCaml (and ReasonML users as well) have a selection of Basis libraries available. Users often select the OCaml
+basis or Core or what-have-you for various reasons, either due to their own needs or fashion or a desire to try something new. To it's credit,
+OCaml makes this process relatively painless: a user need only start with `open Core.Std;;` and they have replaced most definitions. I think this
+is quite valuable: if a user has a reason (whatever that reason may be) to replace the standard core of coastML, I think they should be free to
+do so with negligible performance issue.
+
+This also leads into the second point, that packages should be easy to add, and that I like how OCaml does this work: a user need only reference
+a module, and OCaml will work to find it (this isn't 100% true, as evidenced by the `#load` commands in the REPL, but it's close enough). This
+is something I would prefer to continue in coastML: if you reference a module, we either know about it and you can simply use it, or we do not
+and you need to make sure we can find it. That's it.
+
+== minimizing mini
+
+One thing I've been striving for with coastML is to be intentful when introducing mini-languages. For example, I've been thinking long and hard
+about how I introduce type classes, because I don't want to end up with a complex sublanguage of types. To this end, I also don't want to
+introduce a sub-language of package imports, one that a user must juggle. For example:
+
+* coastML doesn't have "naked" constructors, so there is no ambiguity as to which type a constructor belongs to
+* to the same end, coastML likely won't have a mechanism to "open" modules: you must use fully-qualified modules in all cases
+** although we *will* have type classes and generic lambdas (multi-methods) to hopefully alleviate the pain that this could bring
+
+In this same way, I want to make packages relatively easy to add and manage:
+
+* if you want to use a package, make sure the system can see it
+* if you want to use a virtual environment, it should be trivial to rewrite all the locations that the system looks for packages
+* if you want to write tooling to make these functions work in some particular way for your use case, that also should be very nearly trivial
+
+In most ways, coastML should be relatively opinionated, but that opinion should receptive to new inputs (or, be conservative in what you give
+and liberal in what you accept, to some degree). 
+
+== tooling for packages
+
+* still want package index, still want security
+* but maybe a little bit smaller than other languages
+* should be minimal difference between vendored and non-vendored packages
+* also, heterodox opinions on package dependencies
