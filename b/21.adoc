@@ -48,7 +48,39 @@ and liberal in what you accept, to some degree).
 
 == tooling for packages
 
-* still want package index, still want security
-* but maybe a little bit smaller than other languages
-* should be minimal difference between vendored and non-vendored packages
-* also, heterodox opinions on package dependencies
+Now, all of this isn't to say I don't want to have some sort of package index, or that I want to eschew the hard lessons learnt by other package managers.
+I definitely don't want to be playing whack-a-mole with security issues in package indexes either, I've done enough of that at NPM thank you. However,
+I do think maybe we can make these issues a little bit smaller; for example, I don't think there should be much of a difference between vendored and
+normal packages (that is, I don't think there should be a difference between packages you keep a local copy of and those from the remote index). They
+both should match some sort of package lock, and that should be tied to some upstream, but we shouldn't have to make much modification to the local package
+either: we should be able to provide a type that satisifies a type class and allow that to go forward. Indeed, if I feel there is any reason I would want
+to add first-class modules, it would be to solve dependencies more broadly.
+
+One thing I have been mulling over is that I'd almost prefer that we don't allow dependencies to have their own dependencies, or that at most
+those are one level deep. This might kill the ecosystem, but it seems like there are two general approaches we all try:
+
+. Everything must be consistent all the time
+.. this leads to virtual environments and all sorts of interesting directions
+. Everything installs whatever it needs
+.. this leads to `node_modules` and brew, but also exanded disk consumption
+
+It could be interesting to balance these; obviously, making vendoring easier to update could be a fix, but also so could minimal versions,
+proof carrying code, and also things like first class modules can help. The other idea is that we could also simply make it so that the
+basis library is a little less conservative; if we release something like a JSON library, and a third-party library becomes more popular, we
+could start to ship the third-party library as well. We obviously don't want 37k JSON libraries shipped as part of core, but having 1-2 available
+isn't terrible either. We can also attempt to make it so that dependencies cannot themselves carry dependencies: they either need to use vendored
+versions, or they need to rely on dependencies carried by the rest of the system. This can quickly explode the number of dependencies the user
+themselves needs to manage (consider the number of transitive dependencies the average program uses nowadays...), but it could surface issues
+more quickly as well. I https://mckayla.blog/talks/zig-package-manager.html[recently read another person who is thinking about the same], so at least
+I'm not _too_ far afield with that. Additionally, I do think it's important to eventually get to some place where code claims what it can do, and
+we can restrict what we give it access to; http://fare.tunes.org/tmp/emergent/secureos.htm[W7 for Scheme] and the
+https://lojikil.github.io/b/17.html[Multics Data Security model] are definite predecessors for that as well. All told, I would like to make it
+simple to tell:
+
+* what you are installing
+* what it claims to do
+* where it is being installed to
+* and why.
+
+If we can do that and keep trees of dependencies, I'm all for keeping things simple for folks, or following a nix model, but more generally
+I'd like to see if we can restrict things down a bit more...
