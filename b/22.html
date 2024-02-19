@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+    <li> <a href="/t">&rsaquo; t </a></li>
+    <li> <a href="/d">&rsaquo; d </a></li>
+    <li> <a href="/b">&rsaquo;  b </a></li>
+    <li>
+      <ul>
+      </ul>
+    </li>
+    <li> <a href="/p">&rsaquo; p </a></li>
+    <li> <a href="/w">&rsaquo; w </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<p>I started coastML <a
+href="https://github.com/lojikil/coastML/tree/505f69d6848010f0b5679174bc90be5b3fdbac07">about
+two years ago now,</a> and I figured this would be an apt time to
+solidify more of what I’m thinking. So:</p>
+<ol type="1">
+<li><p>current status</p></li>
+<li><p>next steps</p>
+<ol type="a">
+<li><p>CalVer</p></li>
+<li><p>type classes</p></li>
+<li><p>type vars</p></li>
+<li><p>release timeline</p></li>
+</ol></li>
+</ol>
+<h1 id="_current_status_or_where_the_sea_meets_the_shore">current
+status, or, where the sea meets the shore</h1>
+<p>coastML may <strong>look</strong> like not much has been happening,
+at least in the public repository. However, I’ve been working on a
+private self-hosted compiler. There’s a few things here:</p>
+<ol type="1">
+<li><p>I wanted to take a step back and actually think about how I could
+organize a compiler in coastML itself</p></li>
+<li><p>I’ve never really written a industrial-grade compiler in an
+ML-style language before (but have multiple times in Lisp)</p></li>
+<li><p>I honestly started to loathe working in coastML’s Python
+implementation</p>
+<ol type="a">
+<li><p>which almost made me want to give up</p></li>
+</ol></li>
+</ol>
+<p>One thing I promised myself with coastML is that I want to live up to
+the motto: come relax on the coast, stay a while. I didn’t want to
+stress over something like not loving the Python compiler and I really
+wanted to deliver something. So I’m about 230 commits into a new
+compiler that I hope to release soon; it fixes a number of bugs that
+I’ve found in Carpet Python (the coastML Python implementation) and is
+written in the small dialect that is already implemented there.
+Additionally, it adds features that I wish Carpet Python had, and is
+much stricter towards my vision of what coastML should be. For
+example:</p>
+<pre><code>foo = fn x y { x + y } 10 20;</code></pre>
+<ol type="1">
+<li><p>in Carpet Python, this is a compiler error: it generates a
+function, <code>foo</code>, and then a compiler error attempting to
+apply a literal</p></li>
+<li><p>in the new compiler, this results in an anonymous function
+application, meaning <code>foo</code> should be equal to 30</p>
+<ol type="a">
+<li><p>eventually I’d like this to be compiled down further, but neither
+here nor there</p></li>
+</ol></li>
+</ol>
+<p>Which is great; several small bugs like this are fixed in the new
+compiler. Of course, that also means that we could have a parser
+differential: things could be executed differently in the new compiler
+from the old one. There are a few things here:</p>
+<ol type="1">
+<li><p>the dialect that Carpet Python accepts is a subset of the full
+coastML</p>
+<ol type="a">
+<li><p>literally nothing in Carpet Python isn’t valid coastML, it’s just
+not the full language</p></li>
+</ol></li>
+<li><p>the new compiler is written in this dialect</p></li>
+<li><p>since it’s a subset of the full language, it can parse both this
+dialect and the full coastML</p></li>
+</ol>
+<p>I’ve definitely been in the <a
+href="https://course.ccs.neu.edu/cs5500f14/Notes/Prototyping1/planToThrowOneAway.html">Mythical
+Man Month "expect to throw one away"</a> space for some time now. Once
+the new compiler is ready, I want to do the following:</p>
+<ol type="1">
+<li><p>hook it into the <code>coastml</code> shell script as the
+top-level compiler</p></li>
+<li><p>rename the Carpet Python compiler work to something like
+<code>reboot</code> (since no one should need this unless they’re
+working on the new compiler)</p></li>
+<li><p><strong>plan on working on the next compiler</strong></p></li>
+</ol>
+<p>I really do mean that: once this compiler is finished, I want to use
+it to boot an actual industrial-grade compiler; Carpet Python is
+something of a tinkerer grade, and the new compiler is something of an
+artisan grade, so the next I’d like regular folks to be able to use
+without thinking much of it.</p>
+<h1 id="_next_steps_or_that_brackish_line_in_the_water">next steps, or,
+that brackish line in the water</h1>
+<p>so where do we go from here?</p>
+<h2 id="_calver">CalVer</h2>
+<p>One thing I’ve been thinking about is, I don’t want coastML to change
+a lot; in fact, I’d really like it to be <strong>done</strong>. That’s
+not to say "dead," but rather I don’t want to spend most of my time
+solely working on coastML: I’d really like to get a neat set of features
+together and then work on other software. This likely won’t be done for
+years to come, but at least it’s a goal. Additionally, I don’t want
+coastML to become a cutting edge programming language, per se: I’d much
+rather work on features that users can actually use <strong>right
+now</strong>, and then make adjustments here and there. The only thing I
+haven’t really planned for is <a
+href="https://v2.ocaml.org/manual/effects.html">something like
+effects</a>, but I figured we can wait for others to figure out how
+those work.</p>
+<p>To that end, I’d like to start using CalVer with some semantic bits
+here, basically a year and a patch level; the higher the patch level,
+the more recent the release. Everything should be stable, and anything
+breaking should be a bug report. Additionally, I’d like to have release
+candidates for when we’re going to make the next release, so that folks
+can start to test things. I was <a
+href="https://lobste.rs/s/ynhu2s/effver_version_your_code_by_effort">thinking
+about this based on a lobste.rs story about EffVer</a>; I almost
+<strong>don’t want</strong> upgrades to be effort, I want them to be as
+smooth as possible. This is something like Golang’s notion of "there
+will never be golang 2:" basically, I think features should really nest
+and compose nicely, and if they don’t, I need to reconsider the new
+feature, not the old one.</p>
+<p>So, versions of coastML should be something like <code>YYYY.P</code>
+where:</p>
+<ul>
+<li><p><code>YYYY</code> is the four digit year, such as
+<code>2024</code> and</p></li>
+<li><p><code>P</code> is a linear integer increasing with each
+patch</p></li>
+</ul>
+<p>I’d also maybe reserve a <code>.M</code> for folks who need SemVer
+and also may have to make modifications to their SemVer distribution of
+coastML, but for our purposes, it should be not directly important.
+Additionally, for most years, I’d prefer if <code>.P</code> was just
+<code>0</code>, if we need to even cut a release at all. I suspect most
+years it will be external environmental changes, but who knows.</p>
+<h2 id="_type_classes">type classes</h2>
+<p>One other thing that I’ve decided on is that I’m going to stick with
+type classes, similar to F# (and obviously Haskell). I thought for a
+<strong>long, long time</strong> about this, and really appreciate the
+simplicity they add. Yes, I know they can make debugging non-trivial,
+but I am really interested in exploring them a bit more; I actually
+wrote a document in the comments of the new compiler weighing out things
+like:</p>
+<ol type="1">
+<li><p>type classes</p></li>
+<li><p>first-class modules</p>
+<ol type="a">
+<li><p>including Haskell Backpack, 1ML, &amp;c</p></li>
+</ol></li>
+<li><p>F#-style or Go-style interfaces (F# has both interfaces and type
+classes now)</p></li>
+<li><p>Scala-style module implicits</p>
+<ol type="a">
+<li><p>and if we can smoosh together <code>type</code> implicits here as
+well</p></li>
+</ol></li>
+<li><p>rust-style traits (which aren’t too far off from type classes,
+but still)</p></li>
+<li><p>none of the above, just use generic multi-methods</p></li>
+<li><p>none of those above, just keep everything monomorphic</p></li>
+</ol>
+<p>I thought on this for about a month, and decided I wanted to dive in
+with type classes. This is a risk of course; I am still feeling the pain
+of implementing two different types of type languages in carML, so
+making a choice this big is a risk, but I figured if need be I can
+always go back to this point and fork coastML into shoreML or Brooks or
+the like.</p>
+<h2 id="_type_vars">type vars</h2>
+<p>I also have been thinking a lot about lexically-scoped type
+variables: for example:</p>
+<pre><code>foo = fn [A] x is A y is int {
+    # ...
+    bar = xx is A {
+        # ...
+    };
+};</code></pre>
+<p>I’d really like to be able to say if <code>A</code> is a fresh type
+var or a known type without having to do any real type trickery. This
+isn’t implemented yet, but it should be soon.</p>
+<h2 id="_release_timeline">release timeline</h2>
+<p>Let’s say we call the current status <code>2024.1-rc0</code>, here’s
+what I would like to see in the next few releases of coastML</p>
+<ol type="1">
+<li><p><code>2024.1</code></p>
+<ol type="a">
+<li><p>release of the new compiler</p></li>
+<li><p>ad-hoc polymorphism (not <strong>really</strong>, but
+still)</p></li>
+<li><p><code>mod</code> compiles nicely (Carpet Python does not even
+parse modules, but the new compiler does)</p></li>
+<li><p>multi-case conditions like
+<code>case x | 10 | 11 | 12 { print "somewhere in 10-12"; } | _ { print "something else"; } esac</code></p></li>
+<li><p>better case guard conditions, like nested ADTs:
+<code>case foo | (SomeType.Bar 10) …​ esac;</code></p></li>
+<li><p>Python output for the new compiler</p>
+<ol type="i">
+<li><p>and better output; currently Carpet Python can’t correctly handle
+<code>a = case (foo 10) | …​ esac;</code></p></li>
+</ol></li>
+<li><p>complete type checking</p></li>
+</ol></li>
+<li><p><code>2024.2</code> (or even <code>2025.1</code> if need be)</p>
+<ol type="a">
+<li><p>new supported syntax for <code>types</code> to mirror calling
+them</p></li>
+<li><p>potentially something like SRFI-9 or SRFI-57 with inheritance
+from a top-level CTOR</p>
+<ol type="i">
+<li><p>Implicits would be nice there, but…​</p></li>
+</ol></li>
+<li><p>type classes</p></li>
+<li><p>add at least one more language: QBE, C, JS, Java, Golang,
+Rust</p>
+<ol type="i">
+<li><p>Carpet Python currently has a nascent JS generator, but it’s
+definitely not even where the Python compiler is</p></li>
+</ol></li>
+</ol></li>
+<li><p><code>2024.3</code> (or even <code>2026.1</code> if need be)</p>
+<ol type="a">
+<li><p><code>box</code> types (for mutable values, like OCaml)</p></li>
+<li><p>Hoare Logic and a light-weight prover (CAS)</p></li>
+<li><p><code>rho</code> types (for row polymorphism)</p></li>
+</ol></li>
+</ol>
+<p>Other considerations:</p>
+<ol type="1">
+<li><p>I think the <code>easc</code> and <code>epyt</code> Algol-style
+block ends are neat, but in practice they’re a pain to type and
+remember: I don’t have syntax highlighting so it’s not great to see a
+matching pair</p>
+<ol type="a">
+<li><p>I’m on the fence as to how we implement this: the easiest is
+<code>case …​ end</code> and <code>type …​ end</code>, but it might be
+nice to turn <code>case</code> in a block (i.e. <code>{ }</code>)
+consumer</p></li>
+</ol></li>
+<li><p>I think <code>is</code> should have a operator type of
+<code>::</code> so <code>foo is int</code> and <code>bar :: int</code>
+should mean the same thing</p>
+<ol type="a">
+<li><p>also <code>is</code> and <code>::</code> should be usable in code
+itself to restrict polymorphism or the like</p></li>
+</ol></li>
+</ol>
+<p>So hopefully you’ll join me on the coast.</p>
+  </div>
+  </body>
+</html>
