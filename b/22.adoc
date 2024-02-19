@@ -1,0 +1,149 @@
+= two years of coastal living
+:toc:
+
+I started coastML https://github.com/lojikil/coastML/tree/505f69d6848010f0b5679174bc90be5b3fdbac07[about two years ago now,] and I figured this would be an apt
+time to solidify more of what I'm thinking. So:
+
+. current status
+. next steps
+.. CalVer
+.. type classes
+.. type vars
+.. release timeline
+
+== current status, or, where the sea meets the shore
+
+coastML may *look* like not much has been happening, at least in the public repository. However, I've been working on a private self-hosted compiler. There's a few things here:
+
+. I wanted to take a step back and actually think about how I could organize a compiler in coastML itself
+. I've never really written a industrial-grade compiler in an ML-style language before (but have multiple times in Lisp)
+. I honestly started to loathe working in coastML's Python implementation
+.. which almost made me want to give up
+
+One thing I promised myself with coastML is that I want to live up to the motto: come relax on the coast, stay a while. I didn't want to stress over something like
+not loving the Python compiler and I really wanted to deliver something. So I'm about 230 commits into a new compiler that I hope to release soon; it fixes a number
+of bugs that I've found in Carpet Python (the coastML Python implementation) and is written in the small dialect that is already implemented there. Additionally,
+it adds features that I wish Carpet Python had, and is much stricter towards my vision of what coastML should be. For example:
+
+[source]
+----
+foo = fn x y { x + y } 10 20;
+----
+
+. in Carpet Python, this is a compiler error: it generates a function, `foo`, and then a compiler error attempting to apply a literal
+. in the new compiler, this results in an anonymous function application, meaning `foo` should be equal to 30
+.. eventually I'd like this to be compiled down further, but neither here nor there
+
+Which is great; several small bugs like this are fixed in the new compiler. Of course, that also means that we could have a parser differential: things could be
+executed differently in the new compiler from the old one. There are a few things here:
+
+. the dialect that Carpet Python accepts is a subset of the full coastML
+.. literally nothing in Carpet Python isn't valid coastML, it's just not the full language
+. the new compiler is written in this dialect
+. since it's a subset of the full language, it can parse both this dialect and the full coastML
+
+I've definitely been in the https://course.ccs.neu.edu/cs5500f14/Notes/Prototyping1/planToThrowOneAway.html[Mythical Man Month "expect to throw one away"] space for some time now.
+Once the new compiler is ready, I want to do the following:
+
+. hook it into the `coastml` shell script as the top-level compiler
+. rename the Carpet Python compiler work to something like `reboot` (since no one should need this unless they're working on the new compiler)
+. **plan on working on the next compiler**
+
+I really do mean that: once this compiler is finished, I want to use it to boot an actual industrial-grade compiler; Carpet Python is something of a tinkerer grade, and the
+new compiler is something of an artisan grade, so the next I'd like regular folks to be able to use without thinking much of it.
+
+== next steps, or, that brackish line in the water
+
+so where do we go from here?
+
+=== CalVer
+
+One thing I've been thinking about is, I don't want coastML to change a lot; in fact, I'd really like it to be **done**. That's not to say "dead," but rather I don't want to
+spend most of my time solely working on coastML: I'd really like to get a neat set of features together and then work on other software. This likely won't be done for years to
+come, but at least it's a goal. Additionally, I don't want coastML to become a cutting edge programming language, per se: I'd much rather work on features that users can actually
+use *right now*, and then make adjustments here and there. The only thing I haven't really planned for is https://v2.ocaml.org/manual/effects.html[something like effects], but
+I figured we can wait for others to figure out how those work.
+
+To that end, I'd like to start using CalVer with some semantic bits here, basically a year and a patch level; the higher the patch level, the more recent the release. Everything
+should be stable, and anything breaking should be a bug report. Additionally, I'd like to have release candidates for when we're going to make the next release, so that folks
+can start to test things. I was https://lobste.rs/s/ynhu2s/effver_version_your_code_by_effort[thinking about this based on a lobste.rs story about EffVer]; I almost *don't want*
+upgrades to be effort, I want them to be as smooth as possible. This is something like Golang's notion of "there will never be golang 2:" basically, I think features should really
+nest and compose nicely, and if they don't, I need to reconsider the new feature, not the old one.
+
+So, versions of coastML should be something like `YYYY.P` where:
+
+- `YYYY` is the four digit year, such as `2024` and
+- `P` is a linear integer increasing with each patch
+
+I'd also maybe reserve a `.M` for folks who need SemVer and also may have to make modifications to their SemVer distribution of coastML, but for our purposes, it should be
+not directly important. Additionally, for most years, I'd prefer if `.P` was just `0`, if we need to even cut a release at all. I suspect most years it will be external environmental
+changes, but who knows.
+
+=== type classes
+
+One other thing that I've decided on is that I'm going to stick with type classes, similar to F# (and obviously Haskell). I thought for a **long, long time** about this, and really
+appreciate the simplicity they add. Yes, I know they can make debugging non-trivial, but I am really interested in exploring them a bit more; I actually wrote a document in the comments
+of the new compiler weighing out things like:
+
+. type classes
+. first-class modules
+.. including Haskell Backpack, 1ML, &c
+. F#-style or Go-style interfaces (F# has both interfaces and type classes now)
+. Scala-style module implicits
+.. and if we can smoosh together `type` implicits here as well
+. rust-style traits (which aren't too far off from type classes, but still)
+. none of the above, just use generic multi-methods
+. none of those above, just keep everything monomorphic
+
+I thought on this for about a month, and decided I wanted to dive in with type classes. This is a risk of course; I am still feeling the pain of implementing two different types of
+type languages in carML, so making a choice this big is a risk, but I figured if need be I can always go back to this point and fork coastML into shoreML or Brooks or the like.
+
+=== type vars
+
+I also have been thinking a lot about lexically-scoped type variables: for example:
+
+[source]
+----
+foo = fn [A] x is A y is int {
+    # ...
+    bar = xx is A {
+        # ...
+    };
+};
+----
+
+I'd really like to be able to say if `A` is a fresh type var or a known type without having to do any real type trickery. This isn't implemented yet, but it should be soon.
+
+=== release timeline
+
+Let's say we call the current status `2024.1-rc0`, here's what I would like to see in the next few releases of coastML
+
+. `2024.1`
+.. release of the new compiler
+.. ad-hoc polymorphism (not *really*, but still)
+.. `mod` compiles nicely (Carpet Python does not even parse modules, but the new compiler does)
+.. multi-case conditions like `case x | 10 | 11 | 12 { print "somewhere in 10-12"; } | _ { print "something else"; } esac`
+.. better case guard conditions, like nested ADTs: `case foo | (SomeType.Bar 10) ... esac;`
+.. Python output for the new compiler
+... and better output; currently Carpet Python can't correctly handle `a = case (foo 10) | ... esac;`
+.. complete type checking
+. `2024.2` (or even `2025.1` if need be)
+.. new supported syntax for `types` to mirror calling them
+.. potentially something like SRFI-9 or SRFI-57 with inheritance from a top-level CTOR
+... Implicits would be nice there, but...
+.. type classes
+.. add at least one more language: QBE, C, JS, Java, Golang, Rust
+... Carpet Python currently has a nascent JS generator, but it's definitely not even where the Python compiler is
+. `2024.3` (or even `2026.1` if need be)
+.. `box` types (for mutable values, like OCaml)
+.. Hoare Logic and a light-weight prover (CAS)
+.. `rho` types (for row polymorphism)
+
+Other considerations:
+
+. I think the `easc` and `epyt` Algol-style block ends are neat, but in practice they're a pain to type and remember: I don't have syntax highlighting so it's not great to see a matching pair
+.. I'm  on the fence as to how we implement this: the easiest is `case ... end` and `type ... end`, but it might be nice to turn `case` in a block (i.e. `{ }`) consumer
+. I think `is` should have a operator type of `::` so `foo is int` and `bar :: int` should mean the same thing
+.. also `is` and `::` should be usable in code itself to restrict polymorphism or the like
+
+So hopefully you'll join me on the coast.

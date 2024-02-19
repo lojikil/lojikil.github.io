@@ -1,5 +1,6 @@
 # Blag entries
 
+- [two years on the coast](/b/22.html)
 - [packages vs modules](/b/21.html)
 - [thoughts on 2000 lines of coastML](/b/20.html)
 - [reasoning about parameter order](/b/19.html)

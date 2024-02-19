@@ -16,6 +16,7 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _19FEB2024_: [two years on the coast](/b/22.html)
 - _25NOV2023_: [packages vs modules](/b/21.html)
 - _16OCT2023_: [thoughts on 2000 lines of coastML](/b/20.html)
 - _19DEC2022_: [reasoning about parameter order](/b/19.html)
