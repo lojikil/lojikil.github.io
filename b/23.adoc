@@ -1,0 +1,84 @@
+= Three years on the coast: coastML at three years
+:toc:
+
+== a wind swept coast, seaspray in the air
+
+I started coastML https://github.com/lojikil/coastML/tree/505f69d6848010f0b5679174bc90be5b3fdbac07[about three years ago now,] so let's checkin where I'm at.
+
+* Sand City, a new tiny compiler, is just about ready to replace Carpet Python as the main compiler
+* Esopus Meadows is starting to take shape to replace Sand City with a coastML-only pipeline
+* I'm basically settled on the features we'll have
+
+== a small island, a desolate structure
+
+Sand City is a small, self-hosted compiler that uses parts of Carpet Python via the Foreign Function Interface (FFI) to boot strap itself. It's fairly stringly typed, but
+it works well enough to have a decent compiler & code generator. The type checking & inference are not yet complete, but I'll get them in there before I release it. Basically,
+it supports roughly F#-level of modules & typing. It's convinced me of a few things:
+
+* I'll implement Rust or Scala style traits rather than Type Classes
+* Grouped case conditions is a must
+* Getting away from Carpet Python didn't stop our forward momentum
+
+Currently, including lots of comments, a more robust parser, several types that would otherwise be part of the basis library, and the Python code generator, Sand City is about
+5,000 lines of coastML. It can produce decent, RTS-free code for Python, and implements a fair number of pervasive functions. I've also started adding a test suite so that we can
+ensure that no regressions occur when adding other features to the compiler; it's also helped to shake out some bugs that are missed by Carpet Python's lack of a full compiler.
+All told, I'm approximately 500 commits into testing more of what working on coastML should look like, and it is a pretty happy experience.
+
+It also definitely changed my perspective on things; I think eventually I'd like to get rid of the Algol-style reverse keywords (like `case ... esac` pairs). They're easy to miss,
+and folding on them is less interesting. It's been a struggle, because part of me wants to just make the ending implicit, and part of me wants to add an `end` keyword and be done.
+For example:
+
+[source]
+----
+type Foo[A]
+| Bar is [int A]
+| Baz is [array[A]]
+| Blah
+# <1>
+
+case x
+| (Foo.Bar 10 _) { ... }
+| (Foo.Bar _ _) { ... }
+| (Foo.Baz _) { ... }
+| (Foo.Blah) { ... }
+# <1>
+----
+<1> What goes here? Nothing? `;;`? `end`?
+
+I sorta like the approach of *no* explicit ending, as it makes for a nice interstitial choice between F#'s off side rule and coastML's current Algol-style, but I'm not convinced
+that I really like it dangling either, even just for visual purposes. So I'll experiment more there.
+
+Also, the number of cases that could easily be reduced if we allowed something like the following:
+
+[source]
+----
+case x
+| 10
+| 11
+| 12
+| 13 { print "x is somewhere in the low teens!" }
+| 15 { print "x is exactly 15." }
+| _ { print "x is something else" }
+----
+
+Obviously, we can use a guard clause, but for things like ADTs, it would be much easier to just have grouped case conditions.
+
+All in, I'm somewhat happy with the progress; yes, it could have been faster, and we could have more features, but all told it's a good space.
+
+== a lighthouse in the river fog
+
+The next steps after Sand City is released have also started to take shape. I've already replaced most of the stringly operations within Sand City and replaced them with a simple ADT.
+Basically, I just foist Carpet Python's Tokens into an ADT. This does make me realize that I'd like a nice way to automatically hoist foreign structures into coastML more naturally,
+and also generate ADTs more naturally. 
+
+One thing I'd really like Esopus Meadows to support is the "conditional compilation via source files" idea. Concretely, I'd like to not add a feature to coastML to support
+some sort of conditional compilation, but rather just have users include files in the compile path that they wish to compile. Like previous languages, we can easily tag these
+with `filename.target-language.coast` style naming convention:
+
+* `foo.coast` is a normal coastML file
+* `foo.coastline` is an interface file for `foo`
+* `foo.py.coast` is expected to be the Python version of `foo`
+* `foo.go.coast` is expected to be the Golang version of `foo`
+
+I do worry that this will introduce some code duplication challenges, but I also hope that the features of coastML are sufficient such that per-language packages are only needed
+for very specific cases.
