@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>lojikil</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, handheld" title="default">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+    <div class="left">
+        <a href="/">home</a> |
+        <a href="https://twitter.com/lojikil">twitter</a> |
+        <a href="https://github.com/lojikil">github</a> |
+        <a href="https://lobste.rs/u/lojikil">lobste.rs</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+       <a href="http://lojikil.com">self-hosted site</a>
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+    <h1 class="headerTitle"><a href="/">lojikil <span id="headerSubTitle">purveyors of fine, internet-related kipple, since 1985</span></a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+  <div id="side-bar">
+    <div>
+      <ul>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="main-copy">
+<h1 id="_a_wind_swept_coast_seaspray_in_the_air">a wind swept coast, seaspray in the air</h1>
+<p>I started coastML <a href="https://github.com/lojikil/coastML/tree/505f69d6848010f0b5679174bc90be5b3fdbac07">about three years ago now,</a> so let’s checkin where I’m at.</p>
+<ul>
+<li><p>Sand City, a new tiny compiler, is just about ready to replace Carpet Python as the main compiler</p></li>
+<li><p>Esopus Meadows is starting to take shape to replace Sand City with a coastML-only pipeline</p></li>
+<li><p>I’m basically settled on the features we’ll have</p></li>
+</ul>
+<h1 id="_a_small_island_a_desolate_structure">a small island, a desolate structure</h1>
+<p>Sand City is a small, self-hosted compiler that uses parts of Carpet Python via the Foreign Function Interface (FFI) to boot strap itself. It’s fairly stringly typed, but it works well enough to have a decent compiler &amp; code generator. The type checking &amp; inference are not yet complete, but I’ll get them in there before I release it. Basically, it supports roughly F#-level of modules &amp; typing. It’s convinced me of a few things:</p>
+<ul>
+<li><p>I’ll implement Rust or Scala style traits rather than Type Classes</p></li>
+<li><p>Grouped case conditions is a must</p></li>
+<li><p>Getting away from Carpet Python didn’t stop our forward momentum</p></li>
+</ul>
+<p>Currently, including lots of comments, a more robust parser, several types that would otherwise be part of the basis library, and the Python code generator, Sand City is about 5,000 lines of coastML. It can produce decent, RTS-free code for Python, and implements a fair number of pervasive functions. I’ve also started adding a test suite so that we can ensure that no regressions occur when adding other features to the compiler; it’s also helped to shake out some bugs that are missed by Carpet Python’s lack of a full compiler. All told, I’m approximately 500 commits into testing more of what working on coastML should look like, and it is a pretty happy experience.</p>
+<p>It also definitely changed my perspective on things; I think eventually I’d like to get rid of the Algol-style reverse keywords (like <code>case …​ esac</code> pairs). They’re easy to miss, and folding on them is less interesting. It’s been a struggle, because part of me wants to just make the ending implicit, and part of me wants to add an <code>end</code> keyword and be done. For example:</p>
+<pre><code>type Foo[A]
+| Bar is [int A]
+| Baz is [array[A]]
+| Blah
+
+
+case x
+| (Foo.Bar 10 _) { ... }
+| (Foo.Bar _ _) { ... }
+| (Foo.Baz _) { ... }
+| (Foo.Blah) { ... }</code></pre>
+<ul>
+<li><p>What goes here? Nothing? <code>;;</code>? <code>end</code>?</p></li>
+</ul>
+<p>I sorta like the approach of <strong>no</strong> explicit ending, as it makes for a nice interstitial choice between F#'s off side rule and coastML’s current Algol-style, but I’m not convinced that I really like it dangling either, even just for visual purposes. So I’ll experiment more there.</p>
+<p>Also, the number of cases that could easily be reduced if we allowed something like the following:</p>
+<pre><code>case x
+| 10
+| 11
+| 12
+| 13 { print &quot;x is somewhere in the low teens!&quot; }
+| 15 { print &quot;x is exactly 15.&quot; }
+| _ { print &quot;x is something else&quot; }</code></pre>
+<p>Obviously, we can use a guard clause, but for things like ADTs, it would be much easier to just have grouped case conditions.</p>
+<p>All in, I’m somewhat happy with the progress; yes, it could have been faster, and we could have more features, but all told it’s a good space.</p>
+<h1 id="_a_lighthouse_in_the_river_fog">a lighthouse in the river fog</h1>
+<p>The next steps after Sand City is released have also started to take shape. I’ve already replaced most of the stringly operations within Sand City and replaced them with a simple ADT. Basically, I just foist Carpet Python’s Tokens into an ADT. This does make me realize that I’d like a nice way to automatically hoist foreign structures into coastML more naturally, and also generate ADTs more naturally.</p>
+<p>One thing I’d really like Esopus Meadows to support is the "conditional compilation via source files" idea. Concretely, I’d like to not add a feature to coastML to support some sort of conditional compilation, but rather just have users include files in the compile path that they wish to compile. Like previous languages, we can easily tag these with <code>filename.target-language.coast</code> style naming convention:</p>
+<ul>
+<li><p><code>foo.coast</code> is a normal coastML file</p></li>
+<li><p><code>foo.coastline</code> is an interface file for <code>foo</code></p></li>
+<li><p><code>foo.py.coast</code> is expected to be the Python version of <code>foo</code></p></li>
+<li><p><code>foo.go.coast</code> is expected to be the Golang version of <code>foo</code></p></li>
+</ul>
+<p>I do worry that this will introduce some code duplication challenges, but I also hope that the features of coastML are sufficient such that per-language packages are only needed for very specific cases.</p>
+<h1 id="_the_sea_that_gambler_and_his_traits">the sea, that gambler, and his traits</h1>
+<p>One thing I have changed since I last wrote was I’ve decided against implementing type classes, based on experimentation and some of the things I’d like. At work, I deal with a <strong>lot</strong> of different JSON, XML, and YAML formats of vulnerability data, and so I decided to write some type classes to process this data as a test, and I was less than impressed by how often I needed to inform the compiler of which function implementation I meant (via type hints) and why. This lead me to think about how I’ve really preferred explicit naming for everything else in coastML, and traits seem a better fit for that than type classes. Who knows, I may yet implement first-class modules (although I’d probably call them <code>structures</code> and not make people cast back and forth). I’ll write about that again soon.</p>
+  </div>
+  </body>
+</html>

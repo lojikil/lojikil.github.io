@@ -82,3 +82,13 @@ with `filename.target-language.coast` style naming convention:
 
 I do worry that this will introduce some code duplication challenges, but I also hope that the features of coastML are sufficient such that per-language packages are only needed
 for very specific cases.
+
+== the sea, that gambler, and his traits
+
+One thing I have changed since I last wrote was I've decided against implementing type classes, based on experimentation
+and some of the things I'd like. At work, I deal with a *lot* of different JSON, XML, and YAML formats of vulnerability
+data, and so I decided to write some type classes to process this data as a test, and I was less than impressed by how
+often I needed to inform the compiler of which function implementation I meant (via type hints) and why. This lead me to
+think about how I've really preferred explicit naming for everything else in coastML, and traits seem a better fit for that
+than type classes. Who knows, I may yet implement first-class modules (although I'd probably call them `structures` and not
+make people cast back and forth). I'll write about that again soon.

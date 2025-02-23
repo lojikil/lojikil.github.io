@@ -1,5 +1,6 @@
 # Blag entries
 
+- [three years on the coast](/b/23.html)
 - [two years on the coast](/b/22.html)
 - [packages vs modules](/b/21.html)
 - [thoughts on 2000 lines of coastML](/b/20.html)
