@@ -1,0 +1,96 @@
+= the implementation failed successfully
+
+I've spent a few hours here and there over the last month implementing a part of REXX in a strange fashion; I didn't really get to the point
+where I can run a ton of code, but I consider the experiment a success anyway.
+
+== what was I thinking? 
+
+So, I had a few weird goals:
+
+* I wanted to lean in to REXX's "instructions" and make the most minimal interpreter possible.
+* I wanted to actually _learn REXX_, which is something I've not spent time doig much of before.
+* I also wanted to do basically **no** parsing at all. None.
+** This part I failed fully, since I ended up parsing certain types of expressions.
+* Minimize my usage of git and learn more about RCS
+
+The real background was that Advent of Code was only 12 days this year, so it seemed like a fun time to try something else; I thought
+https://langjamgamejam.com/[LangJamGameJam] sounded interesting, but I wanted to be a bit more expansive. It's lead me to reading books
+on PL/I and diving deep into the background on Rexx, which has been a ton of fun; I've coded myself into a corner with a single-file 
+implementation, but that is mostly because I didn't truly understand the level of dynamicism of Rexx prior to starting. I will likely try again,
+but with a better understanding of what I'm getting into.
+
+== why REXX?
+
+https://en.wikipedia.org/wiki/Rexx[Rexx] is an interesting language: it's older, and it's syntax predates many common conventions we see in
+other languages. It also has a fairly interesting use case: it's not quite a scripting language, but it also isn't really meant to be used
+far away from the operating system either. In Rexx, any string evaluated at the top level (roughly) is treated as a shell command, making
+OS interaction fairly trivial. At the same time, strings are pretty easy to come by: two expressions next to one another "abut," which effectively
+concatenates their output. So `"ls " some_args some_dir` will abut, and pull the values of `some_dir` and `some_arg` into a string to be executed
+by the operating system.
+
+This "abutting" operator confused me at first! You see, when you write a procedure or a subroutine, you have two options:
+
+* call `parse arg...` and give a format specification of the arguments.
+* use the `arg` function to retrieve and parse arguments seprated by commas. 
+
+So, how did this cause confusion? Well, consider the following:
+
+[source]
+----
+call foo 1 2 3
+call foo 1, 2, 3
+----
+
+Both of these succeed! And indeed, you can easily write around either calling style, but it wasn't until later that I realized that the
+first is effectively "abutting" the values into a single string, and the second was processing three values; I thought *both* were just single
+strings that were processed later. Understanding it now, I get the issue, but I had already painted myself into a corner; I'll likely still
+fix it, but it's more work than I would want for a simple "fun" project meant to understand a language I haven't used before.
+
+== why RegExs?
+
+Well, I've never actually used the POSIX regex API directly myself; I've used lots of tooling that only uses BREs or EREs, but I myself
+have never used the API. This lead me to an interesting thought:
+
+* Rexx doesn't have syntax per se, but Instructions.
+* If I made these Instructions fit on one line, then I could easily parse them with RegExes.
+* This would be a fun excuse to learn the POSIX regex API. 
+
+Which is really the long and the short of it: it was an interesting attempt at minimalism. I think if I were to start over (which I will), I'd
+keep the regexes I wrote, and simply fix my Instruction layout to have only Instructions and SubInstructions, instead of partially evaluated
+strings for some things and expressions for others. Additionally, I'd make a high level "machine" that operated on this instructions, instead of
+a sort of microexecutor. It'll be interesting to revisit in a bit.
+
+== ... without git?
+
+I've really been thinking about the ecosystems that I use of late. One thing to know about me is that I often use https://en.wikipedia.org/wiki/Revision_Control_System[RCS]
+for simple version control: if I need to control a single file, I'll use RCS instead of Git. I also read
+https://archive.org/details/applyingrcssccs00boli[Applying RCS and SCCS] recently, for just the sheer interest, and it made me think again about how and why I use version control.
+
+I didn't actually always use git; prior to git, I was a heavy darcs user in my personal projects, and had a mono-repo I kept updated with various projects from 2004 until I switched
+to git fully in 2010 or so. I also was a heavy svn user for work, so git was hardly my first foray into version control, even in a distributed fashion. However, something about
+git has always struck me as wrong; it feels too disjointed, unsafe, and low level. There's only a handful of people I trust to `rebase` something correctly and the very notion
+always struck me as an abstraction leak. I also tend to not work in very "clean" trees: I make little commits to work areas/trees, and then roll those up into one giant PR/MR. For
+personal projects, I tend not to care if tip is broken, because so often I'm the sole users of my software anyway. So, I wanted to try using something that was different, supported
+work areas by default, and could grow from individual files to whole projects. Looking aroud, it seems like https://www.gameoftrees.org/[Game of Trees] is the most similar to what
+I'm thinking, but eventually what I would like is:
+
+* GNU/TL arch style "repo" is a top level place where you keep all code.
+* Projects are individual directories or files within the repo that may have different storage locations externally.
+* Work areas (or trees) are relatively easy, and represent a checked out version of a project.
+* Modication Requests (SCCS), Pull/Merge Requests should be first class values to the project itself.
+
+Also, I'm just tired of GitHub, GitLab, &c. They are still cool places to find neat projects, but I've sorta stopped wanting to work in a corporate planned community and sorta work
+in an _ecology_: what is the ecosystem of softare that Loji needs, and how can he share bits of technology from the same with others? Increasingly, I don't think it's FLOSS writ
+large, at least not for me.
+
+== wrapping up
+
+So, I:
+
+* Learnt two new programming languages (I ended up reading three books on PL/I as well haha).
+* Actually used the POSIX regex API for something interesting.
+* Refined more of what I wanted out of my version control usage.
+* Complete failed at writing a full interpreter for the language.
+** but had a lot of fun doing so.
+
+I think this is the model I sorta want to have from now on: after Advent of Code, spend the downtime of the winter season in new areas that are interesting, away from work.
