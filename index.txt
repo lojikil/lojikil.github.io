@@ -16,6 +16,7 @@ This site is the home page of "sae/lojikil" a not-very important person.
  
 # Recent updates
 
+- _20JAN2026_: [failing successfully](/b/24.html)
 - _22FEB2025_: [ three years on the coast](/b/23.html)
 - _19FEB2024_: [two years on the coast](/b/22.html)
 - _25NOV2023_: [packages vs modules](/b/21.html)

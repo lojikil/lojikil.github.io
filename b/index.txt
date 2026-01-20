@@ -1,5 +1,6 @@
 # Blag entries
 
+- [failing successfully](/b/24.html)
 - [three years on the coast](/b/23.html)
 - [two years on the coast](/b/22.html)
 - [packages vs modules](/b/21.html)
