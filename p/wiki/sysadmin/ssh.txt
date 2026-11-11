@@ -1,4 +1,12 @@
-* Escape Codes:
+= SSH Information
 
-- use `<newline>~.` to kill the session
-- use `<newline>~?` to see the SSH character codes
+== Escape Codes:
+
+* use `<newline>~.` to kill the session
+* use `<newline>~?` to see the SSH character codes
+
+== Force SSH to use Passwords instead of PubKeys
+
+From https://superuser.com/questions/1376201/how-do-i-force-ssh-to-use-password-instead-of-key[this SuperUser answer].
+
+`ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no exampleUser@example.com`
